@@ -11,6 +11,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.adapters.RecentlyFansAdapter
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.base.RecyclerNewActivity
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
@@ -27,7 +28,7 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
-class FansActivity : RecyclerActivity() {
+class FansActivity : RecyclerNewActivity() {
 
     private val mHeaderView by lazy{
         layoutInflater.inflate(R.layout.header_receiverliked,mSwipeRefreshLayout.mRecyclerView,false)
@@ -62,7 +63,7 @@ class FansActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTitleBold("收到的喜欢",true)
+        setTitle("收到的喜欢")
         rootFl.backgroundColor = ContextCompat.getColor(this,R.color.color_F6F7FA)
         var params= mSwipeRefreshLayout.layoutParams as RelativeLayout.LayoutParams
         params.leftMargin = dip(5)
@@ -125,6 +126,7 @@ class FansActivity : RecyclerActivity() {
                     mMessages.clear()
                     mHeaderFans.clear()
                     mHeaderView.tv_receivedliked_nums.text ="${it.iAllReceiveLovePoint} [img src=redheart_small/]"
+                    setSmallTitle("累计收到${it.iAllReceiveLovePoint} [img src=redheart_small/]，相互喜欢即可解锁聊天")
                     if(TextUtils.equals("0",sex)){
                         mHeaderView.tv_liked_order.text = "收到的喜欢排名"
                     }else{

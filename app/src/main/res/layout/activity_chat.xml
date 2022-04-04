@@ -323,6 +323,7 @@
                 android:paddingLeft="@dimen/margin_6"
                 android:paddingRight="@dimen/margin_6"
                 android:drawableRight="@mipmap/comment_iput_emoj"
+                android:drawablePadding="@dimen/margin_2"
                 android:text="赠送礼物"
                 android:textColor="@color/white"
                 android:textStyle="bold"

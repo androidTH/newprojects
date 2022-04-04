@@ -497,6 +497,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             }
         })
 
+        tv_sendgift_service.setOnClickListener {
+            isAuthUser {
+                showGiftDialog()
+            }
+        }
+
         tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
         tv_datechat_content.maxLines = 2
 
@@ -517,6 +523,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         FinishActivityManager.getManager().addActivity(this)
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+        }
+        mSelectGiftListDialog.show(supportFragmentManager,"gift")
     }
 
     /**
@@ -1492,7 +1506,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
                 override fun onSendLoveHeart(){
                     isAuthUser {
-                        addGiftNums(1,false,false,"")
+//                        addGiftNums(1,false,false,"")
+                        showGiftDialog()
                     }
                 }
 
@@ -1591,6 +1606,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
                         tv_apply_sendflower.visibility = View.GONE
                         tv_help_service.visibility = View.GONE
+                        tv_sendgift_service.visibility = View.GONE
                         tv_openchat_tips_center_bottom.visibility = View.GONE
                         linear_openchat_agree_bottom.visibility = View.GONE
 

@@ -117,7 +117,8 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center|left"
+            android:layout_marginLeft="@dimen/margin_10"
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -279,8 +280,8 @@
                 android:layout_width="@dimen/height_30"
                 android:layout_height="@dimen/height_30"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_15"
-                android:layout_marginBottom="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/feed_comment_big_icon" />
 

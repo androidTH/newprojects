@@ -48,6 +48,7 @@ public class ConversationFragmentEx extends ConversationFragment {
     private ImageView mMyPluginToggle;
     public ImageView mMyVoiceToggle;
     public ImageView mLoveHeart;
+    public ImageView mSendChatGift;
     private boolean IsNotInput = false;
     private String hitmsg ="";
     private boolean IsNotEditTextClick = false;
@@ -75,6 +76,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyEmoticonToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_emoticon_toggle);
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
+        mSendChatGift = rongExtension.findViewById(io.rong.imkit.R.id.comment_inputgift);
         mLoveHeart = rongExtension.findViewById(io.rong.imkit.R.id.chat_loveheart);
         doIsNotSendMsg(IsNotInput,hitmsg);
         hideChatInput(IsHideInput);
@@ -84,7 +86,7 @@ public class ConversationFragmentEx extends ConversationFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mLoveHeart.setOnClickListener(new View.OnClickListener() {
+        mSendChatGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("loveheart","点击了");
@@ -94,7 +96,7 @@ public class ConversationFragmentEx extends ConversationFragment {
             }
         });
 
-        mLoveHeart.setOnLongClickListener(new View.OnLongClickListener() {
+        mSendChatGift.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if(mOnExtensionExpandedListener!=null){

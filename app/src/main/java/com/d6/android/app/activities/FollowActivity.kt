@@ -4,31 +4,23 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
-import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.adapters.FollowAdapter
-import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.base.RecyclerNewActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
-import com.d6.android.app.models.LoveHeartRule
-import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
-import com.qamaster.android.ui.ScreenshotEditorActivity.startActivity
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
-import kotlinx.android.synthetic.main.header_sendliked.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
-class FollowActivity : RecyclerActivity() {
+class FollowActivity : RecyclerNewActivity() {
 
     private val mHeaderView by lazy{
         layoutInflater.inflate(R.layout.header_sendliked,mSwipeRefreshLayout.mRecyclerView,false)
@@ -54,7 +46,7 @@ class FollowActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTitleBold("送出的喜欢",true)
+        setTitle("送出的喜欢")
         rootFl.backgroundColor = ContextCompat.getColor(this,R.color.color_F6F7FA)
         var params= mSwipeRefreshLayout.layoutParams as RelativeLayout.LayoutParams
         params.leftMargin = dip(5)
@@ -105,7 +97,8 @@ class FollowActivity : RecyclerActivity() {
     private fun getUserInfo(){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
             data?.let {
-                mHeaderView.tv_sendliked_nums.text = "${it.iSendLovePoint} [img src=redheart_small/]"
+//                mHeaderView.tv_sendliked_nums.text = "${it.iSendLovePoint} [img src=redheart_small/]"
+                setSmallTitle("累计送出${it.iSendLovePoint} [img src=redheart_small/]，相互喜欢即可解锁聊天")
             }
         })
     }
