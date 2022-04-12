@@ -134,15 +134,45 @@ class FansActivity : RecyclerNewActivity() {
                     }
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
-                    if (pageNum > 1) {
-                        mSwipeRefreshLayout.setLoadMoreText("没有更多了")
-                        pageNum--
-                    } else {
-                        mSwipeRefreshLayout.setLoadMoreText("暂无数据")
-                        mHeaderView.tv_receiveliked_title.visibility = View.GONE
-                        mHeaderView.tv_liked_order.visibility = View.GONE
-                        mHeaderView.rv_receivedliked.visibility = View.GONE
-                        mHeaderView.tv_liked_order.visibility = View.GONE
+                    if(TextUtils.equals("0",sex)){
+                        if (pageNum > 1) {
+                            mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                            pageNum--
+                        } else {
+                            mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                            mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                            mHeaderView.tv_liked_order.visibility = View.GONE
+                            mHeaderView.rv_receivedliked.visibility = View.GONE
+                            mHeaderView.tv_liked_order.visibility = View.GONE
+                        }
+                    }else{
+                        it.unreadlist?.let { it1 ->
+                            if(it1.size>0){
+                                mHeaderView.rv_receivedliked.visibility = View.GONE
+                                mMessages.addAll(it1)
+                                mHeaderView.tv_receiveliked_title.text="最近收到的喜欢"
+                                mHeaderView.tv_receiveliked_title.visibility = View.VISIBLE
+                            }else{
+                                mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                                mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                                mHeaderView.tv_liked_order.visibility = View.GONE
+                                mHeaderView.rv_receivedliked.visibility = View.GONE
+                                mHeaderView.tv_liked_order.visibility = View.GONE
+                            }
+                        }
+
+                        if(it.unreadlist==null){
+                            mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                            mHeaderView.rv_receivedliked.visibility = View.GONE
+                        }
+
+                        if(it.list?.totalPage==1){
+                            mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                        }else{
+                            mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
+                        }
+
+                        fansAdapter.notifyDataSetChanged()
                     }
                 } else {
                     if(TextUtils.equals("0",sex)){
@@ -163,9 +193,17 @@ class FansActivity : RecyclerNewActivity() {
                             mHeaderView.tv_receiveliked_title.text="最近收到的喜欢"
                             mHeaderView.tv_receiveliked_title.visibility = View.VISIBLE
                         }else{
-                            mHeaderView.tv_receiveliked_title.text=""
-                            mHeaderView.tv_receiveliked_title.visibility = View.GONE
-                            mHeaderView.rv_receivedliked.visibility = View.GONE
+                            if(TextUtils.equals("0",sex)){
+                                mHeaderView.tv_receiveliked_title.text = ""
+                                mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                                mHeaderView.rv_receivedliked.visibility = View.GONE
+                            }else{
+                                mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                                mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                                mHeaderView.tv_liked_order.visibility = View.GONE
+                                mHeaderView.rv_receivedliked.visibility = View.GONE
+                                mHeaderView.tv_liked_order.visibility = View.GONE
+                            }
                         }
                     }
                     if(it.unreadlist==null){

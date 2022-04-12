@@ -119,7 +119,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 tv_square_gift.setOnClickListener {
                     (context as BaseActivity).isAuthUser() {
-                        showGiftDialog()
+                        square?.let {
+                            showGiftDialog("${it.userid}","${it.id}")
+                        }
                     }
                 }
 
@@ -490,9 +492,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
     }
 
-    private fun showGiftDialog(){
+    private fun showGiftDialog(receivedUserId:String,squareId:String){
         var mSelectGiftListDialog = SelectGiftListDialog()
-        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to 3,"receiveUserId" to "${receivedUserId}","squareId" to squareId)
         mSelectGiftListDialog.setDialogListener { p, s ->
         }
         mSelectGiftListDialog.show((context as BaseActivity).supportFragmentManager,"gift")

@@ -58,8 +58,10 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_gifthistory_off.setOnCheckedChangeListener{buttonView,isChecked->
              if(isChecked){
+                 updateIsShowGift(0)
                  SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
              }else{
+                 updateIsShowGift(1)
                  SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
              }
         }
@@ -135,7 +137,6 @@ class PrivacySettingActivity : BaseActivity() {
 
         PermissionsUtils.showSystemSetting = false
 
-        sw_gifthistory_off.isChecked = mIsShowGift
     }
 
     private val mTags = ArrayList<UserUnKnowTag>()
@@ -282,6 +283,14 @@ class PrivacySettingActivity : BaseActivity() {
                     sw_lianxi.isChecked = false
                 }
 
+                if(it.isShowGift==1){
+                    sw_gifthistory_off.isChecked = false
+                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
+                }else{
+                    sw_gifthistory_off.isChecked = true
+                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
+                }
+
                 data?.let {
                     tv_sex.isSelected = TextUtils.equals("0", it.sex)
                     it.age?.let {
@@ -356,6 +365,12 @@ class PrivacySettingActivity : BaseActivity() {
                 toast(msg)
             }
         }
+    }
+
+    private fun updateIsShowGift(isShowGift:Int){
+        Request.updateIsShowState(getLoginToken(),isShowGift).request(this,false,success={_,data->
+
+        })
     }
 
     private fun updateIsFind(iIsFind:Int){

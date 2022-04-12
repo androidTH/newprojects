@@ -45,6 +45,8 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
+import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
+import kotlinx.android.synthetic.main.fragment_date.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.rl_userinfo_date
@@ -114,7 +116,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         UserTagAdapter(mTags)
     }
 
-    private var mAllGiftList: ArrayList<GiftBeans> = ArrayList()
+    private var mAllGiftList: ArrayList<UserGiftBeans> = ArrayList()
 
     private val mReceiveGiftListQuickAdapter by lazy{
         ReceiveGiftListQuickAdapter(mAllGiftList)
@@ -410,16 +412,24 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getGiftList(){
-        Request.getGiftList().request(this, false, success = { msg, data ->
+        Request.getUserShowGiftList(getLocalUserId()).request(this, false, success = { msg, data ->
             data?.let {
-                mReceiveGiftListQuickAdapter.setNewData(it)
+                if(it!=null&&it.size>0){
+                    mReceiveGiftListQuickAdapter.setNewData(it)
+                }else{
+                    headerView.tv_empty_gift.visibility = View.VISIBLE
+                    headerView.tv_empty_gift.text = "暂无礼物"
+                }
             }
-        })
+        }){code,msg->
+            headerView.tv_empty_gift.visibility = View.VISIBLE
+            headerView.tv_empty_gift.text = "暂无礼物"
+        }
     }
 
     private fun showGiftDialog(){
         var mSelectGiftListDialog = SelectGiftListDialog()
-        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to 5,"receiveUserId" to "${id}")
         mSelectGiftListDialog.setDialogListener { p, s ->
         }
         mSelectGiftListDialog.show(supportFragmentManager,"gift")
@@ -851,7 +861,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                        tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 //
 //                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+//                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
 //                        tv_like.visibility = View.GONE
 //                        tv_like.text = resources.getString(R.string.string_like)

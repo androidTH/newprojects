@@ -3,6 +3,7 @@ package com.d6.android.app.net
 import com.d6.android.app.models.Response
 import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.*
+import com.google.gson.JsonObject
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -633,4 +634,10 @@ object Request {
 
     //3.10.0版本
     fun getGiftList()=RRetrofit.instance().create(ApiServices::class.java).getGiftList()
+    //3.11.0版本
+    fun giveGift(giftId:Int,giftIcon:String, giftLoveNum: Int,giftName:String, giftNum:Int=1,giveType:Int ,giveTypeId:String,giveUserId:String,nickName:String,receiveUserId:String)=RRetrofit.instance().create(ApiServices::class.java).giveGift(giftId,giftIcon, giftLoveNum,giftName, giftNum,giveType,giveTypeId,giveUserId,nickName,receiveUserId)
+
+    fun updateIsShowState(sLoginToken:String,isShowGift:Int)=RRetrofit.instance().create(ApiServices::class.java).updateIsShowState(sLoginToken,isShowGift)
+
+    fun getUserShowGiftList(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserShowGiftList(iUserid)
 }

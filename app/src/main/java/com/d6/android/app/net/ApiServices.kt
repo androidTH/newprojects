@@ -727,7 +727,17 @@ interface ApiServices {
     fun getVerifyCodeNewV2(@Body requestBody:RequestBody,
                            @Query("sLoginToken") sLoginToken: String = getLoginToken(),
                            @Query("sVersion") sVersion: String = getAppVersion()): Flowable<Response<JsonObject>>
-
+     //3.10.0
     @GET("twoService/gift/getGiftList")
     fun getGiftList(@Query("sLoginToken") sLoginToken: String = getLoginToken(), @Query("sVersion") sVersion: String = getAppVersion()):Flowable<Response<ArrayList<GiftBeans>>>
+
+    //3.11
+    @POST("twoService/gift/giveGift")
+    fun giveGift(@Query("giftId") giftId:Int, @Query("giftIcon") giftIcon:String, @Query("giftLoveNum") giftLoveNum: Int, @Query("giftName") giftName:String, @Query("giftNum") giftNum:Int, @Query("giveType") giveType:Int, @Query("giveTypeId") giveTypeId:String, @Query("giveUserId") giveUserId:String, @Query("nickName") nickName:String, @Query("receiveUserId") receiveUserId:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("twoService/account/update")
+    fun updateIsShowState(@Query("sLoginToken")sLoginToken:String, @Query("isShowGift")isShowGift:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @GET("twoService/gift/getGiftStatisList")
+    fun getUserShowGiftList(@Query("userId") userId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ArrayList<UserGiftBeans>>>
 }

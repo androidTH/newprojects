@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.adapters.EmotionGridViewAdapter
@@ -42,7 +43,8 @@ import java.util.*
 class SelectGiftListDialog : DialogFragment() {
 
     private var mLocalUserLoveHeartCount:Int = -1
-    private var titleStype = "date"
+    private var titleStype = 0
+    private var receiveUserId:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +68,11 @@ class SelectGiftListDialog : DialogFragment() {
             if(arguments.containsKey("giftlist")){
                 mAllGiftList = arguments.getParcelableArrayList<GiftBeans>("giftlist")
             }
-            titleStype = arguments.getString("titleStype","date")
-            if(TextUtils.equals("other",titleStype)){
+            titleStype = arguments.getInt("titleStype",0)
+            if(titleStype==4||titleStype==3||titleStype==5||titleStype==2||titleStype==1){
                 tv_yaoyuetitle.text="赠送礼物"
                 tv_redheart_desc.text="赠送礼物表表心意,更容易收到对方的回复哦"
+                receiveUserId = arguments.getString("receiveUserId")
             }else{
                 tv_yaoyuetitle.text="邀约礼物"
                 tv_redheart_desc.text="添加礼物将会收到更多人申请哦"
@@ -177,10 +180,14 @@ class SelectGiftListDialog : DialogFragment() {
         gv.adapter = adapter
         //设置全局点击事件
         gv.setOnItemClickListener { parent, view, position, id ->
-            var loveNum = emotionNames.get(position).loveNum?.toInt() ?: 0;
+            var mGiftBean = emotionNames.get(position)
+            var loveNum = mGiftBean.loveNum?.toInt() ?: 0;
             if(mLocalUserLoveHeartCount >= loveNum){
-                if(TextUtils.equals("other",titleStype)){
-                    toast("接口")
+                if(titleStype==4||titleStype==3||titleStype==5||titleStype==2||titleStype==1){
+                    var givetypeId = if(titleStype==3) arguments.getString("squareId") else ""
+                    giveGift(mGiftBean.giftId,mGiftBean.icon,loveNum,mGiftBean.name,1,titleStype,givetypeId,getLocalUserId(), getLocalUserName(),receiveUserId)
+                    dismissAllowingStateLoss()
+                    toast("赠送礼物成功")
                 }else{
                     dialogListener?.onClick(position,emotionNames.get(position).name)
                     dismissAllowingStateLoss()
@@ -194,6 +201,13 @@ class SelectGiftListDialog : DialogFragment() {
     }
 
 
+    private fun giveGift(giftId:Int,giftIcon:String, giftLoveNum: Int,giftName:String, giftNum:Int=1,giveType:Int ,giveTypeId:String,giveUserId:String,nickName:String,receiveUserId:String){
+        Request.giveGift(giftId,giftIcon,giftLoveNum,giftName,1,giveType,giveTypeId,giveUserId,nickName,receiveUserId).request((context as BaseActivity), false, success ={msg,data->
+
+        }){code,msg->
+            toast(msg)
+        }
+    }
     private fun setLoveHeartData(){
 
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity), false, success = { msg, data ->

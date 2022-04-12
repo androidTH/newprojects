@@ -40,6 +40,9 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
     @SerializedName("shengao")var shengao:String?=""
     @SerializedName("zhiye")var zhiye:String?=""
     @SerializedName("sPosition")var sPosition:String?=""
+    var giftName:String =""
+    var giftLoveNum:Int=-1
+    var giftNum:Int=-1
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iSenduserid = parcel.readInt()
@@ -61,6 +64,9 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         shengao = parcel.readString()
         zhiye = parcel.readString()
         sPosition = parcel.readString()
+        giftName = parcel.readString()
+        giftNum = parcel.readInt()
+        giftLoveNum = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -84,6 +90,9 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         parcel.writeString(shengao)
         parcel.writeString(zhiye)
         parcel.writeString(sPosition)
+        parcel.writeString(giftName)
+        parcel.writeInt(giftNum)
+        parcel.writeInt(giftLoveNum)
     }
 
     override fun describeContents(): Int {

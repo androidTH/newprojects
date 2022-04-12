@@ -22,13 +22,13 @@ public class DanmaKuViewHolder  extends ViewCacheStuffer.ViewHolder {
 
     public CircleImageView mIcon;
 //    public SimpleDraweeView mIcon;
-    public TextView mText;
+    public TextInlineImage mText;
 
     public DanmaKuViewHolder(View itemView) {
         super(itemView);
         mIcon = (CircleImageView) itemView.findViewById(R.id.icon);
 //        mIcon = (SimpleDraweeView) itemView.findViewById(R.id.icon);
-        mText = (TextView) itemView.findViewById(R.id.text);
+        mText = itemView.findViewById(R.id.text);
     }
 
     @Override

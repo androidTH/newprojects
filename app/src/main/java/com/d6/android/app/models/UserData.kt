@@ -90,7 +90,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iMySendAllLovePoint:Int= -1 //当前登录用户送给这个用户的总的爱心数量
     var iLovePointShow:Int = -1 //超级喜欢的爱心数量
     var iPhonePrivacy:Int = -1 //手机通讯录隐私保护是否开启 1、开启 2、不开启
-
+    var isShowGift:Int = -1  //0展示礼物 1不展示礼物
 
     override fun toString(): String {
 

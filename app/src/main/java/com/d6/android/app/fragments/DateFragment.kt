@@ -163,7 +163,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                             clearDanMu()
                             var findDate = mDates.get(scrollPosition - 1)
                             if((scrollPosition - 1) != 4 || !TextUtils.equals(findDate.accountId, getLocalUserId())){
-                                getFindReceiveLoveHeart("${findDate.accountId}")
+                                getFindReceiveLoveHeart("${findDate.accountId}","2")
                             }
                         }
                     }
@@ -345,7 +345,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun showGiftDialog(){
         var mSelectGiftListDialog = SelectGiftListDialog()
-        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        if (mDates.size > mRecyclerView.currentItem) {
+            var findDate = mDates.get(mRecyclerView.currentItem)
+            mSelectGiftListDialog.arguments= bundleOf("titleStype" to 4,"receiveUserId" to "${findDate.accountId}")
+        }
         mSelectGiftListDialog.setDialogListener { p, s ->
 //            for(j in mAllGiftList){
 //                if(TextUtils.equals(s,j.name)){
@@ -688,7 +691,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         joinInCard()
                         var findDate = mDates.get(0)
                         if (TextUtils.equals(sex, "1")) {
-                            getFindReceiveLoveHeart(findDate.accountId.toString())
+                            getFindReceiveLoveHeart("${findDate.accountId}","http")
                         }
                     }
                     mRecyclerView.adapter.notifyDataSetChanged()
@@ -1295,13 +1298,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mReceiveLoveHearts = ArrayList<LoveHeartFans>()
     private var  mDanMuIndex = 0
 
-    private fun getFindReceiveLoveHeart(iUserId: String) {
+    private fun getFindReceiveLoveHeart(iUserId: String,type:String) {
+//        toast("类型：${type}")
         Request.findReceiveLoveHeartList(iUserId, getLoginToken(), DANMU_pageNum).request(this, false, success = { _, data ->
             data?.let {
+//                toast("返回")
                 if (DANMU_pageNum == 1) {
                     mReceiveLoveHearts.clear()
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
+//                    toast("返回null")
                     if(DANMU_pageNum > 1) {
                         DANMU_pageNum--
                     }else{
@@ -1319,7 +1325,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 }
             }
         }) { code, msg ->
-
+            toast("${msg}")
         }
     }
 
@@ -1348,7 +1354,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         DANMU_pageNum = DANMU_pageNum + 1
                         if(mDates.size>0&&mDates.size>mRecyclerView.currentItem){
                             var findDate = mDates.get(mRecyclerView.currentItem)
-                            getFindReceiveLoveHeart("${findDate.accountId}")
+                            getFindReceiveLoveHeart("${findDate.accountId}","handler")
                         }
                     }
                 }
@@ -1363,7 +1369,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (danmaku == null || sv_danmaku == null) {
             return
         }
-        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iPoint}颗"
+        if(loveHeartFans.giftName.isNullOrEmpty()){
+            danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iPoint}颗 [img src=redheart_small/]"
+        }else{
+            danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.giftName}(${loveHeartFans.iPoint}颗 [img src=redheart_small/])"
+        }
         danmaku!!.padding = 5
         danmaku!!.priority = 0 //可能会被各种过滤器过滤并隐藏显示
         danmaku!!.isLive = islive

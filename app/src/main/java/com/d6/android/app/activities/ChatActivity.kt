@@ -499,7 +499,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         tv_sendgift_service.setOnClickListener {
             isAuthUser {
-                showGiftDialog()
+                showGiftDialog(2)
             }
         }
 
@@ -525,9 +525,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
     }
 
-    private fun showGiftDialog(){
+    private fun showGiftDialog(titleStyle:Int){
         var mSelectGiftListDialog = SelectGiftListDialog()
-        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to titleStyle,"receiveUserId" to "${mOtherUserId}")
         mSelectGiftListDialog.setDialogListener { p, s ->
         }
         mSelectGiftListDialog.show(supportFragmentManager,"gift")
@@ -1507,7 +1507,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 override fun onSendLoveHeart(){
                     isAuthUser {
 //                        addGiftNums(1,false,false,"")
-                        showGiftDialog()
+                        showGiftDialog(1)
                     }
                 }
 

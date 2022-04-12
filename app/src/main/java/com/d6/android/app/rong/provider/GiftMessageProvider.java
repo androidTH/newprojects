@@ -8,6 +8,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,40 +152,38 @@ public class GiftMessageProvider extends IContainerItemProvider.MessageProvider<
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvGiftName;
-            textView.setText("四叶草");
+            Log.i("giftMessage","内容："+content.getExtra());
             if(!TextUtils.isEmpty(content.getExtra())){
-                int nums = 1;
                 try {
                     JSONObject jsonObject = new JSONObject(content.getExtra());
-                    nums = jsonObject.getInt("nums");
-//                    String receivename = jsonObject.getString("receiveusername");
-//                    String desc = jsonObject.getString("sDesc");
-                    holder.mTvReceivedLoveHeartNums.setText(nums+" [img src=redheart_small/]");
-                    holder.simpleDraweeView.setImageURI("https://img-local.d6-zone.com/syc.png");
+                    String giftName = jsonObject.getString("giftName");
+                    String giftIcon = jsonObject.getString("giftIcon");
+                    String totalLoveNum = jsonObject.getString("totalLoveNum");
+                    textView.setText(giftName);
+                    holder.mTvReceivedLoveHeartNums.setText(totalLoveNum+" [img src=redheart_small/]");
+                    holder.simpleDraweeView.setImageURI(giftIcon);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
                 }
             }
         } else {
             holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             TextView textView = holder.mTvGiftName;
-            String num = "1";
             try {
+                Log.i("giftMessage","1内容："+content.getExtra());
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    num = jsonObject.optString("nums");
-                    String sendusername = jsonObject.optString("sendusername");
-                    String desc = jsonObject.optString("sDesc");
-                    textView.setText("四叶草");
-                    holder.mTvReceivedLoveHeartNums.setText(num+" [img src=redheart_small/]");
-                    holder.simpleDraweeView.setImageURI("https://img-local.d6-zone.com/syc.png");
+                    String giftName = jsonObject.getString("giftName");
+                    String giftIcon = jsonObject.getString("giftIcon");
+                    String totalLoveNum = jsonObject.getString("totalLoveNum");
+                    textView.setText(giftName);
+                    holder.mTvReceivedLoveHeartNums.setText(totalLoveNum+" [img src=redheart_small/]");
+                    holder.simpleDraweeView.setImageURI(giftIcon);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
 //                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                textView.setText(userInfo.getName()+"给你赠送了");//+num+"颗爱心"
-                holder.mTvReceivedLoveHeartNums.setText(num);
             }
         }
     }

@@ -23,7 +23,7 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@MessageTag(value = "app:GiftMessage", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+@MessageTag(value = "app:GiveGift1Msg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
 public class GiftRongIMMessage extends MessageContent {
     private final static String TAG = "CustomMessage";
 

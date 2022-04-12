@@ -129,10 +129,20 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         if(data.iAllLovePoint>=Const.iLovePointShow){
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
             tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=super_like_icon/] [img src=redheart_small/]"
-            tv_showgift.text = "送你礼物\n(${data.iAllLovePoint}颗[img src=redheart_small/])"
+            if(data.giftName.isNullOrEmpty()){
+                tv_showgift.visibility = View.GONE
+            }else{
+                tv_showgift.visibility = View.VISIBLE
+                tv_showgift.text = "TA送了你\n ${data.giftLoveNum}(${data.giftLoveNum}颗[img src=redheart_small/])"
+            }
         }else{
             tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=redheart_small/]"
-            tv_showgift.text = "送你礼物\n(${data.iAllLovePoint}颗[img src=redheart_small/])"
+            if(data.giftName.isNullOrEmpty()){
+                tv_showgift.visibility = View.GONE
+            }else{
+                tv_showgift.visibility = View.VISIBLE
+                tv_showgift.text = "TA送了你\n ${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
+            }
         }
 
     }

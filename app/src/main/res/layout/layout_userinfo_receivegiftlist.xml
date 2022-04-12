@@ -4,18 +4,16 @@
     android:id="@+id/rl_userinfo_gift"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:visibility="visible"
     app:cardCornerRadius="@dimen/margin_6"
     app:cardElevation="@dimen/margin_5"
     app:cardMaxElevation="@dimen/margin_5">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingLeft="@dimen/margin_8"
         android:paddingRight="@dimen/margin_8"
-        android:paddingBottom="@dimen/margin_5"
-        android:orientation="vertical">
+        android:paddingBottom="@dimen/margin_5">
 
         <TextView
             android:id="@+id/tv_receivedgift_title"
@@ -30,8 +28,18 @@
             android:textSize="12sp" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_receivegiftlist"
+            android:layout_below="@id/tv_receivedgift_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_2" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_empty_gift"
+            android:layout_below="@id/tv_receivedgift_title"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:gravity="center"
+            android:text="暂无礼物"/>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
