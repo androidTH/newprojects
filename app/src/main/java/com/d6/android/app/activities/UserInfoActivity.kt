@@ -75,10 +75,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val mIsShowGift by lazy{
-        SPUtils.instance().getBoolean("IsShowGift"+ getLocalUserId(),false)
-    }
-
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
     private var sendLoveHeartNums = 1
 
@@ -403,16 +399,19 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //        getUserFollowAndFansandVistor()
 
         setAudioListener()
-        if(mIsShowGift){
+    }
+
+    private fun doUserGiftIsShow(isShowGift:Int){
+        if (isShowGift==0) {
             headerView.rl_userinfo_gift.visibility = View.VISIBLE
             getGiftList()
-        }else{
+        } else {
             headerView.rl_userinfo_gift.visibility = View.GONE
         }
     }
 
     private fun getGiftList(){
-        Request.getUserShowGiftList(getLocalUserId()).request(this, false, success = { msg, data ->
+        Request.getUserShowGiftList(id).request(this, false, success = { msg, data ->
             data?.let {
                 if(it!=null&&it.size>0){
                     mReceiveGiftListQuickAdapter.setNewData(it)
@@ -702,6 +701,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_receivedgift_title.text = "送出的礼物"
                 }
 
+                doUserGiftIsShow(it.isShowGift)
 //                if (TextUtils.equals("0", it.sex)) {
                 if (TextUtils.equals(id, CustomerServiceId) || TextUtils.equals(id, CustomerServiceWomenId)) {
                     headerView.img_other_auther.visibility = View.GONE

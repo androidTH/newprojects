@@ -108,53 +108,55 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             if (provider != null) {
                 var content = provider.getContentSummary(context,data.latestMessage)
                 if (data.conversationType == Conversation.ConversationType.PRIVATE) {
-                    if (content.contains("你给${getLocalUserName()}赠送了")) {
-                        var startsub = "你给${getLocalUserName()}赠送了"
-                        var end = content.subSequence(startsub.length, content.length)
-                        tv_content.text = "对方给你赠送了${end}"
-                    } else if(content.contains("评论了你的动态:")) {
-                        var str = content.split("评论了你的动态:")
-                        if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
-                            Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
-                                data?.let {
-                                    if(str!=null&&str.size==2){
-                                        tv_content.text = "你评论了${it.name}的动态：${str[1]}"
-                                    }else{
-                                        tv_content.text = "${content}"
+                    if(content!=null){
+                        if (content.contains("你给${getLocalUserName()}赠送了")) {
+                            var startsub = "你给${getLocalUserName()}赠送了"
+                            var end = content.subSequence(startsub.length, content.length)
+                            tv_content.text = "对方给你赠送了${end}"
+                        } else if(content.contains("评论了你的动态:")) {
+                            var str = content.split("评论了你的动态:")
+                            if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
+                                Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        if(str!=null&&str.size==2){
+                                            tv_content.text = "你评论了${it.name}的动态：${str[1]}"
+                                        }else{
+                                            tv_content.text = "${content}"
+                                        }
                                     }
-                                }
-                            })
-                        }else{
-                            Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
-                                data?.let {
-                                    if(str!=null&&str.size==2){
-                                        tv_content.text = "${it.name}评论了你的动态：${str[1]}"
-                                    }else{
-                                        tv_content.text = "${content}"
+                                })
+                            }else{
+                                Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        if(str!=null&&str.size==2){
+                                            tv_content.text = "${it.name}评论了你的动态：${str[1]}"
+                                        }else{
+                                            tv_content.text = "${content}"
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
+                        }else if(content.contains("赞了你的动态")){
+                            if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
+                                Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        tv_content.text = "你赞了${it.name}的动态"
+                                    }
+                                })
+                            }else{
+                                Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        tv_content.text = "${it.name}赞了你的动态"
+                                    }
+                                })
+                            }
+                        }else {
+                            tv_content.text = "${content}"
                         }
-                    }else if(content.contains("赞了你的动态")){
-                        if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
-                            Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
-                                data?.let {
-                                    tv_content.text = "你赞了${it.name}的动态"
-                                }
-                            })
-                        }else{
-                            Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
-                                data?.let {
-                                    tv_content.text = "${it.name}赞了你的动态"
-                                }
-                            })
-                        }
-                    }else {
-                        tv_content.text = "${content}"
+                        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
+                        tv_unread.text = "${count}"
+                        tv_unread_red.visibility = View.GONE
                     }
-                    tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
-                    tv_unread.text = "${count}"
-                    tv_unread_red.visibility = View.GONE
                 } else if (data.conversationType == Conversation.ConversationType.GROUP) {
                     var mGroupIdSplit = data.targetId.split("_")
                     if (mGroupIdSplit != null && mGroupIdSplit.size > 1) {

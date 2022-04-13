@@ -4,6 +4,7 @@
     android:id="@+id/rl_userinfo_gift"
     android:layout_width="match_parent"
     android:layout_height="150dp"
+    android:visibility="gone"
     app:cardCornerRadius="@dimen/margin_6"
     app:cardElevation="@dimen/margin_5"
     app:cardMaxElevation="@dimen/margin_5">
