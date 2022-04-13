@@ -51,11 +51,11 @@ class RecommendDateActivity : BaseActivity() {
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId())
     }
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFFIND+getLocalUserId())
     }
 
     private val userclassId by lazy{
@@ -206,7 +206,7 @@ class RecommendDateActivity : BaseActivity() {
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(), getTodayTime()).apply()
             }
         }
     }

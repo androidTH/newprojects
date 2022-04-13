@@ -9,12 +9,19 @@
        android:layout_height="60dp"
        android:layout_gravity="center_horizontal"
        android:id="@+id/sampimgview_gift"/>
+    <TextView
+        android:id="@+id/tv_giftname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"/>
     <com.d6.android.app.widget.textinlineimage.TextInlineImage
-        android:id="@+id/gift_name"
-        android:text="900"
+        android:id="@+id/tv_giftnums"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_5"
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"

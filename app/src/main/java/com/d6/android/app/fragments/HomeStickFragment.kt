@@ -79,11 +79,11 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND+getLocalUserId())
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId())
     }
 
     private val mSpeedDates = ArrayList<MyDate>()
@@ -254,8 +254,8 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
     private fun getServiceProvinceData(){
         Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND+getLocalUserId(), GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(),getTodayTime()).apply()
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
@@ -338,7 +338,7 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
                 Log.i("slogintoken","stoken="+sLoginToken)
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince+getLocalUserId(),"").apply()
 //                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
                 }
                 SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()

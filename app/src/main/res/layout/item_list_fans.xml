@@ -104,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/color_666666"
+            android:visibility="gone"
             android:textSize="12sp" />
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage

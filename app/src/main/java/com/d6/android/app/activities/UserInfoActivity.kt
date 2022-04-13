@@ -430,6 +430,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         var mSelectGiftListDialog = SelectGiftListDialog()
         mSelectGiftListDialog.arguments= bundleOf("titleStype" to 5,"receiveUserId" to "${id}")
         mSelectGiftListDialog.setDialogListener { p, s ->
+            mData?.let {
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${id}", "${it.name}")
+            }
         }
         mSelectGiftListDialog.show(supportFragmentManager,"gift")
     }

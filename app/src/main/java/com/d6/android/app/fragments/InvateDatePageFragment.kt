@@ -68,11 +68,11 @@ class InvateDatePageFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackg
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND+getLocalUserId())
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId())
     }
 
     override fun contentViewId() = R.layout.fragment_invatedatepage
@@ -257,8 +257,8 @@ class InvateDatePageFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackg
     private fun getServiceProvinceData(){
         Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND+getLocalUserId(), GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(),getTodayTime()).apply()
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
@@ -349,7 +349,7 @@ class InvateDatePageFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackg
                 if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
 //                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
-                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(),"").apply()
                     var today = getTodayTime()
                     var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
                     if(!TextUtils.equals(today,yesterday)){

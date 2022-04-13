@@ -34,6 +34,8 @@ import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
 import com.d6.android.app.widget.popup.mLoveHeartPopu
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
@@ -120,7 +122,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 tv_square_gift.setOnClickListener {
                     (context as BaseActivity).isAuthUser() {
                         square?.let {
-                            showGiftDialog("${it.userid}","${it.id}")
+                            showGiftDialog("${it.userid}","${it.id}","${it.name}")
                         }
                     }
                 }
@@ -492,10 +494,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
     }
 
-    private fun showGiftDialog(receivedUserId:String,squareId:String){
+    private fun showGiftDialog(receivedUserId:String,squareId:String,username:String){
         var mSelectGiftListDialog = SelectGiftListDialog()
         mSelectGiftListDialog.arguments= bundleOf("titleStype" to 3,"receiveUserId" to "${receivedUserId}","squareId" to squareId)
         mSelectGiftListDialog.setDialogListener { p, s ->
+            RongIM.getInstance().startConversation((context as BaseActivity), Conversation.ConversationType.PRIVATE, "${receivedUserId}", "${username}")
         }
         mSelectGiftListDialog.show((context as BaseActivity).supportFragmentManager,"gift")
     }

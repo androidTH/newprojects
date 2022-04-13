@@ -266,8 +266,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
                 if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
-                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince+getLocalUserId(),"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(),"").apply()
 
                     var mCheckInPointsDialog = CheckInPointsDialog()
                     mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)

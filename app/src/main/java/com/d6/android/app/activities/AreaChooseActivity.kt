@@ -38,7 +38,7 @@ class AreaChooseActivity : BaseActivity() {
     var province = Province(Const.LOCATIONCITYCODE, "定位")
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince)
+        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince+getLocalUserId())
     }
 
     private val mCityOfProviceAdapter by lazy {
@@ -50,7 +50,7 @@ class AreaChooseActivity : BaseActivity() {
     }
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATA+getLocalUserId())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,7 +157,7 @@ class AreaChooseActivity : BaseActivity() {
     private fun getServiceProvinceData(){
         Request.getProvince().request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(this).put(PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                DiskFileUtils.getDiskLruCacheHelper(this).put(PROVINCE_DATA+getLocalUserId(), GsonHelper.getGson().toJson(it))
                 mProvinces.clear()
                 setLocationCity(locationCity)
                 it.add(0,province)
@@ -166,7 +166,7 @@ class AreaChooseActivity : BaseActivity() {
                 mProciceAdapter.setNewData(mProvinces)
                 mCityOfProviceAdapter.setNewData(mCities)
                 tv_menu_toptitle.text = mProvinces.get(0).name
-                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince, getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince+getLocalUserId(), getTodayTime()).apply()
             }
         }
     }

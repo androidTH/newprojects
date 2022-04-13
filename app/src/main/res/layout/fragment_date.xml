@@ -270,25 +270,25 @@
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/fb_liwu"
-                android:layout_width="@dimen/height_30"
-                android:layout_height="@dimen/height_30"
+                android:layout_width="@dimen/height_40"
+                android:layout_height="@dimen/height_40"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/liwu_list_big" />
             <ImageButton
                 android:id="@+id/fb_find_chat"
-                android:layout_width="@dimen/height_30"
-                android:layout_height="@dimen/height_30"
+                android:layout_width="@dimen/height_40"
+                android:layout_height="@dimen/height_40"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginTop="@dimen/margin_25"
+                android:layout_marginBottom="@dimen/margin_25"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/feed_comment_big_icon" />
 
             <ImageButton
                 android:id="@+id/fb_heat_like"
-                android:layout_width="@dimen/height_30"
-                android:layout_height="@dimen/height_30"
+                android:layout_width="@dimen/height_40"
+                android:layout_height="@dimen/height_40"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/feed_chatlike_normal_icon" />

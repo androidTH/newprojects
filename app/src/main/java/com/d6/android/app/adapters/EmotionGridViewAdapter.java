@@ -58,7 +58,8 @@ public class EmotionGridViewAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.layout_giftitem,null);
 			mViewHolder = new ViewHolder();
 			mViewHolder.sampimgview_gift =  convertView.findViewById(R.id.sampimgview_gift);
-			mViewHolder.giftName = convertView.findViewById(R.id.gift_name);
+			mViewHolder.mTvGiftName = convertView.findViewById(R.id.tv_giftname);
+			mViewHolder.mTvGiftNums= convertView.findViewById(R.id.tv_giftnums);
 			convertView.setTag(mViewHolder);
 		}else{
            mViewHolder = (ViewHolder) convertView.getTag();
@@ -66,13 +67,15 @@ public class EmotionGridViewAdapter extends BaseAdapter {
 
 		GiftBeans beans = emotionNames.get(position);
 		mViewHolder.sampimgview_gift.setImageURI(beans.getIcon());
-		mViewHolder.giftName.setText(beans.getLoveNum()+" [img src=redheart_small/]");
+		mViewHolder.mTvGiftName.setText(beans.getName());
+		mViewHolder.mTvGiftNums.setText(beans.getLoveNum()+" [img src=redheart_small/]");
 		return convertView;
 	}
 
 
 	public class ViewHolder{
 		SimpleDraweeView sampimgview_gift;
-		TextView giftName;
+		TextView mTvGiftNums;
+		TextView mTvGiftName;
 	}
 }

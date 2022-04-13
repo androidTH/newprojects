@@ -46,11 +46,11 @@ class AppointmentActivity : BaseActivity() {
     private var pageSelected = 0
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId())
     }
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFFIND+getLocalUserId())
     }
 
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
@@ -226,13 +226,13 @@ class AppointmentActivity : BaseActivity() {
     private fun getProvinceData() {
         Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND+getLocalUserId(), GsonHelper.getGson().toJson(it))
                 setLocationCity()
                 it.add(0,province)
                 if(IsNotNullPopupArea()){
                     mPopupArea.setData(it)
                 }
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(), getTodayTime()).apply()
             }
         }
     }

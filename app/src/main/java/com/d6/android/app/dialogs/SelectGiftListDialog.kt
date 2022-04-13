@@ -30,6 +30,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.badge.DisplayUtil
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_select_giftlist.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
@@ -188,6 +190,10 @@ class SelectGiftListDialog : DialogFragment() {
                     giveGift(mGiftBean.giftId,mGiftBean.icon,loveNum,mGiftBean.name,1,titleStype,givetypeId,getLocalUserId(), getLocalUserName(),receiveUserId)
                     dismissAllowingStateLoss()
                     toast("赠送礼物成功")
+                    if(titleStype==5||titleStype==3||titleStype==4){
+                        dialogListener?.onClick(position,emotionNames.get(position).name)
+//                        RongIM.getInstance().startConversation((context as BaseActivity), Conversation.ConversationType.PRIVATE, receiveUserId, name)
+                    }
                 }else{
                     dialogListener?.onClick(position,emotionNames.get(position).name)
                     dismissAllowingStateLoss()

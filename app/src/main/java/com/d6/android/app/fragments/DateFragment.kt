@@ -117,11 +117,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mShowCardLastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
 
     private val lastTime by lazy {
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId())
     }
 
     private val cityJson by lazy {
-        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND+getLocalUserId())
     }
 
     private var IsNotFastClick: Boolean = false
@@ -348,24 +348,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (mDates.size > mRecyclerView.currentItem) {
             var findDate = mDates.get(mRecyclerView.currentItem)
             mSelectGiftListDialog.arguments= bundleOf("titleStype" to 4,"receiveUserId" to "${findDate.accountId}")
-        }
-        mSelectGiftListDialog.setDialogListener { p, s ->
-//            for(j in mAllGiftList){
-//                if(TextUtils.equals(s,j.name)){
-//                    mGiftBeans = j
-//                    break
-//                }
-//            }
-//            if(mGiftBeans!=null){
-//                mGiftBeans?.let {
-//                    tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
-//                    tv_clear_gift.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.comment_local_del, 0)
-//                    giftLoveLNum = it.loveNum
-//                    giftNum=1
-//                    giftName = it.name
-//                    giftIcon = it.icon
-//                }
-//            }
+            mSelectGiftListDialog.setDialogListener { p, s ->
+                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, "${findDate.accountId}", "${findDate.name}")
+            }
         }
         mSelectGiftListDialog.show(childFragmentManager,"gift")
     }
@@ -1082,8 +1067,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private fun getServiceProvinceData() {
         Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND+getLocalUserId(), GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND+getLocalUserId(), getTodayTime()).apply()
                 setLocationCity()
                 it.add(0, province)
                 mPopupArea.setData(it)

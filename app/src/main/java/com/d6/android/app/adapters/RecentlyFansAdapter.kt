@@ -86,6 +86,7 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
+        var tv_showgift = holder.bind<TextInlineImage>(R.id.tv_showgift)
 //        tv_receivedliked.text = "送了你${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
         if(data.iPoint>=Const.iLovePointShow){
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
@@ -93,6 +94,13 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         } else{
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
             tv_receivedliked.text = "在你的主页中送了${data.iPoint} [img src=redheart_small/]"
+        }
+
+        if(data.giftName.isNullOrEmpty()){
+            tv_showgift.visibility = View.GONE
+        }else{
+            tv_showgift.visibility = View.VISIBLE
+            tv_showgift.text = "送你礼物\n${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
         }
 
 //        redheart_small
