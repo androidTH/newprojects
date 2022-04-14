@@ -77,7 +77,11 @@ class MineFragment : BaseFragment() {
         }
 
         rl_fans_count.setOnClickListener(View.OnClickListener {
-            startActivity<FansActivity>()
+            if(TextUtils.equals("1", getUserSex())){
+                startActivity<MenFansActivity>()
+            }else{
+                startActivity<FansActivity>()
+            }
         })
 
         rl_follow_count.setOnClickListener(View.OnClickListener {

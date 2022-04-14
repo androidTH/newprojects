@@ -164,13 +164,13 @@
                             app:tabTextAppearance="@style/tab_home_date"
                             app:tabTextColor="@color/color_666666" />
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/tv_leibie"
-                        android:layout_width="6dp"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@+id/tv_date_city"
-                        android:visibility="gone"
-                        android:drawableLeft="@mipmap/leibie_shadows"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_leibie"-->
+<!--                        android:layout_width="6dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_toLeftOf="@+id/tv_date_city"-->
+<!--                        android:visibility="gone"-->
+<!--                        android:drawableLeft="@mipmap/leibie_shadows"/>-->
                     <TextView
                         android:id="@+id/tv_date_city"
                         android:layout_width="wrap_content"

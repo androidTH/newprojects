@@ -414,6 +414,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MenFansActivity">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.MenFansActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.OldFansActivity"
             android:screenOrientation="portrait">

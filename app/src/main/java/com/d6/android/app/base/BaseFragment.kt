@@ -57,6 +57,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         ImmersionBar.with(this).fitsSystemWindows(true)
                 .statusBarColor(R.color.white)
                 .statusBarDarkFont(true)
+                .navigationBarDarkIcon(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

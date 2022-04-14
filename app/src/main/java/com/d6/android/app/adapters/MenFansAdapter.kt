@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -24,9 +25,9 @@ import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
 
 /**
- *粉丝
+ * 男用户关注
  */
-class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class MenFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_menfans) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -37,11 +38,8 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
-//        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-
+        val headView = holder.bind<SimpleDraweeView>(R.id.user_menheadView)
         if(data.iIsCode==1){
-//            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
             if(data.sPicUrl.isNullOrEmpty()){
                 headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
             }else{
@@ -50,29 +48,17 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
                 }else{
                     headView.setImageURI("${data.sPicUrl}${BLUR_60}")
                 }
-//                headView.showBlur(data.sPicUrl)
             }
-            holder.setText(R.id.tv_name,"匿名")
+            holder.setText(R.id.tv_menname,"匿名")
 
         }else{
             headView.setImageURI(data.sPicUrl)
-            holder.setText(R.id.tv_name,data.sSendUserName)
-//            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
-
-//            if(!data.gexingqianming.isNullOrEmpty()){
-//                tv_userinfo.visibility = View.VISIBLE
-//                tv_userinfo.text = data.gexingqianming
-//            }else if(!data.ziwojieshao.isNullOrEmpty()){
-//                tv_userinfo.text = data.ziwojieshao
-//                tv_userinfo.visibility = View.VISIBLE
-//            }else{
-//                tv_userinfo.visibility = View.GONE
-//            }
+            holder.setText(R.id.tv_menname,data.sSendUserName)
         }
-        Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
+        Log.i("menfansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
 
-        val tv_sex = holder.bind<TextView>(R.id.tv_sex)
-        val tv_age = holder.bind<TextView>(R.id.tv_age)
+        val tv_sex = holder.bind<TextView>(R.id.tv_mensex)
+        val tv_age = holder.bind<TextView>(R.id.tv_menage)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         if(data.nianling.isNullOrEmpty()){
             tv_age.visibility = View.GONE
@@ -82,7 +68,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_age.text = "${data.nianling}岁"
         }
 
-        val tv_vip = holder.bind<TextView>(R.id.tv_vip)
+        val tv_vip = holder.bind<TextView>(R.id.tv_menvip)
         if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
 //            tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility =View.GONE
@@ -92,10 +78,10 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
         }
 
-        var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
-        tv_likedtype.setText("送你")
+//        var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
+//        tv_likedtype.setText("送你")
 
-        var tv_info = holder.bind<TextView>(R.id.tv_userinfo)
+        var tv_info = holder.bind<TextView>(R.id.tv_menuserinfo)
         var mInfo = ""
         if(!data.shengao.isNullOrEmpty()){
             mInfo = "${data.shengao}"
@@ -115,7 +101,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_info.text = "${mInfo}"
         }
 
-        var tv_job = holder.bind<TextView>(R.id.tv_job)
+        var tv_job = holder.bind<TextView>(R.id.tv_menjob)
         if(data.zhiye.isNullOrEmpty()){
             tv_job.visibility = View.GONE
         }else{
@@ -124,28 +110,26 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
-//        var tv_showgift = holder.bind<TextInlineImage>(R.id.tv_showgift)
-//        tv_showgift.visibility = View.VISIBLE
+        var tv_showgift = holder.bind<TextInlineImage>(R.id.tv_showgift)
+        var ll_receivedheart = holder.bind<LinearLayout>(R.id.ll_receivedheart)
+        tv_showgift.visibility = View.VISIBLE
         if(data.iAllLovePoint>=Const.iLovePointShow){
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=super_like_icon/] [img src=redheart_small/]"
-//            if(data.giftName.isNullOrEmpty()){
-//                tv_showgift.visibility = View.GONE
-//            }else{
-//                tv_showgift.visibility = View.VISIBLE
-//                tv_showgift.text = "送你礼物\n${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
-//            }
+            tv_receivedliked.visibility = View.GONE
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_receivedliked.text = "送你${data.iAllLovePoint}颗 [img src=super_like_icon/] [img src=redheart_small/]"
         }else{
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=redheart_small/]"
-//            if(data.giftName.isNullOrEmpty()){
-//                tv_showgift.visibility = View.GONE
-//            }else{
-//                tv_showgift.visibility = View.VISIBLE
-//                tv_showgift.text = "送你礼物\n${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
-//            }
+            tv_receivedliked.visibility = View.GONE
+            tv_receivedliked.text = "送你${data.iAllLovePoint}颗 [img src=redheart_small/]"
         }
 
+        if(data.giftName.isNullOrEmpty()){
+//            ll_receivedheart.visibility = View.INVISIBLE
+            tv_showgift.visibility = View.GONE
+        }else{
+            tv_showgift.visibility = View.VISIBLE
+//            ll_receivedheart.visibility = View.VISIBLE
+            tv_showgift.text = "送你礼物\n${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
+        }
     }
 
     override fun onClick(v: View?) {

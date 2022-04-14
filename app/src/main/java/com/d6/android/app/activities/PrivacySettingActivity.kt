@@ -58,10 +58,10 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_gifthistory_off.setOnCheckedChangeListener{buttonView,isChecked->
              if(isChecked){
-                 updateIsShowGift(0)
+                 updateIsShowGift(1)
 //                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
              }else{
-                 updateIsShowGift(1)
+                 updateIsShowGift(0)
 //                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
              }
         }
@@ -284,10 +284,10 @@ class PrivacySettingActivity : BaseActivity() {
                 }
 
                 if(it.isShowGift==1){
-                    sw_gifthistory_off.isChecked = false
+                    sw_gifthistory_off.isChecked = true
                     SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
                 }else{
-                    sw_gifthistory_off.isChecked = true
+                    sw_gifthistory_off.isChecked = false
                     SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
                 }
 

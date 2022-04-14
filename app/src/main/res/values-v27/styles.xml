@@ -8,6 +8,8 @@
         <!-- Customize your theme here. -->
 
         <item name="colorPrimary">@color/colorPrimary</item>
+<!--        <item name="android:navigationBarColor">@color/red_fc3</item>-->
+<!--        <item name="android:windowLightNavigationBar">true</item>-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/color_F7AB00</item>
         <item name="android:textColor">@color/textColor</item>

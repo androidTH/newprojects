@@ -89,9 +89,11 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         var tv_showgift = holder.bind<TextInlineImage>(R.id.tv_showgift)
 //        tv_receivedliked.text = "送了你${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
         if(data.iPoint>=Const.iLovePointShow){
+            tv_receivedliked.visibility = View.GONE
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
             tv_receivedliked.text = "在你的主页中送了${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
         } else{
+            tv_receivedliked.visibility = View.GONE
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
             tv_receivedliked.text = "在你的主页中送了${data.iPoint} [img src=redheart_small/]"
         }
@@ -102,20 +104,6 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
             tv_showgift.visibility = View.VISIBLE
             tv_showgift.text = "送你礼物\n${data.giftName}(${data.giftLoveNum}颗[img src=redheart_small/])"
         }
-
-//        redheart_small
-//        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-//        if(data.iIsFollow == 0){
-//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-//            mTvFollow.setText("喜欢")
-//        }else{
-//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-//            mTvFollow.setText("已喜欢")
-//        }
-//        mTvFollow.setOnClickListener(this)
-//        mTvFollow.setTag(data)
     }
 
     override fun onClick(v: View?) {

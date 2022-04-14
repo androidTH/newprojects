@@ -90,7 +90,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private var type: Int = 0
-    private var city: String? = ""
+    private var city: String = ""
     private var mDefualtSex = -1
 
     lateinit var mPopupSex:SelectedSexPopup
@@ -313,11 +313,20 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
 
-                city = getReplace(it.province)
-                tv_date_city.text = city
-                getFragment()
-                if(mPopupArea!=null){
-                    mPopupArea.updateCityOfProvice()
+                try {
+                    city = getReplace(it.province)
+                    if(TextUtils.isEmpty(city)){
+                        tv_date_city.text = "地区"
+                    }else{
+                        tv_date_city.text = city
+                    }
+                }catch (e:Exception){
+                    tv_date_city.text = "地区"
+                }finally {
+                    getFragment()
+                    if(mPopupArea!=null){
+                        mPopupArea.updateCityOfProvice()
+                    }
                 }
             }
         }
@@ -365,7 +374,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             if (cityJson.isNullOrEmpty()) {
                 getServiceProvinceData()
             } else {
-                if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                if (TextUtils.equals(getTodayTime(), lastTime)) {
                     getServiceProvinceData()
                 } else {
                     var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)

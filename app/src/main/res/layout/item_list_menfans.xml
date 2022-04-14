@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/margin_3"
     android:background="@drawable/shape_date_white_3r">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/user_headView"
+        android:id="@+id/user_menheadView"
         style="@style/DefaultImageStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,61 +23,33 @@
         app:viewAspectRatio="1.0" />
 
     <LinearLayout
+        android:id="@+id/ll_menuserinfo"
+        android:layout_above="@+id/ll_receivedheart"
+        android:background="@drawable/shape_top_bottom_yy_bg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_above="@+id/ll_userinfo"
         android:paddingLeft="@dimen/margin_5"
-        android:background="@drawable/shape_top_bottom_yy_bg"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_likedtype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_10"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
-            android:id="@+id/tv_receivedliked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_10"
-            android:paddingLeft="@dimen/margin_2"
-            android:paddingRight="@dimen/margin_5"
-            android:textColor="@color/color_FF4133"
-            android:textSize="15sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_userinfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_headView"
-        android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginBottom="@dimen/margin_3"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_menname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textStyle="bold"
-            android:textColor="@color/color_black" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/tv_sex"
+            android:id="@+id/tv_mensex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin_5"
             android:background="@drawable/ic_sex_bg_selector"
             android:drawableLeft="@drawable/sex_white_selector"
+            android:layout_marginTop="@dimen/margin_10"
             android:drawablePadding="1dp"
             android:paddingLeft="3dp"
             android:paddingTop="0.5dp"
@@ -89,12 +59,13 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/tv_age"
+            android:id="@+id/tv_menage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin_5"
             android:background="@drawable/ic_sex_bg_selector"
+            android:layout_marginTop="@dimen/margin_10"
             android:paddingLeft="3dp"
             android:paddingTop="0.5dp"
             android:paddingRight="3dp"
@@ -104,40 +75,81 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/tv_vip"
+            android:id="@+id/tv_menvip"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin_16"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_10"
             android:background="@mipmap/vip_gold"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="visible" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_receivedheart"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@+id/user_menheadView"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_likedtype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color_666666"
+            android:visibility="gone"
+            android:textSize="12sp" />
+
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_receivedliked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_5"
+            android:textColor="@color/color_666666"
+            android:textSize="12sp" />
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_showgift"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_5"
+            android:textColor="@color/color_666666"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+
     <TextView
-        android:id="@+id/tv_userinfo"
+        android:id="@+id/tv_menuserinfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_userinfo"
+        android:layout_below="@+id/ll_receivedheart"
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginBottom="@dimen/margin_3"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:textColor="@color/color_999999"
+        android:textColor="@color/color_666666"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tv_job"
+        android:id="@+id/tv_menjob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_info"
+        android:layout_below="@+id/tv_userinfo"
         android:layout_marginLeft="@dimen/margin_5"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:textColor="@color/color_999999"
+        android:textColor="@color/color_666666"
         android:layout_marginBottom="@dimen/margin_5"
         android:textSize="12sp" />
 

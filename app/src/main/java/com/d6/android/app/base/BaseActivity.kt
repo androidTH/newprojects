@@ -42,7 +42,10 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     //改用lazy初始，第一次使用时才会初始化
     val immersionBar by lazy {
         ImmersionBar.with(this)
-                .statusBarColor(R.color.white).statusBarDarkFont(true).navigationBarColor("#FFFFFF")
+                .statusBarColor(R.color.white).statusBarDarkFont(true)
+                .navigationBarDarkIcon(true)
+                .navigationBarColor("#FFFFFF")
+//                .autoNavigationBarDarkModeEnable(true,0.2f)
     }
 
     val mKeyboardKt by lazy{

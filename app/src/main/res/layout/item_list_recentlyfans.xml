@@ -91,9 +91,10 @@
         android:id="@+id/ll_sendliked"
         android:layout_below="@+id/user_headView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_3"
+        android:layout_height="38dp"
+        android:layout_marginBottom="@dimen/margin_2"
         android:layout_marginLeft="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_5"
         android:orientation="vertical">
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
@@ -110,7 +111,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_5"
             android:textColor="@color/color_666666"
             android:visibility="gone"
