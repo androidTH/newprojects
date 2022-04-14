@@ -91,7 +91,7 @@ class LauncherActivity : BaseActivity() {
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
         if(agree){
-            NetStateUtil.connectingAddress(this)
+//            NetStateUtil.connectingAddress(this)
 //            OpenInstall.getInstall(mAppInstallAdapter)
 //            OpenInstall.getWakeUp(intent, wakeUpAdapter)
             XInstall.getInstallParam(mXInstallAdapter)

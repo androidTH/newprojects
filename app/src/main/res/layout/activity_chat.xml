@@ -228,6 +228,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/height_100"
             android:layout_marginRight="@dimen/margin_10"
             android:src="@mipmap/taren_redbutton" />
@@ -301,7 +302,7 @@
                 android:paddingLeft="@dimen/margin_6"
                 android:paddingRight="@dimen/margin_6"
                 android:text="@string/string_help_service"
-                android:textColor="@color/white"
+                android:textColor="@color/color_666666"
                 android:textStyle="bold"
                 android:visibility="gone"/>
 

@@ -26,9 +26,12 @@ import com.d6.android.app.widget.CustomToast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
 /**
@@ -112,6 +115,9 @@ public class ConversationFragmentEx extends ConversationFragment {
         super.initFragment(uri);
         if (uri != null) {
             mTargetId = uri.getQueryParameter("targetId");
+            if(getConversationType() == Conversation.ConversationType.GROUP){
+                hideGiftButton(true);
+            }
         }
     }
 
@@ -272,6 +278,13 @@ public class ConversationFragmentEx extends ConversationFragment {
         }
     }
 
+    private void hideGiftButton(boolean flag){
+        if(flag){
+            mSendChatGift.setVisibility(View.GONE);
+        }else{
+            mSendChatGift.setVisibility(View.VISIBLE);
+        }
+    }
 
     private OnExtensionExpandedListener mOnExtensionExpandedListener;
 

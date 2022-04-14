@@ -372,6 +372,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 
     private fun showGiftDialog(){
         var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to 0)
         mSelectGiftListDialog.setDialogListener { p, s ->
             for(j in mAllGiftList){
                 if(TextUtils.equals(s,j.name)){

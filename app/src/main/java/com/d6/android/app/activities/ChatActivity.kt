@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.adapters.DateChatImageAdapter
-import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
@@ -59,7 +58,6 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
-import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.*
 import org.json.JSONObject
@@ -1463,15 +1461,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         if (checkKFService(mOtherUserId)) {
             if(iType!=3){
                 if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG,false)){
-                    fragment?.arguments = bundleOf("hideinput" to false)
+                    fragment?.arguments = bundleOf("hideinput" to false,"iType" to iType)
                 }else{
-                    fragment?.arguments = bundleOf("hideinput" to true)
+                    fragment?.arguments = bundleOf("hideinput" to true,"iType" to iType)
                 }
             }else{
-                fragment?.arguments = bundleOf("hideinput" to false)
+                fragment?.arguments = bundleOf("hideinput" to false,"iType" to iType)
             }
         }else{
-            fragment?.arguments = bundleOf("hideinput" to false)
+            fragment?.arguments = bundleOf("hideinput" to false,"iType" to iType)
         }
 
         val uri = Uri.parse("rong://" + applicationInfo.packageName).buildUpon()

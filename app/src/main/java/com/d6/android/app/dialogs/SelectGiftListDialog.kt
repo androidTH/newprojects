@@ -83,14 +83,14 @@ class SelectGiftListDialog : DialogFragment() {
 
         tv_redheart_gobuy.setOnClickListener {
             isBaseActivity {
-                startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
+                startActivity<MyPointsActivity>("fromType" to "")
                 dismissAllowingStateLoss()
             }
         }
 
         tv_my_redheart.setOnClickListener {
             isBaseActivity {
-                startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
+                startActivity<MyPointsActivity>("fromType" to "")
                 dismissAllowingStateLoss()
             }
         }

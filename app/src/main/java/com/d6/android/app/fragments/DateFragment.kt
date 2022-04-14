@@ -162,8 +162,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         if(TextUtils.equals(sex, "1")){
                             clearDanMu()
                             var findDate = mDates.get(scrollPosition - 1)
-                            if((scrollPosition - 1) != 4 || !TextUtils.equals(findDate.accountId, getLocalUserId())){
-                                getFindReceiveLoveHeart("${findDate.accountId}","2")
+                            if(TextUtils.equals(findDate.accountId, getLocalUserId())){
+                                ll_bottom.visibility = View.GONE
+                            }else{
+                                ll_bottom.visibility = View.VISIBLE
+                                if((scrollPosition - 1) != 4 || !TextUtils.equals(findDate.accountId, getLocalUserId())){
+                                    getFindReceiveLoveHeart("${findDate.accountId}","2")
+                                }
                             }
                         }
                     }
