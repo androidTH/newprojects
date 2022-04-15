@@ -416,13 +416,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(it!=null&&it.size>0){
                     mReceiveGiftListQuickAdapter.setNewData(it)
                 }else{
-                    headerView.tv_empty_gift.visibility = View.VISIBLE
-                    headerView.tv_empty_gift.text = "暂无礼物"
+                    headerView.rl_userinfo_gift.visibility = View.GONE
+//                    headerView.tv_empty_gift.text = "暂无礼物"
                 }
             }
         }){code,msg->
-            headerView.tv_empty_gift.visibility = View.VISIBLE
-            headerView.tv_empty_gift.text = "暂无礼物"
+//            headerView.tv_empty_gift.visibility = View.VISIBLE
+//            headerView.tv_empty_gift.text = "暂无礼物"
+            headerView.rl_userinfo_gift.visibility = View.GONE
         }
     }
 

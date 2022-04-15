@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_userinfo_gift"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:visibility="gone"
     app:cardCornerRadius="@dimen/margin_6"
     app:cardElevation="@dimen/margin_5"

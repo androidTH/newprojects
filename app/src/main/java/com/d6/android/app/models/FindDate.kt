@@ -59,6 +59,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         var lstUserid =null
         var iIsFans:Int=-1 //0代表没有喜欢 1代表已喜欢
         var iReceiveLovePoint:Int = -1 //添加收到的喜欢总数
+        var iSendLovePoint:Int = -1//发送的红心数量
         var sOnlineMsg:String?=""
         var iOnline:Int =-1
         var iPositionType:Int = -1
@@ -100,6 +101,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         iVistorCountAll = parcel.readInt()
         iIsFans = parcel.readInt()
         iReceiveLovePoint = parcel.readInt()
+        iSendLovePoint = parcel.readInt()
         sOnlineMsg = parcel.readString()
         iPositionType = parcel.readInt()
         iOnline = parcel.readInt()
@@ -143,6 +145,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         parcel.writeInt(iVistorCountAll)
         parcel.writeInt(iIsFans)
         parcel.writeInt(iReceiveLovePoint)
+        parcel.writeInt(iSendLovePoint)
         parcel.writeString(if(sOnlineMsg!=null) sOnlineMsg else "")
         parcel.writeInt(iPositionType)
         parcel.writeInt(iOnline)

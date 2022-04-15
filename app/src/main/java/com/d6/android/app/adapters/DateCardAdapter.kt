@@ -51,7 +51,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }else{
             imageView.setImageURI("${url}${BLUR_50}")
         }
-        Log.i("DateCardAdapter","${data.name}----${data.picUrl}")
+        Log.i("DateCardAdapter","${data.name}----${data.picUrl},送出：${data.iSendLovePoint}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.VISIBLE
@@ -236,8 +236,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_like_count)
 
                 var sblove = StringBuffer()
-                if(data.iReceiveLovePoint>=10){
-                    sblove.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
+                if(data.iSendLovePoint>=10){
+                    sblove.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}     ")
                 }
 
                 if (data.iVistorCountAll >= 10) {
@@ -247,7 +247,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 if(sblove.toString().length>0){
                     ll_like.visibility = View.VISIBLE
                     tv_loveheart_vistor.visibility = View.VISIBLE
-                    tv_loveheart_vistor.text = sblove.toString()
+                    tv_loveheart_vistor.text = "${sblove}"
                 }else{
                     ll_like.visibility = View.GONE
                     tv_loveheart_vistor.visibility = View.GONE
@@ -548,8 +548,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
 
         var sblove = StringBuffer()
-        if(data.iReceiveLovePoint>=10){
-            sblove.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
+        if(data.iSendLovePoint>0){
+            sblove.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}     ")
         }
 
         if (data.iVistorCountAll >= 10) {
@@ -714,8 +714,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         }
         var sbwomen = StringBuffer()
-        if(data.iReceiveLovePoint>=10){
-            sbwomen.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}    ")
+        if(data.iReceiveLovePoint>0){
+            sbwomen.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}    ")
         }
 
         if(data.iVistorCountAll >= 10){
