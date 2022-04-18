@@ -44,25 +44,29 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 
         view.sendDateListener {
             var appointment = it
-            if(SPUtils.instance().getBoolean(ISNOTFREECHATTAG,false)){
-                isBaseActivity{
-                    if(appointment?.iIsAnonymous==1){
-                        RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${appointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
-                    }else{
-                        RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${appointment.iAppointUserid}", "${appointment.sAppointUserName}")
+            if(!isFastClick()){
+                if(SPUtils.instance().getBoolean(ISNOTFREECHATTAG,false)){
+                    isBaseActivity{
+                        if(appointment?.iIsAnonymous==1){
+                            RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${appointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
+                        }else{
+                            RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${appointment.iAppointUserid}", "${appointment.sAppointUserName}")
+                        }
                     }
-                }
-            }else{
-                isBaseActivity {
-                    it.isAuthUser {
-                        signUpDate(appointment)
+                }else{
+                    isBaseActivity {
+                        it.isAuthUser {
+                            signUpDate(appointment)
+                        }
                     }
                 }
             }
         }
 
         view.setDeleteClick {
-            doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt(),it)
+            if(!isFastClick()){
+                doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt(),it)
+            }
         }
 
         voicechat_view.sendVoiceChatListener {

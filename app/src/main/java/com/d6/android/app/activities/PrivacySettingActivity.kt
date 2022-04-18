@@ -42,9 +42,25 @@ class PrivacySettingActivity : BaseActivity() {
 
     private var iPhonePrivacy:String = "2"
 
-//    private val mIsShowGift by lazy{
-//        SPUtils.instance().getBoolean("IsShowGift"+ getLocalUserId(),false)
-//    }
+    private val mIsShowGift by lazy{
+        SPUtils.instance().getBoolean("IsShowGift"+ getLocalUserId(),false)
+    }
+
+    private val mIsFind by lazy{
+        SPUtils.instance().getBoolean("IsFind" + getLocalUserId(), true)
+    }
+
+    private val mListSetting by lazy{
+        SPUtils.instance().getBoolean("ListSetting" + getLocalUserId(), false)
+    }
+
+    private val mSendPoint by lazy{
+        SPUtils.instance().getBoolean("iSendPointShow" + getLocalUserId(), false);
+    }
+
+    private val miPhonePrivacyBoolean by lazy{
+        SPUtils.instance().getBoolean("iPhonePrivacy" + getLocalUserId(), false);
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,34 +75,40 @@ class PrivacySettingActivity : BaseActivity() {
         sw_gifthistory_off.setOnCheckedChangeListener{buttonView,isChecked->
              if(isChecked){
                  updateIsShowGift(1)
-//                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
+                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
              }else{
                  updateIsShowGift(0)
-//                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
+                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
              }
         }
 
         sw_card_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateIsFind(1)
+                SPUtils.instance().put("IsFind" + getLocalUserId(), true).apply()
             }else{
                 updateIsFind(2)
+                SPUtils.instance().put("IsFind" + getLocalUserId(), false).apply()
             }
         }
 
         sw_list_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateListSetting(2)
+                SPUtils.instance().put("ListSetting" + getLocalUserId(), true).apply()
             }else{
                 updateListSetting(1)
+                SPUtils.instance().put("ListSetting" + getLocalUserId(), false).apply()
             }
         }
 
         sw_loveisvisible.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateSendPointShow(2)
+                SPUtils.instance().put("iSendPointShow" + getLocalUserId(), true).apply()
             }else{
                 updateSendPointShow(1)
+                SPUtils.instance().put("iSendPointShow" + getLocalUserId(), false).apply()
             }
         }
 
@@ -98,6 +120,7 @@ class PrivacySettingActivity : BaseActivity() {
                         if(p==2){
                             iPhonePrivacy = "2"
                             sw_lianxi.isChecked = false
+                            SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), false).apply()
                             updatePhonePrivacy()
                         }else{
                             val permissList = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
@@ -106,12 +129,14 @@ class PrivacySettingActivity : BaseActivity() {
                                     iPhonePrivacy = "2"
                                     sw_lianxi.isChecked = false
                                     updatePhonePrivacy()
+                                    SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), false).apply()
                                 }
 
                                 override fun passPermissions() {
                                     if(p==1){
                                         iPhonePrivacy = "${p}"
                                         sw_lianxi.isChecked = true
+                                        SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), true).apply()
                                     }
                                     ContactsTask().execute()
 //                                sw_lianxi.postDelayed(object:Runnable{
@@ -134,6 +159,38 @@ class PrivacySettingActivity : BaseActivity() {
 
         unknowInfo()
         getUserInfo()
+
+        if(mIsShowGift){
+            sw_gifthistory_off.isChecked = true
+        }else{
+            sw_gifthistory_off.isChecked = false
+        }
+
+        if(mIsFind){
+            sw_card_off.isChecked = true
+        }else{
+            sw_card_off.isChecked = false
+        }
+
+        if(mListSetting){
+            sw_list_off.isChecked = true
+        }else{
+            sw_list_off.isChecked = false
+        }
+
+        if(mSendPoint){
+            sw_loveisvisible.isChecked = true
+        }else{
+            sw_loveisvisible.isChecked = false
+        }
+
+        if(miPhonePrivacyBoolean){
+            iPhonePrivacy = "1"
+            sw_lianxi.isChecked = true
+        }else{
+            iPhonePrivacy = "2"
+            sw_lianxi.isChecked = false
+        }
 
         PermissionsUtils.showSystemSetting = false
 
@@ -257,39 +314,39 @@ class PrivacySettingActivity : BaseActivity() {
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
             data?.let {
-                if(it.iIsFind==1){
-                    sw_card_off.isChecked = true
-                }else{
-                    sw_card_off.isChecked = false
-                }
+//                if(it.iIsFind==1){
+//                    sw_card_off.isChecked = true
+//                }else{
+//                    sw_card_off.isChecked = false
+//                }
 
-                if(it.iListSetting==1){
-                    sw_list_off.isChecked = false
-                }else{
-                    sw_list_off.isChecked = true
-                }
+//                if(it.iListSetting==1){
+//                    sw_list_off.isChecked = false
+//                }else{
+//                    sw_list_off.isChecked = true
+//                }
 
-                if(it.iSendPointShow==1){
-                    sw_loveisvisible.isChecked = false
-                }else{
-                    sw_loveisvisible.isChecked = true
-                }
+//                if(it.iSendPointShow==1){
+//                    sw_loveisvisible.isChecked = false
+//                }else{
+//                    sw_loveisvisible.isChecked = true
+//                }
 
-                if(it.iPhonePrivacy==1){
-                    iPhonePrivacy = "1"
-                    sw_lianxi.isChecked = true
-                }else{
-                    iPhonePrivacy = "2"
-                    sw_lianxi.isChecked = false
-                }
+//                if(it.iPhonePrivacy==1){
+//                    iPhonePrivacy = "1"
+//                    sw_lianxi.isChecked = true
+//                }else{
+//                    iPhonePrivacy = "2"
+//                    sw_lianxi.isChecked = false
+//                }
 
-                if(it.isShowGift==1){
-                    sw_gifthistory_off.isChecked = true
-                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
-                }else{
-                    sw_gifthistory_off.isChecked = false
-                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
-                }
+//                if(it.isShowGift==1){
+//                    sw_gifthistory_off.isChecked = false
+//                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
+//                }else{
+//                    sw_gifthistory_off.isChecked = true
+//                    SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
+//                }
 
                 data?.let {
                     tv_sex.isSelected = TextUtils.equals("0", it.sex)

@@ -39,6 +39,7 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_privacy.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -387,8 +388,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     }
                 }
                 2 -> {
-                    isCheckOnLineAuthUser(this, getLocalUserId()) {
-                        startActivityForResult<ReleaseNewTrendsActivity>(11)
+                    if (!isFastClick()) {
+                        isCheckOnLineAuthUser(this, getLocalUserId()) {
+                            startActivityForResult<ReleaseNewTrendsActivity>(11)
+                        }
                     }
                 }
             }
@@ -558,16 +561,47 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
      * 保存用户信息
      */
     private fun getUserInfo() {
-        Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this, false, success = { _, data ->
             data?.let {
-                SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
-                SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+                SPUtils.instance().put(Const.USERINFO, GsonHelper.getGson().toJson(it)).apply()
+                SPUtils.instance().put(Const.User.USER_DATACOMPLETION, it.iDatacompletion).apply()
                 saveUserInfo(it)
-                if(!it.wxid.isNullOrEmpty()){
-                    if(it.sUnionid.isNullOrEmpty()){
+                if (!it.wxid.isNullOrEmpty()) {
+                    if (it.sUnionid.isNullOrEmpty()) {
                         val mLoginOutTipDialog = LoginOutTipDialog()
                         mLoginOutTipDialog.show(supportFragmentManager, "action")
                     }
+                }
+
+                if (it.isShowGift == 0) {
+                    SPUtils.instance().put("IsShowGift" + getLocalUserId(), false).apply()
+                } else {
+                    SPUtils.instance().put("IsShowGift" + getLocalUserId(), true).apply()
+                }
+
+                if (it.iIsFind == 1) {
+                    SPUtils.instance().put("IsFind" + getLocalUserId(), true).apply()
+//                    sw_card_off.isChecked = true
+                } else {
+                    SPUtils.instance().put("IsFind" + getLocalUserId(), false).apply()
+//                    sw_card_off.isChecked = false
+                }
+                if (it.iListSetting == 1) {
+                    SPUtils.instance().put("ListSetting" + getLocalUserId(), false).apply()
+                } else {
+                    SPUtils.instance().put("ListSetting" + getLocalUserId(), true).apply()
+                }
+
+                if (it.iSendPointShow == 1) {
+                    SPUtils.instance().put("iSendPointShow" + getLocalUserId(), false).apply()
+                } else {
+                    SPUtils.instance().put("iSendPointShow" + getLocalUserId(), true).apply()
+                }
+
+                if (it.iPhonePrivacy == 1) {
+                    SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), true).apply()
+                } else {
+                    SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), false).apply()
                 }
                 /*2.5移除
                 if(showFloatManService()){
