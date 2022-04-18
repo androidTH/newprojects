@@ -714,7 +714,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         }
         var sbwomen = StringBuffer()
-        if(data.iReceiveLovePoint>0){
+        if(data.iSendLovePoint>100){
             sbwomen.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}    ")
         }
 

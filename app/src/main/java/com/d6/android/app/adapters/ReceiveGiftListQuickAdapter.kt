@@ -14,6 +14,6 @@ class ReceiveGiftListQuickAdapter(data: List<UserGiftBeans>) : BaseQuickAdapter<
     override fun convert(helper: BaseViewHolder, data: UserGiftBeans) {
           var sampimgview_gift = helper.getView<SimpleDraweeView>(R.id.sampimgview_gift)
           sampimgview_gift.setImageURI(data.giftIcon)
-          helper.setText(R.id.gift_name,data.giftName+"x"+data.giftLoveNum)
+          helper.setText(R.id.gift_name,data.giftName+"x"+data.giftNum)
     }
 }

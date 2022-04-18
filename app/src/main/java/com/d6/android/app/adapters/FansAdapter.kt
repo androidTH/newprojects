@@ -57,17 +57,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sSendUserName)
-//            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
-
-//            if(!data.gexingqianming.isNullOrEmpty()){
-//                tv_userinfo.visibility = View.VISIBLE
-//                tv_userinfo.text = data.gexingqianming
-//            }else if(!data.ziwojieshao.isNullOrEmpty()){
-//                tv_userinfo.text = data.ziwojieshao
-//                tv_userinfo.visibility = View.VISIBLE
-//            }else{
-//                tv_userinfo.visibility = View.GONE
-//            }
         }
         Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
 
@@ -111,7 +100,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         if(mInfo.isNullOrEmpty()){
             tv_info.visibility = View.GONE
         }else{
-            tv_info.visibility = View.GONE
+            tv_info.visibility = View.VISIBLE
             tv_info.text = "${mInfo}"
         }
 
@@ -119,7 +108,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         if(data.zhiye.isNullOrEmpty()){
             tv_job.visibility = View.GONE
         }else{
-            tv_job.visibility = View.GONE
+            tv_job.visibility = View.VISIBLE
             tv_job.text = "职业：${data.zhiye}"
         }
 
