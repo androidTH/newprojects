@@ -56,7 +56,8 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 }else{
                     isBaseActivity {
                         it.isAuthUser {
-                            signUpDate(appointment)
+                            view.isClickable = false
+                            signUpDate(appointment,view)
                         }
                     }
                 }
@@ -152,7 +153,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     }
 
 
-    private fun signUpDate(myAppointment:MyAppointment) {
+    private fun signUpDate(myAppointment:MyAppointment,view:SelfPullDateView) {
         Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.iAppointUserid}",myAppointment.iAppointType!!.toInt()).request(context as BaseActivity, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
@@ -164,7 +165,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 mData.remove(myAppointment)
                 notifyDataSetChanged()
             }
+            view.isClickable = true
         }) { code, msg ->
+            view.isClickable = true
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
                 var jsonObject = JSONObject(msg)

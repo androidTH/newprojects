@@ -548,7 +548,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
 
         var sblove = StringBuffer()
-        if(data.iSendLovePoint>0){
+        if(data.iSendLovePoint>10){
             sblove.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}     ")
         }
 
@@ -714,7 +714,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         }
         var sbwomen = StringBuffer()
-        if(data.iSendLovePoint>100){
+        if(data.iSendLovePoint>=10){
             sbwomen.append("送出 [img src=redheart_small/] · ${data.iSendLovePoint}    ")
         }
 

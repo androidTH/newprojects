@@ -194,8 +194,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         tv_release.setOnClickListener {
             isCheckOnLineAuthUser(this,userId){
                 if(!isFastClick()){
-                    submitAddSquare()
-                    mKeyboardKt.toggleSoftInput(it)
+                    try {
+                        submitAddSquare()
+                        mKeyboardKt.toggleSoftInput(it)
+                    }catch (e:java.lang.Exception){
+                        e.printStackTrace()
+                    }
                 }
             }
         }
@@ -977,11 +981,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 }
             }catch (e:Exception){
                 e.printStackTrace()
-            }
-            if(code == 2){
-                val commonTiphDialog = CommonTipDialog()
-                commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
-                commonTiphDialog.show(supportFragmentManager, "resMsg")
+            }finally {
+                if(code == 2){
+                    val commonTiphDialog = CommonTipDialog()
+                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                    commonTiphDialog.show(supportFragmentManager, "resMsg")
+                }
             }
         }
     }
@@ -1006,7 +1011,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             if(mProgressDilog!=null){
                 mProgressDilog.show(fragmentManager,"dialog")
             }
-            addTextSquare(content)
+            try {
+                addTextSquare(content)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
     }
 

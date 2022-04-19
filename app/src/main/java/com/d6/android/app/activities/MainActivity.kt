@@ -580,10 +580,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
 
                 if (it.iIsFind == 1) {
-                    SPUtils.instance().put("IsFind" + getLocalUserId(), true).apply()
+                    SPUtils.instance().put("IsFind" + getLocalUserId(), false).apply()
 //                    sw_card_off.isChecked = true
                 } else {
-                    SPUtils.instance().put("IsFind" + getLocalUserId(), false).apply()
+                    SPUtils.instance().put("IsFind" + getLocalUserId(), true).apply()
 //                    sw_card_off.isChecked = false
                 }
                 if (it.iListSetting == 1) {

@@ -138,7 +138,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:checked="true"
+                    android:checked="false"
                     android:padding="8dp"
                     android:textColor="@color/white"
                     android:textSize="9sp"

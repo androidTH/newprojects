@@ -403,7 +403,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun doUserGiftIsShow(isShowGift:Int){
         if (isShowGift==0) {
-            headerView.rl_userinfo_gift.visibility = View.VISIBLE
             getGiftList()
         } else {
             headerView.rl_userinfo_gift.visibility = View.GONE
@@ -414,6 +413,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getUserShowGiftList(id).request(this, false, success = { msg, data ->
             data?.let {
                 if(it!=null&&it.size>0){
+                    headerView.rl_userinfo_gift.visibility = View.VISIBLE
                     mReceiveGiftListQuickAdapter.setNewData(it)
                 }else{
                     headerView.rl_userinfo_gift.visibility = View.GONE
