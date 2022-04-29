@@ -37,10 +37,7 @@ import com.fm.openinstall.OpenInstall
 import com.xinstall.XInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 
 /**
  * 开通会员
@@ -60,6 +57,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
     }
     private var mOpenMemberShipDialog: OpenMemberShipDialog? = null
     private var mSilverMemberDialog: SilverMemberDialog? = null
+    private var mPrivateMemberDialog: PrivateMemberDialog? = null
     private var mAppMemberDialog: AppMemberDialog? = null
     private var areaName = ""
 
@@ -133,7 +131,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
         ll_openmemeber_ship.setOnClickListener {
             if (mMemberPriceList != null && mMemberPriceList.size > 0) {
                 var member = mMemberPriceList.get(viewpager_membership.currentItem)
-                if (member.ids != 22 && member.ids != 23 && member.ids != 31) {
+                if (member.ids != 22 && member.ids != 23 && member.ids != 31&&member.ids!=26) {
                     if (member != null) {
                         member.iAndroidPrice?.let {
                             var ids = member.ids
@@ -182,7 +180,44 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                         }
                     }
 
-                } else {
+                } else if(member.ids==26){
+                    mPrivateMemberDialog = PrivateMemberDialog()
+                    mPrivateMemberDialog?.let {
+                        var yearPrice = 0
+                        var foreverPrice = 0
+                        if (member!= null) {
+                            member.priceList?.let {
+                                yearPrice = it[0].iAndroidPrice?.toInt() ?: 0
+                                foreverPrice = it[1].iAndroidPrice?.toInt() ?: 0
+                            }
+                            it.arguments = bundleOf("ids" to "${member.ids}", "yearprice" to "${yearPrice}","foreverprice" to "${foreverPrice}")
+                        }
+                        it.show(supportFragmentManager, PrivateMemberDialog::class.java.toString())
+                        it.setDialogListener { p, s ->
+                            if(p==1000){
+                                member.iAndroidPrice?.let {
+                                    var price = if(TextUtils.equals("1","${s}")) foreverPrice else yearPrice
+                                    var desc = ""
+                                    member.priceList?.let {
+                                        desc =  if(TextUtils.equals("1","${s}")) it[1].classesname.toString() else it[0].classesname.toString()
+                                    }
+                                    member.ids?.let {it1->
+                                        mPayWayDialog = PayWayDialog()
+                                        mPayWayDialog?.arguments = bundleOf("ids" to "${member.ids}","money" to "${price}","classname" to "${desc}")
+                                        mPayWayDialog?.setDialogListener { p, s ->
+                                            if(p==1){
+                                                buyRedFlowerPay(price, "",it1, member.classesname.toString(),PayWay.WechatPay,p)
+                                            }else{
+                                                buyRedFlowerPay(price, "", it1, member.classesname.toString(),PayWay.ALiPay,p)
+                                            }
+                                        }
+                                        mPayWayDialog?.show(supportFragmentManager,"payway")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else {
                     mSilverMemberDialog = SilverMemberDialog()
                     mSilverMemberDialog?.let {
                         if (member != null) {
@@ -306,11 +341,11 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
         var mMemberBean = mMemberPriceList.get(position)
         var openmemberdesc = "开通${mMemberBean.classesname}"
         if (mMemberBean.ids == 31) {
-            openmemberdesc = "${openmemberdesc} · 低至¥${mMemberBean.iAndroidPrice}元/月"
+            openmemberdesc = "${openmemberdesc}"// · 低至¥${mMemberBean.iAndroidPrice}元/月
         } else if (mMemberBean.ids == 22 || mMemberBean.ids == 23) {
             openmemberdesc = "${openmemberdesc}" //据说80%会员都约到了心仪的TA
         } else {
-            openmemberdesc = "${openmemberdesc} · ¥${mMemberBean.iAndroidPrice}元"
+            openmemberdesc = "${openmemberdesc}"// · ¥${mMemberBean.iAndroidPrice}元
         }
         tv_openmember.text = openmemberdesc
     }

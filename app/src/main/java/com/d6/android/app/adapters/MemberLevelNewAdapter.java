@@ -48,7 +48,6 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
             tv_vip_percent.setText(item.getSTitle());
         }
 
-        helper.setText(R.id.tv_viplevel_price,"¥"+String.valueOf(item.getIAndroidPrice()));
 
         if(TextUtils.isEmpty(item.getSServiceArea())){
             mTvVipLevelAddress.setText("服务范围：未知");
@@ -56,7 +55,20 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
             mTvVipLevelAddress.setText("服务范围："+item.getSServiceArea());
         }
 
-        mTvVipLevelTime.setText("入群时长："+item.getIEnableDate()+"个月");
+        if(item.getIds()==26){
+//            String str = "";
+//            for(int m = 0;m<item.getPriceList().size();m++){
+//                  str = str+item.getPriceList().get(m).getSEnableDateDesc();
+//            }
+            mTvVipLevelTime.setText("入群时长：1年或永久");
+            if(item.getPriceList()!=null){
+                int price = item.getPriceList().get(0).getIAndroidPrice();
+                helper.setText(R.id.tv_viplevel_price,"¥"+price);
+            }
+        }else{
+            mTvVipLevelTime.setText("入群时长："+item.getIEnableDate()+"个月");
+            helper.setText(R.id.tv_viplevel_price,"¥"+item.getIAndroidPrice());
+        }
 
         Log.i("MemberLevelAdapter",item.getSServiceArea()+"会员备注,会员id ="+item.getIds());
         if(item.getIds()==22){

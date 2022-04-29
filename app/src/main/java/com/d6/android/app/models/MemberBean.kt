@@ -39,6 +39,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
     var iIsPayapp:Int?=0
     var lstPrice:List<AppMemberPrice>?=null
     var lstMembers:List<MemberTeQuan>?=null
+    var priceList:List<MemberBean>?=null
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iAddPoint = parcel.readString()
@@ -70,6 +71,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
         iIsPayapp = parcel.readValue(Int::class.java.classLoader) as? Int
         lstPrice = parcel.createTypedArrayList(AppMemberPrice)
         lstMembers = parcel.createTypedArrayList(MemberTeQuan)
+        priceList = parcel.createTypedArrayList(CREATOR)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -103,6 +105,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
         parcel.writeValue(iIsPayapp)
         parcel.writeTypedList(lstPrice)
         parcel.writeTypedList(lstMembers)
+        parcel.writeTypedList(priceList)
     }
 
     override fun describeContents(): Int {
@@ -118,5 +121,6 @@ data class MemberBean(var ids:Int?=0):Parcelable{
             return arrayOfNulls(size)
         }
     }
+
 
 }
