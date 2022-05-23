@@ -30,6 +30,7 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_myinfo.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -50,6 +51,7 @@ class MineFragment : BaseFragment() {
     private val mBigSquareImages = ArrayList<AddImage>()
     private val mPicsWall = ArrayList<AddImage>()
     private var isShowWarm:Boolean = false
+    private var userClassId:String = "7"
 
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
@@ -157,7 +159,17 @@ class MineFragment : BaseFragment() {
         }
 
         rl_member_center.setOnClickListener {
-            (context as BaseActivity).isAuthUser("mine") {
+//            (context as BaseActivity).isAuthUser("mine") {
+//                startActivity<MemberActivity>()
+//            }
+
+            if(TextUtils.equals("7",userClassId)){
+                if(TextUtils.equals("1",getUserSex())){
+                    this.startActivity<AuthMenStateActivity>(Const.NO_VIP_FROM_TYPE to "mine")
+                }else{
+                    this.startActivity<AuthWomenStateActivity>(Const.NO_VIP_FROM_TYPE to "mine")
+                }
+            }else{
                 startActivity<MemberActivity>()
             }
         }
@@ -362,6 +374,7 @@ class MineFragment : BaseFragment() {
                 var drawable: Drawable? = null
                 //27入门 28中级  29优质
                 tv_menber_center.text = ""
+                userClassId = "${it.userclassesid}"
                 if (TextUtils.equals(it.userclassesid, "27")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
@@ -410,6 +423,7 @@ class MineFragment : BaseFragment() {
                     tv_vip.visibility = View.GONE
                     drawable = null
                     tv_menber_center.text = getString(R.string.string_vip_tq)
+                    userClassId = "7"
                 }
 
 //                if(!TextUtils.equals(it.userclassesid, "7")){

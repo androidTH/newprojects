@@ -95,6 +95,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     unReadMsgNum=0
 //                    getSysLastOne()
                     getSquareMsg()
+                    intent?.let {
+                        var userId = intent.getStringExtra("senderUserId")
+                        var userInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
+                        if(userInfo==null) {
+                            Request.getUserInfoDetail("${userId}").request(context as BaseActivity, false, success = { msg, data ->
+                                data?.let {
+                                    val info = UserInfo("${it.accountId}", "${data.name}", Uri.parse("${data.picUrl}"))
+                                    RongIM.getInstance().refreshUserInfoCache(info)
+                                }
+                            })
+                        }
+                    }
                 }
             }
         }

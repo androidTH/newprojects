@@ -87,6 +87,11 @@ class MemberActivity : BaseActivity() {
         Request.findYKUserClasses("${userclassId}",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+                    mListTQ.removeAt(5)
+                    mListTQ.removeAt(9)
+                    mListTQ.removeAt(11)
+                }
                 tv_viptq.text = "可享受超${mListTQ.size}项特权"
                 rv_member_tq.adapter = mTeQuanQuickAdapter
             }

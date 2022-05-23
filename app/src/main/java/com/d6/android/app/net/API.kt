@@ -12,7 +12,7 @@ object API {
     val LIYU_URL ="JyPhone/"
 
     @JvmField
-    var URL = "http://test76.d6-zone.com/"  //sunkihaslyd6988.v.frp.fit
+    var URL = "http://test76.d6-zone.com/"  //http://192.168.2.115:8081/
 
     @JvmField
     val BASE_URL = URL + LIYU_URL    //JyPhone/

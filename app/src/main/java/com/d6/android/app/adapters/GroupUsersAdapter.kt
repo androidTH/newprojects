@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
@@ -19,6 +20,9 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import io.rong.imkit.RongIM
+import io.rong.imkit.userInfoCache.RongUserInfoManager
+import io.rong.imlib.model.UserInfo
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -137,6 +141,9 @@ class GroupUsersAdapter(mData:ArrayList<GroupUserBean>): HFRecyclerAdapter<Group
                 mGroupUserMoreDialog.show(it.supportFragmentManager,"cost")
             }
         }
+
+        val info = UserInfo("${data.iUserid}", "${data.name}", Uri.parse("${data.picUrl}"))
+        RongIM.getInstance().refreshUserInfoCache(info)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

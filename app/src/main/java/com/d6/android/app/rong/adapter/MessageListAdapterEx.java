@@ -11,9 +11,11 @@ import com.d6.android.app.R;
 import com.d6.android.app.utils.SPUtils;
 
 import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 import static com.d6.android.app.utils.Const.CustomerServiceId;
 import static com.d6.android.app.utils.Const.CustomerServiceWomenId;

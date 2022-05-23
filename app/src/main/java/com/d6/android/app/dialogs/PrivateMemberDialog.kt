@@ -55,7 +55,7 @@ class PrivateMemberDialog : DialogFragment() {
             ""
         }
 
-        var ids =  arguments.getString("ids")
+//        var ids =  arguments.getString("ids")
 //        tv_private_title.text= if(TextUtils.equals(ids,"22")){
 //             "开通普通会员"
 //        }else{

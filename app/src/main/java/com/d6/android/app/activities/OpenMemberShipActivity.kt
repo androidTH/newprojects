@@ -185,10 +185,14 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                     mPrivateMemberDialog?.let {
                         var yearPrice = 0
                         var foreverPrice = 0
+                        var yearIds = 0
+                        var foreverIds = 0
                         if (member!= null) {
                             member.priceList?.let {
                                 yearPrice = it[0].iAndroidPrice?.toInt() ?: 0
+                                yearIds = it[0].ids?.toInt() ?: 0
                                 foreverPrice = it[1].iAndroidPrice?.toInt() ?: 0
+                                foreverIds = it[1].ids?.toInt() ?: 0
                             }
                             it.arguments = bundleOf("ids" to "${member.ids}", "yearprice" to "${yearPrice}","foreverprice" to "${foreverPrice}")
                         }
@@ -197,6 +201,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                             if(p==1000){
                                 member.iAndroidPrice?.let {
                                     var price = if(TextUtils.equals("1","${s}")) foreverPrice else yearPrice
+                                    var privateIds = if(TextUtils.equals("1","${s}")) foreverIds else yearIds
                                     var desc = ""
                                     member.priceList?.let {
                                         desc =  if(TextUtils.equals("1","${s}")) it[1].classesname.toString() else it[0].classesname.toString()
@@ -206,9 +211,9 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                                         mPayWayDialog?.arguments = bundleOf("ids" to "${member.ids}","money" to "${price}","classname" to "${desc}")
                                         mPayWayDialog?.setDialogListener { p, s ->
                                             if(p==1){
-                                                buyRedFlowerPay(price, "",it1, member.classesname.toString(),PayWay.WechatPay,p)
+                                                buyRedFlowerPay(price, "",privateIds, member.classesname.toString(),PayWay.WechatPay,p)
                                             }else{
-                                                buyRedFlowerPay(price, "", it1, member.classesname.toString(),PayWay.ALiPay,p)
+                                                buyRedFlowerPay(price, "", privateIds, member.classesname.toString(),PayWay.ALiPay,p)
                                             }
                                         }
                                         mPayWayDialog?.show(supportFragmentManager,"payway")

@@ -41,6 +41,7 @@ import com.fm.openinstall.OpenInstall
 import com.fm.openinstall.OpenInstall.reportEffectPoint
 import com.xinstall.XInstall
 import kotlinx.android.synthetic.main.activity_auth_state.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
@@ -297,6 +298,11 @@ class AuthMenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+                    mListTQ.removeAt(5)
+                    mListTQ.removeAt(9)
+                    mListTQ.removeAt(11)
+                }
                 tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
                 rv_grid_tq.setHasFixedSize(true)
                 rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?

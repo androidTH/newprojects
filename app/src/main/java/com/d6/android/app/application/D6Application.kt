@@ -26,6 +26,9 @@ import cn.liaox.cachelib.cache.NetworkCache
 import com.bun.miitmdid.core.JLibrary
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
+import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -44,6 +47,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.fm.openinstall.OpenInstall
 import com.xinstall.XInstall
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
@@ -310,7 +314,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 }
                 Log.i("onReceived","${jsonObject}")
             }
-            sendBroadcast(Intent(Const.NEW_MESSAGE))
+
+            sendBroadcast(Intent(Const.NEW_MESSAGE).putExtra("senderUserId",message.senderUserId))
+
 //            if(TextUtils.equals(Const.CHAT_TARGET_ID,message.targetId)){
 //                sendBroadcast(Intent(Const.CHAT_MESSAGE))
 //            }

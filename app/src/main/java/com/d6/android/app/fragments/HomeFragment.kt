@@ -120,6 +120,10 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         super.onActivityCreated(savedInstanceState)
         appBarLayout.addOnOffsetChangedListener(this)
 
+        if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+            rl_rgservice.visibility = View.GONE
+        }
+
         mSwipeRefreshLayout.isRefreshing = true
         rvSpeedDate.setHasFixedSize(true)
         rvSpeedDate.isNestedScrollingEnabled = true
@@ -274,7 +278,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }else{
                 tv_date_sex.text = string
             }
-            getFragment()
+            getFragment(city)
         }
 
         mPopupSex.setOnDismissListener {
@@ -301,7 +305,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 startLocation()
                 SPUtils.instance().put(ISNOTLOCATION,false).apply()
             }else{
-                tv_date_city.text = "地区"
+                tv_date_city.text = "全部地区"
                 SPUtils.instance().put(ISNOTLOCATION,true).apply()
             }
         }
@@ -316,14 +320,15 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 try {
                     city = getReplace(it.province)
                     if(TextUtils.isEmpty(city)){
-                        tv_date_city.text = "地区"
-                    }else{
-                        tv_date_city.text = city
+                        tv_date_city.text = "全部地区"
                     }
+//                    else{
+//                        tv_date_city.text = city
+//                    }
                 }catch (e:Exception){
-                    tv_date_city.text = "地区"
+                    tv_date_city.text = "全部地区"
                 }finally {
-                    getFragment()
+//                    getFragment()
                     if(mPopupArea!=null){
                         mPopupArea.updateCityOfProvice()
                     }
@@ -339,7 +344,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SPUtils.instance().put(ISNOTLOCATION,false).apply()
             }else{
                 toast("请前往系统设置开启定位权限")
-                tv_date_city.text = "地区"
+                tv_date_city.text = "全部地区"
                 SPUtils.instance().put(ISNOTLOCATION,true).apply()
             }
         }
@@ -352,7 +357,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
 
                 city = getReplace(it.province)
-                tv_date_city.text = city
+//                tv_date_city.text = city
 //                getFragment()
                 if(mPopupArea!=null){
                     mPopupArea.updateCityOfProvice()
@@ -420,7 +425,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 }
 //                tv_date_city.text = "地区"
                 getSpeedData()
-                getFragment()
+                getFragment("")
             }
         },600)
     }
@@ -456,14 +461,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 //                setSearChUI(0,true)
                 }else if(position == -3){
                     city = ""
-                    tv_date_city.text = "地区"
+                    tv_date_city.text = "全部地区"
 //                setSearChUI(0,false)
                 }else {
                     city = string
                     tv_date_city.text = string
 //                setSearChUI(0,true)
                 }
-                getFragment()
+                getFragment(city)
             }
         }
 
@@ -471,12 +476,13 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
     }
 
-    private fun getFragment(){
+    private fun getFragment(area:String){
         val fragments = childFragmentManager.fragments
         var mSelfPullDateFragment:SelfPullDateFragment = fragments.get(onPageSelected) as SelfPullDateFragment
         mSelfPullDateFragment?.let {
-            var area = if(!TextUtils.isEmpty(city)) city else ""
+//            var area = if(!TextUtils.isEmpty(city)) city else ""
             type = showDateTypes.get(onPageSelected).type
+
             var dateType = if(type==0){//type == 6||
                 ""
             }else{

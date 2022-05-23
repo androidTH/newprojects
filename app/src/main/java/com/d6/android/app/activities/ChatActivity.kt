@@ -55,8 +55,10 @@ import io.rong.imlib.model.UserInfo
 import io.rong.message.ImageMessage
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_chat.iv_back_close
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
+import kotlinx.android.synthetic.main.activity_groupusers.*
 import kotlinx.android.synthetic.main.layout_date_chat.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.*
@@ -186,9 +188,19 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 mOtherUserId = mTargetId
                 tv_chattitle.setCompoundDrawables(null, null, null, null)
                 CheckUserInGroup()
+                Request.getGroupAllMemberListByGroupId("${mOtherUserId}",1).request(this) { _, data ->
+                    if (data?.list?.results!=null) {
+                        for (groupMember in data?.list?.results) {
+                            if (groupMember != null) {
+                                val userInfo = UserInfo("${groupMember.iUserid}", "${groupMember.name}", Uri.parse("${groupMember.picUrl}"))
+                                RongIM.getInstance().refreshUserInfoCache(userInfo)
+                            }
+                        }
+                    }
+                }
 //                RongIM.getInstance().setGroupMembersProvider(object:RongIM.IGroupMembersProvider{
 //                    override fun getGroupMembers(p0: String?, callback: RongIM.IGroupMemberCallback?) {
-//                        Request.getGroupAllMemberListByGroupId("${p0}",1).request(this@ChatActivity,false,success={msg,data->
+//                        Request.getGroupAllMemberListByGroupId("${mOtherUserId}",1).request(this@ChatActivity,false,success={msg,data->
 //                            val userInfos = ArrayList<UserInfo>()
 //                            if (data?.list?.results != null) {
 //                                for (groupMember in data?.list?.results) {

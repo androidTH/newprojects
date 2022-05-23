@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
@@ -176,12 +177,16 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                                 Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
                                     data?.let {
                                         tv_content.text = "${it.name}@你：${str[str.size-1]}"
+                                        val info = UserInfo("${it.accountId}", "${data.name}", Uri.parse("${data.picUrl}"))
+                                        RongIM.getInstance().refreshUserInfoCache(info)
                                     }
                                 })
                             }else{
                                 Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
                                     data?.let {
                                         tv_content.text = "${it.name}：${content}"
+                                        val info = UserInfo("${it.accountId}", "${data.name}", Uri.parse("${data.picUrl}"))
+                                        RongIM.getInstance().refreshUserInfoCache(info)
                                     }
                                 })
                             }

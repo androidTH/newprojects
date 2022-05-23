@@ -654,7 +654,7 @@ interface ApiServices {
     fun getGroupMemberListByGroupId(@Query("sGroupId") sGroupId:String, @Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<GroupUserBean>>>
 
     @POST("backstage/rongcloudgroup/getGroupMemberListByGroupId")
-    fun getGroupAllMemberListByGroupId(@Query("sGroupId") sGroupId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=200,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<GroupUserBean>>>
+    fun getGroupAllMemberListByGroupId(@Query("sGroupId") sGroupId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=800,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<GroupUserBean>>>
 
     @POST("backstage/rongcloudgroup/updateUserGroupManager")
     fun updateUserGroupManager(@Query("sGroupId") sGroupId:String,@Query("iUserid") iUserid:String,@Query("iIsManager")iIsManager:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
