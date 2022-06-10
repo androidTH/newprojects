@@ -129,7 +129,7 @@
     <string name="string_system_tips02">温馨提示：如果聊天中对方索要小红花、微信号或者借钱等行为时，请予以警惕。如果对方发送低俗、淫秽色情、辱骂他人的消息时，可点击右上角举报</string>
     <string name="string_system_tips03">如果对方要求你添加微信或手机号等其他联系方式，请谨慎添加以防诈骗，为了维护你的权益，可以联系客服确认安全后再添加</string>
     <string name="string_loading_tips">加载中...</string>
-    <string name="string_d6_desc">D6定位高端私人定制交友社区，以高品质、高素质的会员为基础，全球拥有100000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务</string>
+    <string name="string_d6_desc">D6定位交友约会社区，以高品质、高素质的会员为基础，全球拥有100000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

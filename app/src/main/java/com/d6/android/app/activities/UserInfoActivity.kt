@@ -76,7 +76,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
-    private var sendLoveHeartNums = 1
+    private var sendLoveHeartNums = if(TextUtils.equals(getUserSex(),"0")){
+        1
+    }else{
+        10
+    }
 
     private var mData: UserData? = null
     private var MAXPICS = 9
@@ -275,7 +279,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 } else {
                     if (localLoveHeartNums > 0) {
                         if (sendLoveHeartNums <= localLoveHeartNums) {
-                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            sendLoveHeartNums = sendLoveHeartNums + 10
                             addGiftNums(10, false, true, "")
                             VibrateHelp.Vibrate(this, VibrateHelp.time50)
                         } else {

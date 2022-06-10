@@ -107,7 +107,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
-    private var sendLoveHeartNums = 1
+    private var sendLoveHeartNums = if (TextUtils.equals(getUserSex(), "0")) {1} else { 10 }
     private var mTotalPages = -1
 
     private val locationClient by lazy {
@@ -233,7 +233,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 }else{
                     if (localLoveHeartNums > 0) {
                         if (sendLoveHeartNums <= localLoveHeartNums) {
-                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            sendLoveHeartNums = sendLoveHeartNums + 10
                             addGiftNums(10, false, true, "")
                             IsNotFastClick = is500sFastClick()
                             VibrateHelp.Vibrate(activity, VibrateHelp.time50)

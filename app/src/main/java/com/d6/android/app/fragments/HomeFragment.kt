@@ -305,6 +305,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 startLocation()
                 SPUtils.instance().put(ISNOTLOCATION,false).apply()
             }else{
+                city = ""
                 tv_date_city.text = "全部地区"
                 SPUtils.instance().put(ISNOTLOCATION,true).apply()
             }
@@ -318,10 +319,12 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
 
                 try {
-                    city = getReplace(it.province)
-                    if(TextUtils.isEmpty(city)){
-                        tv_date_city.text = "全部地区"
-                    }
+                    var localcity = getReplace(it.province)
+                    tv_date_city.text = "全部地区"
+//                    if(TextUtils.isEmpty(localcity)){
+//                        city = ""
+//                        tv_date_city.text = "全部地区"
+//                    }
 //                    else{
 //                        tv_date_city.text = city
 //                    }
@@ -344,6 +347,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SPUtils.instance().put(ISNOTLOCATION,false).apply()
             }else{
                 toast("请前往系统设置开启定位权限")
+                city = ""
                 tv_date_city.text = "全部地区"
                 SPUtils.instance().put(ISNOTLOCATION,true).apply()
             }
@@ -357,7 +361,12 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
 
                 city = getReplace(it.province)
-//                tv_date_city.text = city
+                if(TextUtils.isEmpty(city)){
+                    city = ""
+                    tv_date_city.text = "全部地区"
+                }else{
+                    tv_date_city.text = city
+                }
 //                getFragment()
                 if(mPopupArea!=null){
                     mPopupArea.updateCityOfProvice()

@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.SquareTypeBean
@@ -26,9 +27,12 @@ import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.popup.EasyPopup
 import com.d6.android.app.widget.popup.XGravity
 import com.d6.android.app.widget.popup.YGravity
+import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.activity_filtersquares.*
 import kotlinx.android.synthetic.main.layout_filtersqure_header.view.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -71,18 +75,19 @@ class FilterSquaresActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtersquares)
         immersionBar.init()
+        EventBus.getDefault().register(this@FilterSquaresActivity)
         registerReceiver(sIfLovePics, IntentFilter(Const.SQUARE_MESSAGE))
 
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
             square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+                startActivityForResult<SquareTrendDetailActivity>(2,"id" to "${it}","position" to position)
             }
         }
 
         squareAdapter.setOnSquareDetailsClick { position, square ->
             square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+                startActivityForResult<SquareTrendDetailActivity>(2,"id" to "${it}","position" to position)
             }
         }
 
@@ -93,7 +98,7 @@ class FilterSquaresActivity : BaseActivity() {
 //            }
 
             isCheckOnLineAuthUser(this, getLocalUserId()) {
-                startActivityForResult<ReleaseNewTrendsActivity>(1)
+                startActivityForResult<ReleaseNewTrendsActivity>(1,"topicname" to "${mTopicType.sTopicName}","topicId" to "${sTopicId}")
             }
         }
 
@@ -114,7 +119,7 @@ class FilterSquaresActivity : BaseActivity() {
 
     private fun setHeaderView(){
         try {
-            filter_squretitle.text = mTopicType.sTopicName
+            filter_squretitle.text = "${mTopicType.sTopicName}"
             if (mTopicType.mResId != -1) {
                 var leftDrawable = ContextCompat.getDrawable(this, mTopicType.mResId)
                 setLeftDrawable(leftDrawable, filter_squretitle)
@@ -217,6 +222,32 @@ class FilterSquaresActivity : BaseActivity() {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 pullDownRefresh()
+            }else if(requestCode==2){
+                var bundle = data!!.extras
+                var mSquare = (bundle.getSerializable("bean") as Square)
+                var positon = bundle.getInt("position")
+                if(mSquares!=null&&mSquares.size>positon){
+                    mSquares.get(positon).commentCount = mSquare.commentCount
+                    mSquares.get(positon).isupvote = mSquare.isupvote
+                    mSquares.get(positon).appraiseCount = mSquare.appraiseCount
+                    mSquares.get(positon).iLovePoint = mSquare.iLovePoint
+                    squareAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(flowerEvent: FlowerMsgEvent){
+        if(flowerEvent.getmSquare()!=null){
+            var index = mSquares.indexOf(flowerEvent.getmSquare())
+            if(mSquares!=null&&mSquares.size>index&&index!=-1){
+                mSquares.get(index).iSendLovePoint = 1
+                if(flowerEvent.getmSquare()!=null){
+                    mSquares.get(index).sIfLovePics = flowerEvent.getmSquare().sIfLovePics
+                    mSquares.get(index).iLovePoint = flowerEvent.getmSquare().iLovePoint
+                }
+                squareAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -317,5 +348,6 @@ class FilterSquaresActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(sIfLovePics)
+        EventBus.getDefault().unregister(this@FilterSquaresActivity)
     }
 }

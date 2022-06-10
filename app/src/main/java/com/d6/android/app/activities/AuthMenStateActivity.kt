@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.layout_auth_top.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.*
+import java.lang.Exception
 
 
 /**
@@ -299,9 +300,14 @@ class AuthMenStateActivity : BaseActivity() {
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
                 if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
-                    mListTQ.removeAt(5)
-                    mListTQ.removeAt(9)
-                    mListTQ.removeAt(11)
+                    try {
+                        mListTQ.removeAt(5)
+                        mListTQ.removeAt(9)
+                        mListTQ.removeAt(11)
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+
                 }
                 tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
                 rv_grid_tq.setHasFixedSize(true)

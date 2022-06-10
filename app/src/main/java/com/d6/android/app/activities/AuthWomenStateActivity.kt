@@ -31,6 +31,7 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_women_state.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.startActivity
+import java.lang.Exception
 
 /**
  * 约会认证情况
@@ -231,10 +232,13 @@ class AuthWomenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7", getLoginToken()).request(this) { msg, data ->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
-                    mListTQ.removeAt(5)
-                    mListTQ.removeAt(9)
-                    mListTQ.removeAt(11)
+                if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+                    try {
+                        mListTQ.removeAt(5)
+                        mListTQ.removeAt(8)
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
                 }
                 tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
                 rv_grid_tq.setHasFixedSize(true)
