@@ -490,6 +490,10 @@ class MineFragment : BaseFragment() {
                 context.sendBroadcast(intent)*/
 
                 Const.iLovePointShow = it.iLovePointShow
+
+                SPUtils.instance()
+                        .put(Const.User.USER_NICK, it.name)
+                        .put(Const.User.USER_HEAD, it.picUrl).apply()
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false

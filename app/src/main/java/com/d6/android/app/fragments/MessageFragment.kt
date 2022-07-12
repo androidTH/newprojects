@@ -299,29 +299,42 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                mISTopConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
-                    for (c: Conversation in conversations) {
+                    var iterator = mConversations.iterator()
+                    while (iterator.hasNext()) {
+                        var c:Conversation = iterator.next()
                         if (c.conversationType == Conversation.ConversationType.GROUP) {
                             var split = c.targetId.split("_")
                             if (split.size == GROUPSPLIT_LEN) {
                                 if (TextUtils.equals(split[1], getLocalUserId())) {
-                                    mConversations.remove(c)
+                                    iterator.remove()
                                     mUnConversations.add(c)
                                 }
+                            }
+                        }
+                    }
+                    getNMChat()
+//                    for (c: Conversation in conversations) {
+//                        if (c.conversationType == Conversation.ConversationType.GROUP) {
+//                            var split = c.targetId.split("_")
+//                            if (split.size == GROUPSPLIT_LEN) {
+//                                if(TextUtils.equals(split[1], getLocalUserId())){
+//                                    mConversations.remove(c)
+//                                    mUnConversations.add(c)
+//                                }
 //                                else{
 //                                    if(c.isTop){
 //                                        mConversations.remove(c)
 //                                        mISTopConversations.add(c)
 //                                    }
 //                                }
-                            }
+//                            }
 //                        }else{
 //                            if(c.isTop){
 //                                mConversations.remove(c)
 //                                mISTopConversations.add(c)
 //                            }
-                        }
-                    }
-                    getNMChat()
+//                        }
+//                    }
 //                    mConversations.addAll(0,mISTopConversations)
 //                    setIsTopConversation()
                 }
@@ -358,12 +371,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                             mNMUnReadTotal = mNMUnReadTotal + c.unreadMessageCount
                         }
                     }
-
                     if (mNMUnReadTotal > 0) {
                         headerView.iv3_unreadnum.visibility = View.VISIBLE
                         headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
+                        conversationsAdapter.notifyItemChanged(0,null)
                     } else {
-                        headerView.iv3_unreadnum.visibility = View.GONE
+                        headerView.iv3_unreadnum.visibility = View.INVISIBLE
                     }
                     var mConv = mUnConversations.get(0)
                     val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)

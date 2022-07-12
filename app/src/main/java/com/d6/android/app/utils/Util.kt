@@ -1186,20 +1186,12 @@ fun getLocalUserLoveHeart():Int{
     return SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
 }
 
-private var mUserHeardPic = ""
 fun getLocalUserHeadPic():String{
-    if(TextUtils.isEmpty(mUserHeardPic)){
-        mUserHeardPic = SPUtils.instance().getString(Const.User.USER_HEAD)
-    }
-    return mUserHeardPic
+    return SPUtils.instance().getString(Const.User.USER_HEAD)
 }
 
-private var mUserName = ""
 fun getLocalUserName():String{
-    if(TextUtils.isEmpty(mUserName)){
-        mUserName = SPUtils.instance().getString(Const.User.USER_NICK)
-    }
-    return mUserName
+    return SPUtils.instance().getString(Const.User.USER_NICK)
 }
 
 private var mUserId = ""
@@ -1221,8 +1213,6 @@ fun getLoginToken():String{
 fun clearLoginToken(){
     sLoginToken = ""
     mUserId = ""
-    mUserName = ""
-    mUserHeardPic = ""
     Const.UPDATE_GROUPS_STATUS = -1
 }
 

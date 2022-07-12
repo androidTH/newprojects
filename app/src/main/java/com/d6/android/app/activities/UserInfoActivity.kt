@@ -665,8 +665,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint}"
                 }
 
-                val info = UserInfo(data.accountId, data.name, Uri.parse("${data.picUrl}"))
-                RongIM.getInstance().refreshUserInfoCache(info)
+//                val info = UserInfo(data.accountId, data.name, Uri.parse("${data.picUrl}"))
+//                RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
 

@@ -23,8 +23,9 @@ import org.jetbrains.anko.*
 class UnKnowChatActivity : RecyclerActivity() {
 
     private val mConversations = ArrayList<Conversation>()
+    private val mUnConversations = ArrayList<Conversation>()
     private val mUnKnowChatAdapter by lazy {
-        UnKnowChatAdapter(mConversations)
+        UnKnowChatAdapter(mUnConversations)
     }
 
     override fun mode(): SwipeRefreshRecyclerLayout.Mode {
@@ -46,7 +47,7 @@ class UnKnowChatActivity : RecyclerActivity() {
 
         mSwipeRefreshLayout.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))
         mUnKnowChatAdapter.setOnItemClickListener{_,position->
-            val conversation = mConversations[position]
+            val conversation = mUnConversations[position]
             if(conversation.conversationType ==Conversation.ConversationType.GROUP){
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,conversation.targetId, "")
             }
@@ -62,14 +63,15 @@ class UnKnowChatActivity : RecyclerActivity() {
         RongIM.getInstance().getConversationList(object : RongIMClient.ResultCallback<List<Conversation>>() {
             override fun onSuccess(conversations: List<Conversation>?) {
                 mConversations.clear()
+                mUnConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
-                    for(c:Conversation in conversations){
+                    for(c:Conversation in mConversations){
                         if(c.conversationType == Conversation.ConversationType.GROUP){
                             var split = c.targetId.split("_")
                             if(split.size==3){
-                                if(TextUtils.equals(split[2], getLocalUserId())){
-                                    mConversations.remove(c)
+                                if(TextUtils.equals(split[1], getLocalUserId())){
+                                    mUnConversations.add(c)
                                 }
                             }
                         }

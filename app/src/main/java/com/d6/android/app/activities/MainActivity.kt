@@ -94,7 +94,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 runOnUiThread {
                     unReadMsgNum=0
 //                    getSysLastOne()
-                    getSquareMsg()
+//                    getSquareMsg()
+                    getUnReadCount()
                     intent?.let {
                         var userId = intent.getStringExtra("senderUserId")
                         var userInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
@@ -552,6 +553,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
 
                 override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
+                    tv_find_tab.postDelayed(object:Runnable{
+                        override fun run() {
+                            getUnReadCount()
+                        }
+                    },900)
                 }
             })
         }
@@ -615,6 +621,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 } else {
                     SPUtils.instance().put("iPhonePrivacy" + getLocalUserId(), false).apply()
                 }
+                val info = UserInfo("${it.accountId}", "${data.name}", Uri.parse("${data.picUrl}"))
+                RongIM.getInstance().refreshUserInfoCache(info)
                 /*2.5移除
                 if(showFloatManService()){
                     rl_service.visibility = View.GONE

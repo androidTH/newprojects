@@ -173,6 +173,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     tv_chattitle.text="匿名"
                     mWhoanonymous = "2"
                     SPUtils.instance().put(WHO_ANONYMOUS,"2").apply()
+                    val info = UserInfo("${getLocalUserId()}", "${getLocalUserName()}", Uri.parse("${getLocalUserHeadPic()}"))
+                    RongIM.getInstance().refreshUserInfoCache(info)
                 }
 
                 Request.findGroupDescByGroupId(getLoginToken(), mTargetId).request(this, false, success = { msg, data ->
@@ -181,6 +183,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         RongIM.getInstance().refreshGroupInfoCache(group)
                     }
                 })
+
             }else{
                 immersionBar.init()
                 SPUtils.instance().put(WHO_ANONYMOUS,"3").apply()

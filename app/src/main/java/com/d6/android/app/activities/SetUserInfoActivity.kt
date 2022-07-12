@@ -40,6 +40,8 @@ class SetUserInfoActivity : BaseActivity() {
     private var headFilePath: String? = null
     private var sex = -1
     private var ISNOTEDIT = false
+    private var menHeaderUrl = "http://www.d6-zone.com/JyPhone/static/images/system/d6boy.png"
+    private var womenHeaderUrl = "http://img-local.d6-zone.com/d6girl.png"
 
     private var tempFile: File? = null
 
@@ -253,17 +255,24 @@ class SetUserInfoActivity : BaseActivity() {
         tv_error.visible()
         tv_error.text = ""
         nickLine.setBackgroundResource(R.color.orange_f6a)
-        if(ISNOTEDIT){
-            if (headFilePath.isNullOrEmpty()) {
-                tv_error.text = "请上传头像"
-                return
-            }
-        }
+//        if(ISNOTEDIT){
+//            if (headFilePath.isNullOrEmpty()) {
+//                tv_error.text = "请上传头像"
+//                return
+//            }
+//        }
 
         if (sex == -1) {
             tv_error.text = "请选择性别"
             return
         }
+
+        if(ISNOTEDIT){
+            if (headFilePath.isNullOrEmpty()) {
+                ISNOTEDIT = false
+            }
+        }
+
         val nick = et_nick.text.toString().trim()
         if (nick.isEmpty()) {
             tv_error.text = "请输入昵称"
@@ -346,6 +355,13 @@ class SetUserInfoActivity : BaseActivity() {
 //                    }).launch()
 
         }else{
+            if (headFilePath.isNullOrEmpty()) {
+                if(sex==1){
+                    headFilePath = menHeaderUrl
+                }else{
+                    headFilePath = womenHeaderUrl
+                }
+            }
             user.picUrl = headFilePath
             Request.updateUserInfo(user).request(this, success = { msg, data ->
                 clearLoginToken()
