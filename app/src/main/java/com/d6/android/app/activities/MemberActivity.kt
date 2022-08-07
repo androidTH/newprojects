@@ -88,9 +88,15 @@ class MemberActivity : BaseActivity() {
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
                 if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
-                    mListTQ.removeAt(5)
-                    mListTQ.removeAt(9)
-                    mListTQ.removeAt(11)
+                    var iterator = mListTQ.iterator()
+                    while(iterator.hasNext()){
+                        var m = iterator.next()
+                        if(m.sMemberTitle.equals("精准查找")||m.sMemberTitle.equals("优质会员群")
+                                ||m.sMemberTitle.equals("微信群")||m.sMemberTitle.equals("报名速约")||
+                                m.sMemberTitle.equals("线下活动")||m.sMemberTitle.equals("优先权")){
+                            iterator.remove()
+                        }
+                    }
                 }
                 tv_viptq.text = "可享受超${mListTQ.size}项特权"
                 rv_member_tq.adapter = mTeQuanQuickAdapter

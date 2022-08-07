@@ -62,7 +62,7 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
 //            }
             mTvVipLevelTime.setText("入群时长：1年或永久");
             if(item.getPriceList()!=null){
-                int price = item.getPriceList().get(0).getIAndroidPrice();
+                int price = item.getPriceList().get(1).getIAndroidPrice();
                 helper.setText(R.id.tv_viplevel_price,"¥"+price);
             }
         }else{
