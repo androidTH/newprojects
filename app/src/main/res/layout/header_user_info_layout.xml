@@ -248,12 +248,30 @@
             android:visibility="gone"
             android:textSize="14sp" />
     </LinearLayout>
-
+   <RelativeLayout
+       android:id="@+id/rl_month_bangdan"
+       android:layout_below="@+id/ll_threetags"
+       android:layout_width="match_parent"
+       android:gravity="center_vertical"
+       android:paddingLeft="@dimen/margin_20"
+       android:layout_height="40dp">
+    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        android:id="@+id/tv_month_bangdan_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="魅力榜月榜：共收到xxx"/>
+       <ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:src="@mipmap/ic_right_arrow"
+           android:layout_marginRight="@dimen/margin_20"/>
+   </RelativeLayout>
     <LinearLayout
         android:id="@+id/fl_add_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_threetags"
+        android:layout_below="@+id/rl_month_bangdan"
         android:background="@drawable/shape_f6_top_8r"
         android:orientation="vertical">
 
@@ -395,7 +413,7 @@
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_5"
-        android:layout_below="@+id/ll_threetags"
+        android:layout_below="@+id/rl_month_bangdan"
         android:background="@drawable/shape_f6_top_8r" />
 
     <include

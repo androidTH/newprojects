@@ -21,10 +21,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.listener.ExceptionHandler;
 import com.vector.update_app.listener.ExceptionHandlerHelper;
+import com.vector.update_app.service.DownloadService;
 
 import java.io.File;
 import java.util.List;
@@ -115,19 +117,19 @@ public class AppUpdateUtils {
 
     public static Intent getInstallAppIntent(Context context, File appFile) {
         try {
-            if(Build.VERSION.SDK_INT > 28){
-                //适配Android Q,注意mFilePath是通过ContentResolver得到的，上述有相关代码
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(appFile.getAbsolutePath()) ,"application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                return intent;
-            }
+//            if(Build.VERSION.SDK_INT > 28){
+//                //适配Android Q,注意mFilePath是通过ContentResolver得到的，上述有相关代码
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setDataAndType(Uri.parse(appFile.getAbsolutePath()) ,"application/vnd.android.package-archive");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                return intent;
+//            }
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 //区别于 FLAG_GRANT_READ_URI_PERMISSION 跟 FLAG_GRANT_WRITE_URI_PERMISSION， URI权限会持久存在即使重启，直到明确的用 revokeUriPermission(Uri, int) 撤销。 这个flag只提供可能持久授权。但是接收的应用必须调用ContentResolver的takePersistableUriPermission(Uri, int)方法实现
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 Uri fileUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".fileProvider", appFile);
                 intent.setDataAndType(fileUri, "application/vnd.android.package-archive");
             } else {

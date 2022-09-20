@@ -39,6 +39,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         var rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
         var rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_women_perfect)
+        var rl_women_bangdan_layout = holder.bind<RelativeLayout>(R.id.rl_women_bangdan_layout)
         var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var index = data.picUrl.indexOf("?")
         var url = if(index!=-1){
@@ -53,12 +54,18 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
         Log.i("DateCardAdapter","${data.name}----${data.picUrl},送出：${data.iSendLovePoint}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
-            rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.VISIBLE
+            rl_man_card.visibility = View.GONE
+            rl_women_bangdan_layout.visibility = View.GONE
             showUserPerfect(holder, position, data)
-        } else {
+        } else if(position==2){
+            rl_women_bangdan_layout.visibility = View.VISIBLE
+            rl_man_card.visibility = View.GONE
+            rl_women_perfect.visibility = View.GONE
+        }else {
             rl_man_card.visibility = View.VISIBLE
             rl_women_perfect.visibility = View.GONE
+            rl_women_bangdan_layout.visibility = View.GONE
             val rl_small_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_small_mendate_layout)
             val rl_big_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_big_mendate_layout)
             if (mLayoutNormal > 2.0f) {
@@ -341,6 +348,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.bind<View>(R.id.imageViewbg).setOnClickListener(onClickListener)
         holder.bind<View>(R.id.rl_big_mendate_layout).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
+        holder.bind<TextView>(R.id.tv_date_find_bangdan).setOnClickListener(onClickListener)
     }
 
     fun mShowBigLayout(holder: ViewHolder, position: Int, data: FindDate) {

@@ -3,6 +3,7 @@ package com.d6.android.app.adapters
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.D6LoveHeartListActivity
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -14,16 +15,14 @@ import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.d6.android.app.widget.DateOfSquareView
-import com.d6.android.app.widget.TrendView
-import com.d6.android.app.widget.VoiceChatView
+import com.d6.android.app.widget.*
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 
@@ -32,10 +31,26 @@ import org.json.JSONObject
  */
 class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData, R.layout.item_list_square) {
 
+    var i = 0
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
-        trendView.update(data)
+        val mSquareBangdanListView= holder.bind<SquareBangdanListView>(R.id.msquare_bangdanview)
+        if(i==5){
+            mSquareBangdanListView.visibility = View.VISIBLE
+            trendView.visibility = View.GONE
+            mSquareBangdanListView.update(data)
+            mSquareBangdanListView.OnSquareBangDanListener {
+                isBaseActivity{
+                    it.startActivity<D6LoveHeartListActivity>()
+                }
+            }
+        }else{
+            trendView.visibility = View.VISIBLE
+            mSquareBangdanListView.visibility = View.GONE
+            trendView.update(data)
+        }
 
+        i++
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
                 cancelPraise(data,position)

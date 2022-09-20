@@ -184,7 +184,7 @@ class SelectGiftListDialog : DialogFragment() {
         gv.setOnItemClickListener { parent, view, position, id ->
             var mGiftBean = emotionNames.get(position)
             var loveNum = mGiftBean.loveNum?.toInt() ?: 0;
-            if(mLocalUserLoveHeartCount >= loveNum){
+//            if(mLocalUserLoveHeartCount >= loveNum){
                 if(titleStype==4||titleStype==3||titleStype==5||titleStype==2||titleStype==1){
                     var givetypeId = if(titleStype==3) arguments.getString("squareId") else ""
                     giveGift(mGiftBean.giftId,mGiftBean.icon,loveNum,mGiftBean.name,1,titleStype,givetypeId,getLocalUserId(), getLocalUserName(),receiveUserId)
@@ -198,10 +198,10 @@ class SelectGiftListDialog : DialogFragment() {
                     dialogListener?.onClick(position,emotionNames.get(position).name)
                     dismissAllowingStateLoss()
                 }
-            }else{
-                ll_user_lovepoint.visibility = View.VISIBLE
-                tv_redheart_balance.text = "还差${loveNum - mLocalUserLoveHeartCount}"
-            }
+//            }else{
+//                ll_user_lovepoint.visibility = View.VISIBLE
+//                tv_redheart_balance.text = "还差${loveNum - mLocalUserLoveHeartCount}"
+//            }
         }
         return gv
     }

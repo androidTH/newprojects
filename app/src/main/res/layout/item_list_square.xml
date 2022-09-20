@@ -10,6 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.d6.android.app.widget.TrendView>
+    <com.d6.android.app.widget.SquareBangdanListView
+        android:id="@+id/msquare_bangdanview"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <!--<com.d6.android.app.widget.DateOfSquareView-->
         <!--android:layout_width="match_parent"-->

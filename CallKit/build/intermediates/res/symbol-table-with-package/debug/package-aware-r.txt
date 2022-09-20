@@ -285,6 +285,7 @@ drawable callkit_select_ic_nav_back_x
 drawable callkit_selector_icon_search
 drawable callkit_voip_iphone
 drawable chat_xihuan_button
+drawable comment_input
 drawable def_gif_bg
 drawable fire
 drawable notification_action_background
@@ -921,6 +922,7 @@ id catalog_window
 id chat_loveheart
 id checkbox
 id chronometer
+id comment_inputgift
 id compressVideoBar
 id countdown_time_receive
 id countdown_time_send

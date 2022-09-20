@@ -196,6 +196,22 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             img_auther.visibility= View.GONE
         }
 
+        if(true){
+            squaredetails_bd_headView.setImageURI(square.picUrl)
+            tv_squaredetails_bd_username.text = "${square.name}"
+            tv_squaredetails_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
+
+            if(square.age.isNullOrEmpty()){
+                tv_squaredetails_bd_userage.visibility = View.GONE
+            }else{
+                tv_squaredetails_bd_userage.visibility = View.VISIBLE
+                tv_squaredetails_bd_userage.text = "${square.age}岁"
+            }
+
+            tv_squaredetails_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+            tv_squaredetails_bd_show.text = "收到100颗[img src=redheart_small/]"
+        }
+
         if (square.userclassesname.toString().startsWith("入门")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
         } else if (square.userclassesname.toString().startsWith("中级")) {

@@ -203,7 +203,21 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }else{
             img_auther.visibility=View.GONE
         }
+        if(true){
+            usersquare_bd_headView.setImageURI(square.picUrl)
+            tv_usersquare_bd_username.text = "${square.name}"
+            tv_usersquare_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
 
+            if(square.age.isNullOrEmpty()){
+                tv_usersquare_bd_userage.visibility = View.GONE
+            }else{
+                tv_usersquare_bd_userage.visibility = View.VISIBLE
+                tv_usersquare_bd_userage.text = "${square.age}岁"
+            }
+
+            tv_usersquare_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+            tv_usersquare_bd_show.text = "收到100颗[img src=redheart_small/]"
+        }
 
 //        val sub = if (square.city.isNullOrEmpty()) {
 //            square.updatetime?.interval()

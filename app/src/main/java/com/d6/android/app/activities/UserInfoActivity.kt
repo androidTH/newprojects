@@ -47,6 +47,7 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
 import kotlinx.android.synthetic.main.fragment_date.*
+import kotlinx.android.synthetic.main.header_user_info_layout.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.rl_userinfo_date
@@ -308,6 +309,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
             }
             true
+        }
+
+        headerView.rl_month_bangdan.setOnClickListener {
+
         }
 
         tv_more.setOnClickListener {
@@ -669,6 +674,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
+                headerView.rl_month_bangdan.visibility = View.VISIBLE
+                headerView.tv_month_bangdan_show.text = "魅力榜月榜：共收到100颗[img src=redheart_small/] 第100名"
 
 //                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)

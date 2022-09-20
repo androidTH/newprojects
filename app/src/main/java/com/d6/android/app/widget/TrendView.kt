@@ -294,6 +294,23 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.visibility = View.VISIBLE
             tv_content.text = square.content
         }
+
+        if(true){
+            square_bd_headView.setImageURI(square.picUrl)
+            tv_square_bd_username.text = "${square.name}"
+            tv_square_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
+
+            if(square.age.isNullOrEmpty()){
+                tv_square_bd_userage.visibility = View.GONE
+            }else{
+                tv_square_bd_userage.visibility = View.VISIBLE
+                tv_square_bd_userage.text = "${square.age}岁"
+            }
+
+            tv_square_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+            tv_square_bd_show.text = "收到100颗[img src=redheart_small/]"
+        }
+
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0
         if(square.iResourceType==3){
             //3、视频

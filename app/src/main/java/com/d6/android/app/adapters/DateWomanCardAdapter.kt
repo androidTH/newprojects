@@ -40,12 +40,19 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_man_perfect)
         val rl_women_card = holder.bind<RelativeLayout>(R.id.rl_women_card)
+        val rl_man_bangdan_layout = holder.bind<RelativeLayout>(R.id.rl_man_bangdan_layout)
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_women_perfect.visibility = View.VISIBLE
             rl_women_card.visibility = View.GONE
+            rl_man_bangdan_layout.visibility = View.GONE
             showUserPerfect(holder, position, data)
+        } else if(position == 2){
+            rl_man_bangdan_layout.visibility = View.VISIBLE
+            rl_women_perfect.visibility = View.GONE
+            rl_women_card.visibility = View.GONE
         } else {
             rl_women_perfect.visibility = View.GONE
+            rl_man_bangdan_layout.visibility = View.GONE
             rl_women_card.visibility = View.VISIBLE
 
             val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
@@ -304,6 +311,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
+        holder.bind<TextView>(R.id.tv_date_find_bangdan).setOnClickListener(onClickListener)
     }
 
     private var mImages = ArrayList<String>()

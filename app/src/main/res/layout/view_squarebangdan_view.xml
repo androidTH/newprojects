@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="260dp"
+    android:layout_marginLeft="@dimen/margin_10"
+    android:layout_marginRight="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_10"
+    android:background="@drawable/shape_date_white"
+    android:paddingLeft="@dimen/margin_10"
+    android:paddingTop="@dimen/padding_16"
+    android:paddingRight="@dimen/margin_5"
+    android:paddingBottom="@dimen/margin_5">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="@drawable/shapecard_2r_33"
+        android:padding="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_12">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/squarebangdan_one"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_marginRight="@dimen/margin_5" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/squarebangdan_two"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_toRightOf="@+id/squarebangdan_one" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/squarebangdan_three"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_below="@+id/squarebangdan_two"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_toRightOf="@+id/squarebangdan_one" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_find_bangdan"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="查看完整榜单"/>
+</RelativeLayout>

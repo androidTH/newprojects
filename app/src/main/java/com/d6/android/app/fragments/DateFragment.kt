@@ -90,6 +90,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             mUserInfoData?.let {
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
             }
+        }else if(view?.id==R.id.tv_date_find_bangdan){
+            startActivity<D6LoveHeartListActivity>()
         }
         hideRedHeartGuide()
     }
@@ -163,12 +165,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         var findDate = mDates.get(scrollPosition - 1)
                         if (TextUtils.equals(findDate.accountId, getLocalUserId())) {
                             ll_bottom.visibility = View.GONE
+                        } else if(scrollPosition==3){
+                            ll_bottom.visibility = View.GONE
                         }else{
                             ll_bottom.visibility = View.VISIBLE
                         }
                         if(TextUtils.equals(sex, "1")){
                             clearDanMu()
-                            if((scrollPosition - 1) != 4 || !TextUtils.equals(findDate.accountId, getLocalUserId())){
+                            if((scrollPosition==3)||(scrollPosition == 5)){//||!TextUtils.equals(findDate.accountId, getLocalUserId())
                                 getFindReceiveLoveHeart("${findDate.accountId}","2")
                             }
                         }

@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.d6.android.app.base.RecyclerFragment;
+import com.d6.android.app.fragments.RecommendDateQuickFragment;
+import com.d6.android.app.rong.bean.RecommentType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,11 @@ import java.util.List;
  * desc   :
  * version:
  */
-public class LoveHeartPageAdapter extends FragmentStatePagerAdapter {
+public class CharmBangDanPageAdapter extends FragmentStatePagerAdapter {
 
     private List<String> mTitles = new ArrayList<>();
     private List<Fragment> mDataFragments;
-    public LoveHeartPageAdapter(FragmentManager fm, List<Fragment> data, List<String> titles) {
+    public CharmBangDanPageAdapter(FragmentManager fm, List<Fragment> data, List<String> titles) {
         super(fm);
         this.mDataFragments = data;
         this.mTitles = titles;

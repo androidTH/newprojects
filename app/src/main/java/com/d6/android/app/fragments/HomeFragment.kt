@@ -388,7 +388,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             if (cityJson.isNullOrEmpty()) {
                 getServiceProvinceData()
             } else {
-                if (TextUtils.equals(getTodayTime(), lastTime)) {
+                if (!TextUtils.equals(getTodayTime(), lastTime)) {
                     getServiceProvinceData()
                 } else {
                     var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)

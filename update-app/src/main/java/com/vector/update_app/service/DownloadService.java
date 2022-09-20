@@ -298,7 +298,6 @@ public class DownloadService extends Service {
             }
 
             try {
-
                 if (AppUpdateUtils.isAppOnForeground(DownloadService.this) || mBuilder == null) {
                     //App前台运行
                     mNotificationManager.cancel(NOTIFY_ID);

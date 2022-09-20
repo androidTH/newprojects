@@ -20,9 +20,9 @@ object API {
 
     const val GETDOMAIN = "http://domain_test.d6-zone.com/getDomain"
 
-    /**
-     * 正式环境
-     */
+//    /**
+//     * 正式环境
+//     */
 //    @JvmField
 //    val LIYU_URL ="JyPhone/"
 //

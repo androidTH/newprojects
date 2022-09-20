@@ -210,4 +210,8 @@
         android:id="@+id/rl_man_perfect"
         layout="@layout/item_man_perfect"
         android:visibility="gone" />
+    <include
+        android:id="@+id/rl_man_bangdan_layout"
+        layout="@layout/date_bangdan_layout"
+        android:visibility="gone" />
 </android.support.v7.widget.CardView>
