@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="290dp"
     android:id="@+id/ll_loveheart"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/margin_10"
+    android:background="@color/trans_parent"
     android:orientation="vertical">
 
     <com.d6.android.app.widget.textinlineimage.TextInlineImage
@@ -18,10 +19,6 @@
         android:textColor="@color/color_888888"
         android:textSize="11sp"
         android:textStyle="bold" />
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/rv_loveheart_top"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"/>-->
     <RelativeLayout
         android:id="@+id/rl_list_top"
         android:layout_width="match_parent"

@@ -467,6 +467,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_333333)
             var drawable = ContextCompat.getDrawable(this, R.mipmap.public_small_yellow)
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+        }else if(TextUtils.equals("bangdan",mFrom)){
+             et_content.setHint("发布动态，邀请小哥哥为你打榜吧…")
         }else{
             iIsAnonymous = 1
             tv_unknow_choose.text = resources.getString(R.string.string_unknow_unknow)

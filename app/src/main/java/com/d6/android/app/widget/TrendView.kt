@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.D6LoveHeartListActivity
 import com.d6.android.app.activities.FilterSquaresActivity
 import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
@@ -209,6 +210,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         (context as BaseActivity).startActivity<FilterSquaresActivity>("squaretype" to mSquareType)
                     }
                 }
+
+                rl_square_bg_layout.setOnClickListener {
+                    square?.let {
+                        (context as BaseActivity).startActivity<D6LoveHeartListActivity>()
+                    }
+                }
             }
 
     /**
@@ -296,6 +303,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
 
         if(true){
+            rl_square_bg_layout.visibility = View.VISIBLE
             square_bd_headView.setImageURI(square.picUrl)
             tv_square_bd_username.text = "${square.name}"
             tv_square_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
@@ -308,7 +316,10 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
 
             tv_square_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
-            tv_square_bd_show.text = "收到100颗[img src=redheart_small/]"
+            tv_square_bd_show.text = "收到100 [img src=redheart_small/]"
+            tv_square_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=heart_gray/]即可为我打榜哦"
+        }else{
+            rl_square_bg_layout.visibility = View.GONE
         }
 
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0

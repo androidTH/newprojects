@@ -24,6 +24,7 @@ import com.d6.android.app.utils.Const.BLUR_50
 import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
+import com.d6.android.app.widget.textinlineimage.TextInlineImage
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
@@ -246,6 +247,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_city, "${data.sPosition}")
             }
 
+
             Log.i("address","${data.city},--${data.sPosition}")
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
@@ -275,6 +277,15 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             if(data.iVistorCountAll>=10){
                 sblove.append("访客·${data.iVistorCountAll}")
             }
+
+            var mRLDateBangDan = holder.bind<RelativeLayout>(R.id.rl_date_bangdan)
+            if(true){
+                mRLDateBangDan.visibility = View.VISIBLE
+            }else{
+                mRLDateBangDan.visibility = View.GONE
+            }
+            var  mTvDateBangdanShow = holder.bind<TextView>(R.id.tv_date_bangdan_show)
+            mTvDateBangdanShow.text = "魅力榜月榜：第10名·共收到10 [img src=redheart_small/]"
 
             if(sblove.toString().length>0){
                 ll_user_vistorfollownums.visibility = View.VISIBLE
@@ -312,6 +323,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_date_find_bangdan).setOnClickListener(onClickListener)
+        holder.bind<RelativeLayout>(R.id.rl_date_bangdan).setOnClickListener(onClickListener)
     }
 
     private var mImages = ArrayList<String>()

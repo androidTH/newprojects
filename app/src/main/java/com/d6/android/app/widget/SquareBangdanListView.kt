@@ -39,6 +39,8 @@ class SquareBangdanListView @JvmOverloads constructor(context: Context, attrs: A
                    it.onSquareBangDanClick(mData)
                }
         }
+
+        tv_squarebangdan_one_receivedliked.text = "收到40"
 //        headView.setImageURI(voiceChatData.picUrl)
 //        Log.i("voicechat","内容：${voiceChatData.content},状态：${voiceChatData.iStatus}")
 

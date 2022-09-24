@@ -1,53 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="260dp"
-    android:layout_marginLeft="@dimen/margin_10"
-    android:layout_marginRight="@dimen/margin_10"
-    android:layout_marginTop="@dimen/margin_10"
-    android:background="@drawable/shape_date_white"
-    android:paddingLeft="@dimen/margin_10"
-    android:paddingTop="@dimen/padding_16"
-    android:paddingRight="@dimen/margin_5"
-    android:paddingBottom="@dimen/margin_5">
-
-    <RelativeLayout
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/bangdan_line"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="@dimen/margin_10"
+        android:background="@color/color_F5F5F5"/>
+    <TextView
+        android:id="@+id/tv_square_bangdan_title"
+        android:layout_below="@+id/bangdan_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/color_black"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/margin_12"
+        android:layout_marginTop="@dimen/margin_12"
+        android:text="魅力榜"/>
+    <RelativeLayout
+        android:id="@+id/rl_square_bangdan_list"
+        android:layout_below="@+id/tv_square_bangdan_title"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
         android:background="@drawable/shapecard_2r_33"
-        android:padding="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_12">
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_15"
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingRight="@dimen/margin_5">
+        <RelativeLayout
+            android:id="@+id/rl_squarebangdan_one"
+            android:layout_marginRight="@dimen/margin_2"
+            android:layout_width="174dp"
+            android:layout_height="174dp">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/squarebangdan_one"
+                style="@style/newmandateDefaultHeadStyle"
+                android:layout_width="174dp"
+                android:layout_height="174dp" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/rankinglist_one"/>
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:layout_alignParentBottom="true"
+             android:background="@drawable/shape_pic_bg">
+             <TextView
+                 android:id="@+id/tv_squarebangdan_one_name"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/margin_2"
+                 android:layout_marginLeft="@dimen/margin_6"
+                 android:gravity="center_vertical"
+                 android:maxWidth="190dp"
+                 android:singleLine="true"
+                 android:text="--"
+                 android:textColor="@color/white"
+                 android:textSize="14sp"
+                 android:textStyle="bold" />
+             <TextView
+                 android:id="@+id/tv_squarebangdan_one_sex"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tv_squarebangdan_one_name"
+                 android:layout_gravity="center_vertical"
+                 android:layout_marginLeft="@dimen/margin_6"
+                 android:background="@drawable/ic_sex_bg_selector"
+                 android:drawableLeft="@drawable/sex_white_selector"
+                 android:drawablePadding="1dp"
+                 android:paddingLeft="3dp"
+                 android:paddingTop="0.5dp"
+                 android:paddingRight="3dp"
+                 android:paddingBottom="0.5dp"
+                 android:textColor="@color/white"
+                 android:textSize="10sp" />
+             <TextView
+                 android:id="@+id/tv_squarebangdan_one_vip"
+                 android:layout_width="wrap_content"
+                 android:layout_height="@dimen/margin_16"
+                 android:layout_below="@+id/tv_squarebangdan_one_name"
+                 android:layout_toRightOf="@+id/tv_squarebangdan_one_sex"
+                 android:layout_marginLeft="@dimen/margin_6"
+                 android:layout_gravity="center_vertical"
+                 android:background="@mipmap/vip_gold"
+                 android:textColor="@color/white"
+                 android:textSize="10sp"/>
+             <TextView
+                 android:id="@+id/tv_squarebangdan_one_receivedliked"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/margin_8"
+                 android:layout_alignParentRight="true"
+                 android:layout_marginRight="@dimen/margin_6"
+                 android:layout_centerVertical="true"
+                 android:drawableRight="@mipmap/redheart_small"
+                 android:drawablePadding="@dimen/margin_5"
+                 android:paddingLeft="@dimen/margin_15"
+                 android:paddingTop="@dimen/margin_10"
+                 android:paddingRight="@dimen/margin_5"
+                 android:paddingBottom="@dimen/margin_5"
+                 android:textColor="@color/color_BFFFFFFF"
+                 android:textSize="11sp" />
+         </RelativeLayout>
+        </RelativeLayout>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/squarebangdan_one"
-            style="@style/newmandateDefaultHeadStyle"
+        <RelativeLayout
+            android:id="@+id/rl_squarebangdan_two"
             android:layout_width="190dp"
-            android:layout_height="190dp"
-            android:layout_marginRight="@dimen/margin_5" />
+            android:layout_height="86dp"
+            android:layout_toRightOf="@+id/rl_squarebangdan_one">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/squarebangdan_two"
+                style="@style/newmandateDefaultHeadStyle"
+                android:layout_width="86dp"
+                android:layout_height="86dp"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@mipmap/rankinglist_two" />
+            <RelativeLayout
+                android:layout_toRightOf="@+id/squarebangdan_two"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:gravity="center"
+                android:background="@color/color_F6F7FA">
+                <TextView
+                    android:id="@+id/tv_squarebangdan_two_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:gravity="center_vertical"
+                    android:maxWidth="190dp"
+                    android:singleLine="true"
+                    android:text="--"
+                    android:textColor="@color/color_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_squarebangdan_two_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_squarebangdan_two_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:background="@drawable/ic_sex_bg_selector"
+                    android:drawableLeft="@drawable/sex_white_selector"
+                    android:drawablePadding="1dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="0.5dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="0.5dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_squarebangdan_two_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_16"
+                    android:layout_below="@+id/tv_squarebangdan_two_name"
+                    android:layout_toRightOf="@+id/tv_squarebangdan_two_sex"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/vip_gold"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/squarebangdan_two"
-            style="@style/newmandateDefaultHeadStyle"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:layout_marginRight="@dimen/margin_5"
-            android:layout_marginBottom="@dimen/margin_5"
-            android:layout_toRightOf="@+id/squarebangdan_one" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/squarebangdan_three"
-            style="@style/newmandateDefaultHeadStyle"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:layout_below="@+id/squarebangdan_two"
-            android:layout_marginRight="@dimen/margin_5"
-            android:layout_toRightOf="@+id/squarebangdan_one" />
+        <RelativeLayout
+            android:id="@+id/rl_squarebangdan_three"
+            android:layout_width="190dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_toRightOf="@+id/rl_squarebangdan_one"
+            android:layout_below="@+id/rl_squarebangdan_two">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/squarebangdan_three"
+                style="@style/newmandateDefaultHeadStyle"
+                android:layout_width="86dp"
+                android:layout_height="86dp" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@mipmap/rankinglist_three" />
+            <RelativeLayout
+                android:layout_toRightOf="@+id/squarebangdan_three"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:gravity="center"
+                android:background="@color/color_F6F7FA">
+                <TextView
+                    android:id="@+id/tv_squarebangdan_three_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:gravity="center_vertical"
+                    android:maxWidth="190dp"
+                    android:singleLine="true"
+                    android:text="--"
+                    android:textColor="@color/color_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_squarebangdan_three_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_squarebangdan_three_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:background="@drawable/ic_sex_bg_selector"
+                    android:drawableLeft="@drawable/sex_white_selector"
+                    android:drawablePadding="1dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="0.5dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="0.5dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tv_squarebangdan_three_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_16"
+                    android:layout_below="@+id/tv_squarebangdan_three_name"
+                    android:layout_toRightOf="@+id/tv_squarebangdan_three_sex"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/vip_gold"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
     <TextView
         android:id="@+id/tv_find_bangdan"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="35dp"
+        android:layout_below="@+id/rl_square_bangdan_list"
+        android:background="@drawable/shape_4r_26f"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_12"
         android:gravity="center"
+        android:textColor="@color/color_F7AB00"
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:text="查看完整榜单"/>
 </RelativeLayout>

@@ -174,20 +174,26 @@
 
             <RelativeLayout
                 android:id="@+id/rl_square_bg_layout"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginTop="@dimen/margin_10"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/height_75"
+                android:paddingTop="@dimen/margin_12"
+                android:paddingLeft="@dimen/margin_15"
+                android:background="@mipmap/rankinglist_bg_small">
             <TextView
                 android:id="@+id/tv_square_bd_pisition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="魅力榜：排名第4"/>
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="魅力榜·排名第4"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_right_arrow"
-                android:layout_marginRight="@dimen/margin_20"/>
+                android:background="@mipmap/listbutton_icon"
+                android:layout_marginRight="@dimen/margin_10"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,8 +206,8 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/square_bd_headView"
                         style="@style/DefaultNoHeadStyle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         app:roundAsCircle="true" />
                     <TextView
                         android:id="@+id/tv_square_bd_username"
@@ -210,8 +216,7 @@
                         android:layout_marginLeft="@dimen/margin_5"
                         android:maxWidth="180dp"
                         android:singleLine="true"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="@color/color_black" />
 
                     <TextView
@@ -258,18 +263,20 @@
                 </LinearLayout>
                 <com.d6.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_square_bd_show"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@+id/tv_square_bd_pisition"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_square"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_5">
 
@@ -279,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/local_feedlist_icon"
                     android:drawablePadding="@dimen/margin_2"
-                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_8"
                     android:background="@drawable/shape_radius14_f0"
                     android:paddingLeft="@dimen/margin_5"
                     android:paddingRight="@dimen/margin_5"
@@ -293,6 +300,7 @@
                     android:id="@+id/tv_topic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_square_address"
                     android:background="@drawable/shape_radius14_f0"
                     android:paddingLeft="@dimen/margin_5"
                     android:paddingRight="@dimen/margin_5"
@@ -303,8 +311,14 @@
                     android:textStyle="bold"
                     android:textColor="@color/color_333333"
                     android:textSize="12sp" />
-
-            </LinearLayout>
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:id="@+id/tv_square_click_bangdan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_999999" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

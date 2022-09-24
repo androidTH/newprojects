@@ -312,7 +312,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         headerView.rl_month_bangdan.setOnClickListener {
-
+               startActivity<D6LoveHeartListActivity>()
         }
 
         tv_more.setOnClickListener {
@@ -674,9 +674,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
-                headerView.rl_month_bangdan.visibility = View.VISIBLE
-                headerView.tv_month_bangdan_show.text = "魅力榜月榜：共收到100颗[img src=redheart_small/] 第100名"
-
+                if(TextUtils.equals("0", it.sex)){
+                    if(it.iListSetting!=2){
+                        headerView.rl_month_bangdan.visibility = View.VISIBLE
+                        headerView.tv_month_bangdan_show.text = "魅力榜月榜：第10名·共收到${it.iReceiveNewLovePoint} [img src=redheart_small/]"
+                    }else{
+                        headerView.rl_month_bangdan.visibility = View.GONE
+                    }
+                }else{
+                    headerView.rl_month_bangdan.visibility = View.GONE
+                }
 //                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
 

@@ -1,40 +1,45 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_recomment_root"
+    android:id="@+id/rl_recomment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F6F7FA"
+    android:background="@color/white"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/rankinglist_bg"/>
     <RelativeLayout
         android:id="@+id/ll_rgchoose"
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginLeft="@dimen/margin_10">
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_15">
 
         <com.d6.android.app.widget.tablayout.TabLayout
             android:id="@+id/tab_recommentdate"
-            android:layout_width="match_parent"
+            android:layout_width="210dp"
             android:layout_height="27dp"
+            android:layout_centerHorizontal="true"
             android:scrollbars="horizontal"
-            app:tabBackground="@drawable/tablayout_background"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/color_F7AB00"
+            app:tabBackground="@drawable/tablayout_bangdan_background"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="0dp"
             app:tabLineOffset="@dimen/margin_15"
-            app:tabMaxWidth="@dimen/margin_45"
-            app:tabMode="scrollable"
             app:tabPaddingEnd="0dp"
             app:tabPaddingStart="0dp"
             app:tabTextAppearance="@style/tab_service_date"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/color_F7AB00"
             app:tabTextColor="@color/white" />
 
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_recommenddate"
+        android:layout_below="@+id/ll_rgchoose"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+</RelativeLayout>

@@ -184,11 +184,12 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_mendate_big_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingRight="@dimen/margin_20"
-        android:paddingBottom="@dimen/margin_15">
+        android:paddingBottom="@dimen/margin_8">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_newtags"
@@ -235,5 +236,36 @@
             android:text="爱好"
             android:textColor="@color/white"
             android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_date_menbangdan_big"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv_newaihao"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_3"
+            android:layout_height="40dp">
+            <View
+                android:id="@+id/user_bangdangline"
+                android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/height_40"
+                android:layout_height="0.5dp"
+                android:background="@color/color_26FFFFFF"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_6"
+                android:layout_marginTop="@dimen/margin_3"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_date_menbangdan_bigshow"
+                android:src="@mipmap/listbutton_icon" />
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_date_menbangdan_bigshow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:text="魅力榜月榜："/>
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

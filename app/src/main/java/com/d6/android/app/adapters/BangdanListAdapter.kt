@@ -91,7 +91,7 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
             tv_age.visibility = View.GONE
         }else{
             tv_age.isSelected = TextUtils.equals("0", data.sSex)
-            tv_age.visibility = View.VISIBLE
+            tv_age.visibility = View.GONE
             tv_age.text = "${data.nianling}岁"
         }
 
@@ -107,9 +107,9 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
 
         var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
         if(TextUtils.equals("0",data.sSex)){
-            tv_receivedliked.text = "${data.iAllLovePoint}"
+            tv_receivedliked.text = "收到${data.iAllLovePoint}"
         }else{
-            tv_receivedliked.text = "${data.iAllLovePoint}"
+            tv_receivedliked.text = "送出${data.iAllLovePoint}"
         }
 
         var tv_order = holder.bind<TextView>(R.id.tv_order)

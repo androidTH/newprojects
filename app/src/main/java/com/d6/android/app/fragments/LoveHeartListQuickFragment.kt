@@ -58,6 +58,14 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
         layoutInflater.inflate(R.layout.item_loveheart,null,false)
     }
 
+    private val mHeaderBangDanOrder by lazy {
+        layoutInflater.inflate(R.layout.header_bangdan_order,null,false)
+    }
+
+    private val footertips by lazy {
+        layoutInflater.inflate(R.layout.layout_bangdan_bottom_tips,null,false)
+    }
+
     private var titleName:String?= ""
     private var type:Int = 2
 
@@ -73,7 +81,8 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         addItemDecoration(1,R.color.dividing_line_color,0)
-        listAdapter.setHeaderView(headerView)
+        listAdapter.setHeaderView(mHeaderBangDanOrder)
+        listAdapter.setFooterView(footertips)
         listAdapter.setOnItemClickListener { view, position ->
             var loveHeartFans = mMessages[position]
             if(loveHeartFans.iListSetting!=2){

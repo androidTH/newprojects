@@ -187,4 +187,6 @@
 
     <color name="colorFocus">#FF4081</color>
     <color name="colorDefault">#eaeaea</color>
+    <color name="color_00ffffff">#00FFFFFF</color>
+    <color name="color_ffffffff">#FFFFFFFF</color>
 </resources>

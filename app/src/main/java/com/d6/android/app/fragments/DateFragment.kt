@@ -90,7 +90,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             mUserInfoData?.let {
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
             }
-        }else if(view?.id==R.id.tv_date_find_bangdan){
+        }else if(view?.id==R.id.tv_date_find_bangdan||view?.id==R.id.rl_date_bangdan||view?.id==R.id.rl_date_menbangdan_small||
+                view?.id==R.id.rl_date_menbangdan_big){
             startActivity<D6LoveHeartListActivity>()
         }
         hideRedHeartGuide()

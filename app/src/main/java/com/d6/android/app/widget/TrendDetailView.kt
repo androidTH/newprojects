@@ -12,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.D6LoveHeartListActivity
 import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
@@ -160,6 +161,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
+        rl_squaredetails_bg_layout.setOnClickListener {
+            square?.let {
+                (context as BaseActivity).startActivity<D6LoveHeartListActivity>()
+            }
+        }
     }
 
     private fun showGiftDialog(receivedUserId:String,squareId:String,username:String){
@@ -197,6 +203,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         if(true){
+            rl_squaredetails_bg_layout.visibility = View.VISIBLE
             squaredetails_bd_headView.setImageURI(square.picUrl)
             tv_squaredetails_bd_username.text = "${square.name}"
             tv_squaredetails_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
@@ -210,6 +217,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
             tv_squaredetails_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
             tv_squaredetails_bd_show.text = "收到100颗[img src=redheart_small/]"
+            tv_squaredetails_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=heart_gray/]即可为我打榜哦"
+        }else{
+            rl_squaredetails_bg_layout.visibility = View.GONE
         }
 
         if (square.userclassesname.toString().startsWith("入门")) {

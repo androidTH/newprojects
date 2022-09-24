@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rgpic_bg"
-            android:paddingBottom="@dimen/margin_20"
+            android:paddingBottom="@dimen/margin_10"
             android:paddingRight="@dimen/margin_50"
             android:layout_alignParentBottom="true">
 
@@ -203,6 +203,37 @@
                 android:layout_below="@+id/tv_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_12" />
+            <RelativeLayout
+                android:id="@+id/rl_date_bangdan"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/rv_mydate_tags"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_20"
+                android:layout_height="40dp">
+                <View
+                    android:id="@+id/user_bangdangline"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="@dimen/height_40"
+                    android:layout_height="0.5dp"
+                    android:background="@color/color_26FFFFFF"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_6"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_date_bangdan_show"
+                    android:src="@mipmap/listbutton_icon" />
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:id="@+id/tv_date_bangdan_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_centerVertical="true"
+                    android:text="魅力榜月榜："/>
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 
