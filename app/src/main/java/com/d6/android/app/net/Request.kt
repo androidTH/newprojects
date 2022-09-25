@@ -640,4 +640,7 @@ object Request {
     fun updateIsShowState(sLoginToken:String,isShowGift:Int)=RRetrofit.instance().create(ApiServices::class.java).updateIsShowState(sLoginToken,isShowGift)
 
     fun getUserShowGiftList(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserShowGiftList(iUserid)
+
+    //3.12
+    fun getHighList(highType:Int,highChildType:Int,pageNum: Int = 1)=RRetrofit.instance().create(ApiServices::class.java).getHighList(highType,highChildType)
 }

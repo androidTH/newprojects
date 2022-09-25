@@ -26,9 +26,9 @@ class CharmBangdanFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
         mRecommentTypes.add("年榜")
         mRecommentTypes.add("总榜")
 
-        mFragments.add(BangDanListQuickFragment.newInstance("月榜",2))
-        mFragments.add(BangDanListQuickFragment.newInstance("年榜",2))
-        mFragments.add(BangDanListQuickFragment.newInstance("总榜",2))
+        mFragments.add(BangDanListQuickFragment.newInstance("月榜",1,1))
+        mFragments.add(BangDanListQuickFragment.newInstance("年榜",1,2))
+        mFragments.add(BangDanListQuickFragment.newInstance("总榜",1,3))
 
         viewpager_recommenddate.adapter = CharmBangDanPageAdapter(childFragmentManager,mFragments,mRecommentTypes)
         viewpager_recommenddate.offscreenPageLimit = mFragments.size

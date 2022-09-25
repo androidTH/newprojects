@@ -740,4 +740,9 @@ interface ApiServices {
 
     @GET("twoService/gift/getGiftStatisList")
     fun getUserShowGiftList(@Query("userId") userId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ArrayList<UserGiftBeans>>>
+
+
+    //3.12
+    @GET("twoService/userPoint/getHighList")
+    fun getHighList(@Query("highType") highType:Int,@Query("highChildType") highChildType:Int,@Query("sLoginToken") sLoginToken: String = getLoginToken(), @Query("sVersion") sVersion: String = getAppVersion()):Flowable<Response<BigPage<LoveHeartFans>>>
 }

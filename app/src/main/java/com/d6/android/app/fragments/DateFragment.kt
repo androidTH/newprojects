@@ -54,6 +54,7 @@ import kotlinx.android.synthetic.main.fragment_date.sv_finddate03
 import kotlinx.android.synthetic.main.fragment_date.tv_03
 import kotlinx.android.synthetic.main.fragment_date.tv_city
 import kotlinx.android.synthetic.main.fragment_date.tv_finddate_02
+import kotlinx.android.synthetic.main.layout_bangdanlist.*
 import master.flame.danmaku.controller.IDanmakuView
 import master.flame.danmaku.danmaku.model.BaseDanmaku
 import master.flame.danmaku.danmaku.model.DanmakuTimer
@@ -83,8 +84,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     override fun onItemClick(view: View?, position: Int) {
         if (view?.id == R.id.cardView||view?.id==R.id.rl_small_mendate_layout||view?.id==R.id.imageViewbg||view?.id==R.id.rl_big_mendate_layout) {
             if(mDates!=null&&mDates.size>position){
-                val dateBean = mDates[position]
-                startActivity<UserInfoActivity>("id" to "${dateBean.accountId}")
+                if(position!=2){
+                    val dateBean = mDates[position]
+                    startActivity<UserInfoActivity>("id" to "${dateBean.accountId}")
+                }
             }
         } else if (view?.id == R.id.tv_perfect_userinfo) {
             mUserInfoData?.let {
@@ -93,8 +96,48 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }else if(view?.id==R.id.tv_date_find_bangdan||view?.id==R.id.rl_date_bangdan||view?.id==R.id.rl_date_menbangdan_small||
                 view?.id==R.id.rl_date_menbangdan_big){
             startActivity<D6LoveHeartListActivity>()
+        }else if(view?.id==R.id.ll_middle){
+            if (TextUtils.equals(sex, "0")) {
+                var list = (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans
+                if(list.size>0){
+                    startToActivity(list.get(0))
+                }
+            }else{
+                var list = (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanHeartsListBeans
+                if(list.size>0){
+                    startToActivity(list.get(0))
+                }
+            }
+        }else if(view?.id==R.id.ll_bangdan_two){
+            if (TextUtils.equals(sex, "0")) {
+                var list = (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans
+                if(list.size>=2){
+                    startToActivity(list.get(1))
+                }
+            }else{
+                var list = (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanHeartsListBeans
+                if(list.size>=2){
+                    startToActivity(list.get(1))
+                }
+            }
+        }else if(view?.id==R.id.ll_bangdan_three){
+            if (TextUtils.equals(sex, "0")) {
+                var list = (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans
+                if(list.size==3){
+                    startToActivity(list.get(2))
+                }
+            }else{
+                var list = (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanHeartsListBeans
+                if(list.size==3){
+                    startToActivity(list.get(2))
+                }
+            }
         }
         hideRedHeartGuide()
+    }
+
+    private fun startToActivity(userBean:LoveHeartFans){
+        startActivity<UserInfoActivity>("id" to "${userBean.iUserid}")
     }
 
     private val userId by lazy {
@@ -173,7 +216,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         }
                         if(TextUtils.equals(sex, "1")){
                             clearDanMu()
-                            if((scrollPosition==3)||(scrollPosition == 5)){//||!TextUtils.equals(findDate.accountId, getLocalUserId())
+                            var isDanMu = true
+                            if(scrollPosition==3||scrollPosition == 5){
+                                isDanMu =false
+                            }
+                            if(isDanMu){//||!TextUtils.equals(findDate.accountId, getLocalUserId())
                                 getFindReceiveLoveHeart("${findDate.accountId}","2")
                             }
                         }
@@ -352,6 +399,39 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         initDanMu()
 
         getPeoples()
+        getBangDanList()
+    }
+
+    private fun getBangDanList(){
+        Request.getHighList(1,1).request(this) { _, data ->
+            data?.let {
+                if (it.highList == null || it.highList.isEmpty() as Boolean) {
+
+                } else {
+                    it.highList.let {
+                        if(it.size>=4){
+                            if (TextUtils.equals(sex, "0")) {
+                                (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans.addAll(it.subList(0,3))
+                                (mRecyclerView.adapter as DateCardAdapter).mBangDanListBeans.addAll(it.subList(3,it.size))
+                            }else{
+                                (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanHeartsListBeans.addAll(it.subList(0,3))
+                                (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanListBeans.addAll(it.subList(3,it.size))
+
+                            }
+                        }else{
+                            if (TextUtils.equals(sex, "0")) {
+                                (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans.addAll(it.subList(0,3))
+                                (mRecyclerView.adapter as DateCardAdapter).mBangDanListBeans.addAll(it.subList(3,it.size))
+                            }else{
+                                (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanHeartsListBeans.addAll(it.subList(0,3))
+                                (mRecyclerView.adapter as DateWomanCardAdapter).mBangDanListBeans.addAll(it.subList(3,it.size))
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun showGiftDialog(){

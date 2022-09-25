@@ -13,18 +13,22 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
+import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.BLUR_50
 import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import kotlinx.android.synthetic.main.header_bangdan_order.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import kotlin.collections.ArrayList
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
@@ -35,6 +39,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
     var iDateComlete: Int = 0
     private var mLayoutNormal = AppUtils.getWHRatio() //0 大布局 1 小布局
+
+    var mBangDanListBeans = ArrayList<LoveHeartFans>()
+    var mBangDanHeartsListBeans = ArrayList<LoveHeartFans>()
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         var rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
@@ -69,6 +76,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             rl_women_bangdan_layout.visibility = View.VISIBLE
             rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.GONE
+            updateBangDan(holder,position)
         }else {
             rl_man_card.visibility = View.VISIBLE
             rl_women_perfect.visibility = View.GONE
@@ -358,6 +366,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.bind<TextView>(R.id.tv_date_find_bangdan).setOnClickListener(onClickListener)
         holder.bind<RelativeLayout>(R.id.rl_date_menbangdan_small).setOnClickListener(onClickListener)
         holder.bind<RelativeLayout>(R.id.rl_date_menbangdan_big).setOnClickListener(onClickListener)
+        holder.bind<LinearLayout>(R.id.ll_middle).setOnClickListener(onClickListener)
+        holder.bind<LinearLayout>(R.id.ll_bangdan_two).setOnClickListener(onClickListener)
+        holder.bind<LinearLayout>(R.id.ll_bangdan_three).setOnClickListener(onClickListener)
     }
 
     fun mShowBigLayout(holder: ViewHolder, position: Int, data: FindDate) {
@@ -617,6 +628,110 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         } else {
             tv_newcontent.text = ""
+        }
+    }
+
+    fun updateBangDan(holder: ViewHolder, position: Int){
+        var mRvDateBangDan = holder.bind<RecyclerView>(R.id.rv_date_bangdanlist)
+        var mBangDanAdapter = BangdanListQuickAdapter(mBangDanListBeans)
+        mRvDateBangDan.setHasFixedSize(true)
+        mRvDateBangDan.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        mRvDateBangDan.adapter = mBangDanAdapter
+        mBangDanAdapter.setOnItemClickListener { adapter, view, position ->
+            var loveHeartFans = mBangDanListBeans[position]
+            if(loveHeartFans.iListSetting!=2){
+                val id = loveHeartFans.iUserid
+                (context as BaseActivity).startActivity<UserInfoActivity>("id" to "${id}")
+            }
+        }
+
+        if (mBangDanHeartsListBeans.size<=3&&mBangDanHeartsListBeans.size>0){
+            var mLoveHeartFans = mBangDanHeartsListBeans.get(0)
+            var bangdan_one = holder.bind<SimpleDraweeView>(R.id.bangdan_one)
+            var tv_bangdanone_nick = holder.bind<TextView>(R.id.tv_bangdanone_nick)
+            var tv_bangdanone_nicksex = holder.bind<TextView>(R.id.tv_bangdanone_nicksex)
+            var tv_bangdanone_vip = holder.bind<TextView>(R.id.tv_bangdanone_vip)
+            var tv_receivedliked_one = holder.bind<TextView>(R.id.tv_receivedliked_one)
+            if(mLoveHeartFans.iListSetting==2){
+//            mHeaderBangDanOrder.bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+                bangdan_one.showBlur(mLoveHeartFans.sPicUrl)
+                tv_bangdanone_nick.text = "匿名"
+            }else{
+               tv_bangdanone_nick.text = mLoveHeartFans.sSendUserName
+               bangdan_one.setImageURI(mLoveHeartFans.sPicUrl)
+            }
+            tv_bangdanone_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFans.sSex)
+            if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFans.sSex, "0")) {//0 女 1 男
+                tv_bangdanone_vip.visibility = View.GONE
+            } else {
+                tv_bangdanone_vip.visibility = View.VISIBLE
+                tv_bangdanone_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFans.userclassesid}",context)
+            }
+            if(TextUtils.equals("0",mLoveHeartFans.sSex)){
+                tv_receivedliked_one.text = "收到${mLoveHeartFans.iAllLovePoint} [img src=redheart_small/]"
+            }else{
+                tv_receivedliked_one.text = "送出${mLoveHeartFans.iAllLovePoint} [img src=redheart_small/]"
+            }
+
+            if(mBangDanHeartsListBeans.size>=2){
+                var mLoveHeartFansTwo = mBangDanHeartsListBeans.get(1)
+                var bangdan_two = holder.bind<SimpleDraweeView>(R.id.bangdan_two)
+                var tv_bangdantwo_nick = holder.bind<TextView>(R.id.tv_bangdantwo_nick)
+                var tv_bangdantwo_nicksex = holder.bind<TextView>(R.id.tv_bangdantwo_nicksex)
+                var tv_bangdantwo_vip = holder.bind<TextView>(R.id.tv_bangdantwo_vip)
+                var tv_receivedliked_two = holder.bind<TextView>(R.id.tv_receivedliked_two)
+                if(mLoveHeartFansTwo.iListSetting==2){
+                    bangdan_two.showBlur(mLoveHeartFansTwo.sPicUrl)
+                    tv_bangdantwo_nick.text = "匿名"
+                }else{
+                    tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
+                    bangdan_two.setImageURI(mLoveHeartFans.sPicUrl)
+                }
+                tv_bangdantwo_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansTwo.sSex)
+                if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男
+                    tv_bangdantwo_vip.visibility = View.GONE
+                } else {
+                    tv_bangdantwo_vip.visibility = View.VISIBLE
+                    tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
+                }
+                if(TextUtils.equals("0",mLoveHeartFans.sSex)){
+                   tv_receivedliked_two.text = "收到${mLoveHeartFansTwo.iAllLovePoint} [img src=redheart_small/]"
+                }else{
+                    tv_receivedliked_two.text = "送出${mLoveHeartFansTwo.iAllLovePoint} [img src=redheart_small/]"
+                }
+
+            }
+
+            if(mBangDanHeartsListBeans.size==3){
+                var mLoveHeartFansThree = mBangDanHeartsListBeans.get(2)
+                var bangdan_three = holder.bind<SimpleDraweeView>(R.id.bangdan_three)
+                var tv_bangdanthree_nick = holder.bind<TextView>(R.id.tv_bangdanthree_nick)
+                var tv_bangdanthree_nicksex = holder.bind<TextView>(R.id.tv_bangdanthree_nicksex)
+                var tv_bangdanthree_vip = holder.bind<TextView>(R.id.tv_bangdanthree_vip)
+                var tv_receivedliked_three = holder.bind<TextView>(R.id.tv_receivedliked_three)
+                if(mLoveHeartFansThree.iListSetting==2){
+//            mHeaderBangDanOrder.bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+                    bangdan_three.showBlur(mLoveHeartFansThree.sPicUrl)
+                    tv_bangdanthree_nick.text = "匿名"
+                }else{
+                    tv_bangdanthree_nick.text = mLoveHeartFansThree.sSendUserName
+                    bangdan_three.setImageURI(mLoveHeartFansThree.sPicUrl)
+                }
+                tv_bangdanthree_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansThree.sSex)
+                if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansThree.sSex, "0")) {//0 女 1 男
+                    tv_bangdanthree_vip.visibility = View.GONE
+                } else {
+                   tv_bangdanthree_vip.visibility = View.VISIBLE
+                   tv_bangdanthree_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansThree.userclassesid}",context)
+                }
+
+                if(TextUtils.equals("0",mLoveHeartFansThree.sSex)){
+                   tv_receivedliked_three.text = "收到${mLoveHeartFansThree.iAllLovePoint} [img src=redheart_small/]"
+                }else{
+                  tv_receivedliked_three.text = "送出${mLoveHeartFansThree.iAllLovePoint} [img src=redheart_small/]"
+                }
+            }
+
         }
     }
 

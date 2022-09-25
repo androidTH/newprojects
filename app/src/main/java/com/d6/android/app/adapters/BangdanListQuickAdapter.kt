@@ -83,20 +83,20 @@ class BangdanListQuickAdapter(mData:ArrayList<LoveHeartFans>): BaseQuickAdapter<
                     tv_order.text = "${mHashMap.get(position)!!.toInt()}"
                 }
             }else{
-                mHashMap.put(position,position+1)
+                mHashMap.put(position,position+4)
                 if(position<9){
-                    tv_order.text = "0${position+1}"
+                    tv_order.text = "0${position+4}"
                 }else{
-                    tv_order.text = "${position+1}"
+                    tv_order.text = "${position+4}"
                 }
             }
         }else{
             if(position<9){
-                tv_order.text = "0${position+1}"
+                tv_order.text = "0${position+4}"
             }else{
-                tv_order.text = "${position+1}"
+                tv_order.text = "${position+4}"
             }
-            mHashMap.put(position,position+1)
+            mHashMap.put(position,position+4)
         }
     }
 

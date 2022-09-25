@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
@@ -11,10 +12,15 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.getLevelDrawable
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.utils.getUserSex
+import com.d6.android.app.widget.badge.DisplayUtil
+import kotlinx.android.synthetic.main.header_bangdan_order.view.*
 import kotlinx.android.synthetic.main.layout_bangdanlist.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * 榜单
@@ -22,6 +28,7 @@ import org.jetbrains.anko.support.v4.startActivity
 class BangDanListQuickRichFragment : BaseFragment() {
 
     private val mBangDanListBeans = ArrayList<LoveHeartFans>()
+    private var mBangDanHeartsListBeans = ArrayList<LoveHeartFans>()
 
     private var pageNum = 1
 
@@ -35,6 +42,10 @@ class BangDanListQuickRichFragment : BaseFragment() {
 
     private val footertips by lazy {
         layoutInflater.inflate(R.layout.layout_bangdan_bottom_tips,null,false)
+    }
+
+    private val footerbottom by lazy {
+        layoutInflater.inflate(R.layout.layout_bangdan_bottom,null,false)
     }
 
     override fun contentViewId(): Int {
@@ -61,13 +72,16 @@ class BangDanListQuickRichFragment : BaseFragment() {
         mBangdanListQuickAdapter.addHeaderView(mHeaderBangDanOrder)
         if(TextUtils.equals("0", getUserSex())){
             mBangdanListQuickAdapter.addFooterView(footertips)
+        }else{
+//            swipeLayout_bangdanlist.setPadding(0,0,0,DisplayUtil.dp2px(context,60.0f))
+            mBangdanListQuickAdapter.addFooterView(footerbottom)
         }
+
         rv_bangdanlist.adapter = mBangdanListQuickAdapter
         mBangdanListQuickAdapter.setOnItemClickListener { adapter, view, position ->
             var loveHeartFans = mBangDanListBeans[position]
             if(loveHeartFans.iListSetting!=2){
-                val id = loveHeartFans.iUserid
-                startActivity<UserInfoActivity>("id" to "${id}")
+                startToActivity("${loveHeartFans.iUserid}")
             }
         }
 
@@ -75,9 +89,91 @@ class BangDanListQuickRichFragment : BaseFragment() {
                  pullDownRefresh()
         })
 
-        mBangdanListQuickAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
-            loadMore()
-        },rv_bangdanlist)
+//        mBangdanListQuickAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
+//            loadMore()
+//        },rv_bangdanlist)
+    }
+
+    private fun updateHeader(){
+        if(mBangDanHeartsListBeans.size<=3&&mBangDanHeartsListBeans.size>0){
+            var mLoveHeartFans = mBangDanHeartsListBeans.get(0)
+            mHeaderBangDanOrder.ll_middle.setOnClickListener {
+                startToActivity("${mLoveHeartFans.iUserid}")
+            }
+            if(mLoveHeartFans.iListSetting==2){
+                mHeaderBangDanOrder.bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+                mHeaderBangDanOrder.tv_bangdanone_nick.text = "匿名"
+            }else{
+                mHeaderBangDanOrder.tv_bangdanone_nick.text = mLoveHeartFans.sSendUserName
+                mHeaderBangDanOrder.bangdan_one.setImageURI(mLoveHeartFans.sPicUrl)
+            }
+            mHeaderBangDanOrder.tv_bangdanone_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFans.sSex)
+            if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFans.sSex, "0")) {//0 女 1 男
+                mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.GONE
+            } else {
+                mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.VISIBLE
+                mHeaderBangDanOrder.tv_bangdanone_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFans.userclassesid}",context)
+            }
+            if(TextUtils.equals("0",mLoveHeartFans.sSex)){
+                mHeaderBangDanOrder.tv_receivedliked_one.text = "收到${mLoveHeartFans.iAllLovePoint}[img src=redheart_small/]"
+            }else{
+                mHeaderBangDanOrder.tv_receivedliked_one.text = "送出${mLoveHeartFans.iAllLovePoint}[img src=redheart_small/]"
+            }
+
+           if(mBangDanHeartsListBeans.size>=2){
+               var mLoveHeartFansTwo = mBangDanHeartsListBeans.get(1)
+               mHeaderBangDanOrder.ll_bangdan_two.setOnClickListener {
+                   startToActivity("${mLoveHeartFansTwo.iUserid}")
+               }
+               if(mLoveHeartFansTwo.iListSetting==2){
+                   mHeaderBangDanOrder.bangdan_two.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+                   mHeaderBangDanOrder.tv_bangdantwo_nick.text = "匿名"
+               }else{
+                   mHeaderBangDanOrder.tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
+                   mHeaderBangDanOrder.bangdan_two.setImageURI(mLoveHeartFans.sPicUrl)
+               }
+               mHeaderBangDanOrder.tv_bangdantwo_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansTwo.sSex)
+               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男
+                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.GONE
+               } else {
+                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.VISIBLE
+                   mHeaderBangDanOrder.tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
+               }
+               if(TextUtils.equals("0",mLoveHeartFans.sSex)){
+                   mHeaderBangDanOrder.tv_receivedliked_two.text = "收到${mLoveHeartFansTwo.iAllLovePoint}[img src=redheart_small/]"
+               }else{
+                   mHeaderBangDanOrder.tv_receivedliked_two.text = "送出${mLoveHeartFansTwo.iAllLovePoint}[img src=redheart_small/]"
+               }
+
+           }
+
+           if(mBangDanHeartsListBeans.size==3){
+               var mLoveHeartFansThree = mBangDanHeartsListBeans.get(2)
+               mHeaderBangDanOrder.ll_bangdan_three.setOnClickListener {
+                   startToActivity("${mLoveHeartFansThree.iUserid}")
+               }
+               if(mLoveHeartFansThree.iListSetting==2){
+                   mHeaderBangDanOrder.bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+                   mHeaderBangDanOrder.tv_bangdanthree_nick.text = "匿名"
+               }else{
+                   mHeaderBangDanOrder.tv_bangdanthree_nick.text = mLoveHeartFansThree.sSendUserName
+                   mHeaderBangDanOrder.bangdan_three.setImageURI(mLoveHeartFansThree.sPicUrl)
+               }
+               mHeaderBangDanOrder.tv_bangdanthree_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansThree.sSex)
+               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansThree.sSex, "0")) {//0 女 1 男
+                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.GONE
+               } else {
+                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.VISIBLE
+                   mHeaderBangDanOrder.tv_bangdanthree_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansThree.userclassesid}",context)
+               }
+               if(TextUtils.equals("0",mLoveHeartFansThree.sSex)){
+                   mHeaderBangDanOrder.tv_receivedliked_three.text = "收到${mLoveHeartFansThree.iAllLovePoint} [img src=redheart_small/]"
+               }else{
+                   mHeaderBangDanOrder.tv_receivedliked_three.text = "送出${mLoveHeartFansThree.iAllLovePoint} [img src=redheart_small/]"
+               }
+
+           }
+        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -85,7 +181,7 @@ class BangDanListQuickRichFragment : BaseFragment() {
     }
 
     private fun getData() {
-        Request.findLoveListing(getLoginToken(),type,pageNum).request(this) { _, data ->
+        Request.getHighList(type,-1).request(this) { _, data ->
             data?.let {
                 if (pageNum == 1) {
                     mBangdanListQuickAdapter.data.clear()
@@ -93,28 +189,37 @@ class BangDanListQuickRichFragment : BaseFragment() {
                     mBangdanListQuickAdapter.loadMoreEnd(true)
                     mBangdanListQuickAdapter.setEnableLoadMore(true)
                 }
-                if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
+                if (it.highList == null || it.highList.isEmpty() as Boolean) {
                     mBangdanListQuickAdapter.loadMoreEnd(false)
                 } else {
-                    it.list?.results?.let {
-                        mBangdanListQuickAdapter.addData(it)
-                        mBangdanListQuickAdapter.loadMoreComplete()
+                    it.highList.let {
+                        if(it.size>=4){
+                            mBangDanHeartsListBeans.addAll(it.subList(0,3))
+                            mBangdanListQuickAdapter.addData(it.subList(3,it.size))
+                            mBangdanListQuickAdapter.loadMoreComplete()
+                        }else if(it.size<=3){
+                            mBangDanHeartsListBeans.addAll(it)
+                        }
                     }
                 }
                 mBangdanListQuickAdapter.notifyDataSetChanged()
-
-                if(it.iMyOrder>0){
+                updateHeader()
+//                if(it.iMyOrder>0){
 //                    if(TextUtils.equals("0", getUserSex())){
 //                        updateTopBangDan(it.iMyOrder)
 //                    }
-                }
+//                }
             }
         }
     }
 
+    private fun startToActivity(id:String){
+        startActivity<UserInfoActivity>("id" to "${id}")
+    }
+
     private fun pullDownRefresh() {
         pageNum=1
-        mBangdanListQuickAdapter.setEnableLoadMore(false)
+        mBangdanListQuickAdapter.setEnableLoadMore(true)
         getData()
     }
 
