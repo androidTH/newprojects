@@ -93,8 +93,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             mUserInfoData?.let {
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
             }
-        }else if(view?.id==R.id.tv_date_find_bangdan||view?.id==R.id.rl_date_bangdan||view?.id==R.id.rl_date_menbangdan_small||
-                view?.id==R.id.rl_date_menbangdan_big){
+        }else if(view?.id==R.id.tv_date_find_bangdan||view?.id==R.id.rl_date_bangdan){
             startActivity<D6LoveHeartListActivity>()
         }else if(view?.id==R.id.ll_middle){
             if (TextUtils.equals(sex, "0")) {
@@ -208,10 +207,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if (mDates.size > 0) {
                         var findDate = mDates.get(scrollPosition - 1)
                         if (TextUtils.equals(findDate.accountId, getLocalUserId())) {
+                            sv_danmaku.visibility = View.GONE
                             ll_bottom.visibility = View.GONE
                         } else if(scrollPosition==3){
+                            sv_danmaku.visibility = View.GONE
                             ll_bottom.visibility = View.GONE
                         }else{
+                            sv_danmaku.visibility = View.VISIBLE
                             ll_bottom.visibility = View.VISIBLE
                         }
                         if(TextUtils.equals(sex, "1")){
@@ -223,6 +225,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                             if(isDanMu){//||!TextUtils.equals(findDate.accountId, getLocalUserId())
                                 getFindReceiveLoveHeart("${findDate.accountId}","2")
                             }
+                            toast("${isDanMu}=${scrollPosition}")
                         }
                     }
                 }

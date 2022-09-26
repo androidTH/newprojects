@@ -76,27 +76,30 @@ class BangdanListQuickAdapter(mData:ArrayList<LoveHeartFans>): BaseQuickAdapter<
         var position = (helper.adapterPosition-headerLayoutCount)
         if(position>0){
             if(mData[position-1].iAllLovePoint==data.iAllLovePoint){
-                mHashMap.put(position,mHashMap.get(position-1)!!.toInt())
-                if(position<9){
-                    tv_order.text = "0${mHashMap.get(position)!!.toInt()}"
+                var order = mHashMap.get(position-1)!!.toInt()
+                mHashMap.put(position,order)
+                if(order<=9){
+                    tv_order.text = "0${order}"
                 }else{
-                    tv_order.text = "${mHashMap.get(position)!!.toInt()}"
+                    tv_order.text = "${order}"
                 }
             }else{
-                mHashMap.put(position,position+4)
-                if(position<9){
-                    tv_order.text = "0${position+4}"
+                var order = position+4
+                mHashMap.put(position,order)
+                if(order<=9){
+                    tv_order.text = "0${order}"
                 }else{
-                    tv_order.text = "${position+4}"
+                    tv_order.text = "${order}"
                 }
             }
         }else{
-            if(position<9){
-                tv_order.text = "0${position+4}"
+            var order = position + 4
+            if(order<=9){
+                tv_order.text = "0${order}"
             }else{
-                tv_order.text = "${position+4}"
+                tv_order.text = "${order}"
             }
-            mHashMap.put(position,position+4)
+            mHashMap.put(position,order)
         }
     }
 

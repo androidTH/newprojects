@@ -292,7 +292,15 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 mRLDateBangDan.visibility = View.GONE
             }
             var  mTvDateBangdanShow = holder.bind<TextView>(R.id.tv_date_bangdan_show)
-            mTvDateBangdanShow.text = "魅力榜月榜：第10名·共收到10 [img src=redheart_small/]"
+            var  mBangdanInfo = ""
+            if(data.orderType==2){
+                 mBangdanInfo = "魅力榜年榜：第${data.orderNum}名·共收到${data.iAllLovePoint} [img src=redheart_small/]"
+            }else if(data.orderType==3){
+                mBangdanInfo = "魅力榜总榜：第${data.orderNum}名·共收到${data.iAllLovePoint} [img src=redheart_small/]"
+            }else{
+                mBangdanInfo = "魅力榜月榜：第${data.orderNum}名·共收到${data.iAllLovePoint} [img src=redheart_small/]"
+            }
+            mTvDateBangdanShow.text = mBangdanInfo
 
             if(sblove.toString().length>0){
                 ll_user_vistorfollownums.visibility = View.VISIBLE

@@ -189,7 +189,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingRight="@dimen/margin_20"
-        android:paddingBottom="@dimen/margin_8">
+        android:paddingBottom="@dimen/margin_15">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_newtags"
@@ -242,6 +242,7 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/tv_newaihao"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:paddingLeft="@dimen/margin_3"
             android:layout_height="40dp">
             <View

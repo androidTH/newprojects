@@ -91,6 +91,9 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iLovePointShow:Int = -1 //超级喜欢的爱心数量
     var iPhonePrivacy:Int = -1 //手机通讯录隐私保护是否开启 1、开启 2、不开启
     var isShowGift:Int = -1  //0展示礼物 1不展示礼物
+    var orderNum:Int = -1 //排名
+    var iAllLovePoint:Int = -1 //收到的爱心数
+    var orderType:Int = -1 //榜单类型 1月榜 2年榜 3总榜
 
     override fun toString(): String {
 

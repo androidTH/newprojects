@@ -62,10 +62,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }else{
             imageView.setImageURI("${url}${BLUR_50}")
         }
-
-        tv_date_menbangdan_smallshow.text = "魅力榜月榜：第10名·共收到10 [img src=redheart_small/]"
-        tv_date_menbangdan_bigshow.text = "魅力榜月榜：第10名·共收到10 [img src=redheart_small/]"
-
         Log.i("DateCardAdapter","${data.name}----${data.picUrl},送出：${data.iSendLovePoint}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_women_perfect.visibility = View.VISIBLE
@@ -364,8 +360,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.bind<View>(R.id.rl_big_mendate_layout).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_date_find_bangdan).setOnClickListener(onClickListener)
-        holder.bind<RelativeLayout>(R.id.rl_date_menbangdan_small).setOnClickListener(onClickListener)
-        holder.bind<RelativeLayout>(R.id.rl_date_menbangdan_big).setOnClickListener(onClickListener)
         holder.bind<LinearLayout>(R.id.ll_middle).setOnClickListener(onClickListener)
         holder.bind<LinearLayout>(R.id.ll_bangdan_two).setOnClickListener(onClickListener)
         holder.bind<LinearLayout>(R.id.ll_bangdan_three).setOnClickListener(onClickListener)

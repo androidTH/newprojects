@@ -677,7 +677,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(TextUtils.equals("0", it.sex)){
                     if(it.iListSetting!=2){
                         headerView.rl_month_bangdan.visibility = View.VISIBLE
-                        headerView.tv_month_bangdan_show.text = "魅力榜月榜：第10名·共收到${it.iReceiveNewLovePoint} [img src=redheart_small/]"
+                        var mBangdanInfo = ""
+                        if(it.orderType==2){
+                            mBangdanInfo = "魅力榜年榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
+                        }else if(it.orderType==3){
+                            mBangdanInfo = "魅力榜总榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
+                        }else{
+                            mBangdanInfo = "魅力榜月榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
+                        }
+                        headerView.tv_month_bangdan_show.text = mBangdanInfo
                     }else{
                         headerView.rl_month_bangdan.visibility = View.GONE
                     }

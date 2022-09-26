@@ -90,10 +90,10 @@ class D6LoveHeartListActivity : BaseActivity() {
             ll_self_bangdan_order.visibility = View.GONE
             tv_click_bangdan.visibility = View.GONE
         }
-        updateTopBangDan(85)
+        updateTopBangDan()
     }
 
-    private fun updateTopBangDan(position:Int){
+    private fun updateTopBangDan(){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
             data?.let {
                 user_self_headView.setImageURI(it.picUrl)
@@ -120,23 +120,23 @@ class D6LoveHeartListActivity : BaseActivity() {
                     }
                 }
 
-                if(position==1){
+                if(it.orderNum==1){
                     tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_FF4500)
-                }else if(position==2){
+                }else if(it.orderNum==2){
                     tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_BE34FF)
-                }else if(position==3){
+                }else if(it.orderNum==3){
                     tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_34B1FF)
                 }else{
                     tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_888888)
                 }
 
-                if(position<9){
-                    tv_self_order.text = "0${position}"
+                if(it.orderNum<9&&it.orderNum>0){
+                    tv_self_order.text = "0${it.orderNum}"
                 }else{
-                    if(position>100||it.iReceiveLovePoint==0){
+                    if(it.orderNum>100||it.orderNum<=0){
                         tv_self_order.text = "--"
                     }else{
-                        tv_self_order.text = "${position}"
+                        tv_self_order.text = "${it.orderNum}"
                     }
                 }
                 user_self_headView.setOnClickListener {

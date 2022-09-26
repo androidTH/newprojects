@@ -63,6 +63,9 @@ data class FindDate(var accountId:String?="") :Parcelable {
         var sOnlineMsg:String?=""
         var iOnline:Int =-1
         var iPositionType:Int = -1
+        var orderNum:Int = -1
+        var iAllLovePoint:Int = -1
+        var orderType:Int = -1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         loginName = parcel.readString()
@@ -105,6 +108,9 @@ data class FindDate(var accountId:String?="") :Parcelable {
         sOnlineMsg = parcel.readString()
         iPositionType = parcel.readInt()
         iOnline = parcel.readInt()
+        orderNum = parcel.readInt()
+        iAllLovePoint = parcel.readInt()
+        orderType = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -149,6 +155,9 @@ data class FindDate(var accountId:String?="") :Parcelable {
         parcel.writeString(if(sOnlineMsg!=null) sOnlineMsg else "")
         parcel.writeInt(iPositionType)
         parcel.writeInt(iOnline)
+        parcel.writeInt(orderNum)
+        parcel.writeInt(iAllLovePoint)
+        parcel.writeInt(orderType)
     }
 
     override fun describeContents(): Int {
