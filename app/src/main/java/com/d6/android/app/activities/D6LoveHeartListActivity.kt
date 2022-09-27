@@ -15,11 +15,9 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.BangDanListQuickRichFragment
 import com.d6.android.app.fragments.CharmBangdanFragment
-import com.d6.android.app.fragments.ManyLoveHeartListQuickFragment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.activity_d6loveheartlist.*
-import kotlinx.android.synthetic.main.item_loveheart.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
@@ -140,9 +138,7 @@ class D6LoveHeartListActivity : BaseActivity() {
                     }
                 }
                 user_self_headView.setOnClickListener {
-                    if(data.iListSetting!=2){
-                        startActivity<UserInfoActivity>("id" to "${data.accountId}")
-                    }
+                    startActivity<UserInfoActivity>("id" to "${data.accountId}")
                 }
             }
         }) { code, msg ->

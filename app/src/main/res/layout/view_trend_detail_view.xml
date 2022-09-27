@@ -164,7 +164,7 @@
                 android:textColor="@color/color_black"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:text="魅力榜·排名第4"/>
+                android:text=""/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

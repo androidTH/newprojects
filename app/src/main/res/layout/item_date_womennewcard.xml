@@ -208,6 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_below="@+id/rv_mydate_tags"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:paddingLeft="@dimen/margin_20"
                 android:layout_height="40dp">
                 <View
@@ -231,8 +232,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_12"
-                    android:layout_centerVertical="true"
-                    android:text="魅力榜月榜："/>
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

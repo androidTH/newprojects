@@ -286,7 +286,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
 
             var mRLDateBangDan = holder.bind<RelativeLayout>(R.id.rl_date_bangdan)
-            if(true){
+            if(data.orderNum<=20&&data.orderNum>0){
                 mRLDateBangDan.visibility = View.VISIBLE
             }else{
                 mRLDateBangDan.visibility = View.GONE

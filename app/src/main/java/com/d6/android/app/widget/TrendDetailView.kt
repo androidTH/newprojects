@@ -204,6 +204,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         if(true){
             rl_squaredetails_bg_layout.visibility = View.VISIBLE
+            tv_squaredetails_bd_pisition.text = "魅力榜·排名第xx"
             squaredetails_bd_headView.setImageURI(square.picUrl)
             tv_squaredetails_bd_username.text = "${square.name}"
             tv_squaredetails_bd_usersex.isSelected = TextUtils.equals("0",square.sex)

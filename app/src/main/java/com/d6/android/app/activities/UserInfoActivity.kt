@@ -676,7 +676,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 headerView.iv_bg.showBlur(it.picUrl)
                 if(TextUtils.equals("0", it.sex)){
                     if(it.iListSetting!=2){
-                        headerView.rl_month_bangdan.visibility = View.VISIBLE
+                        if(it.orderNum<=20&&it.orderNum>0){
+                            headerView.rl_month_bangdan.visibility = View.VISIBLE
+                        }else{
+                            headerView.rl_month_bangdan.visibility = View.GONE
+                        }
                         var mBangdanInfo = ""
                         if(it.orderType==2){
                             mBangdanInfo = "魅力榜年榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"

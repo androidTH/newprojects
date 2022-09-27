@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
@@ -34,6 +35,20 @@ class SquareBangdanListView @JvmOverloads constructor(context: Context, attrs: A
         squarebangdan_one.setImageURI(mData.picUrl)
         squarebangdan_two.setImageURI(mData.picUrl)
         squarebangdan_three.setImageURI(mData.picUrl)
+
+        tv_squarebangdan_one_name.text = ""
+        tv_squarebangdan_one_sex.isSelected = TextUtils.equals("0","")
+        tv_squarebangdan_one_vip.backgroundDrawable = getLevelDrawable("26",context)
+
+        tv_squarebangdan_two_name.text = ""
+        tv_squarebangdan_two_sex.isSelected = TextUtils.equals("0","")
+        tv_squarebangdan_two_vip.backgroundDrawable = getLevelDrawable("26",context)
+
+        tv_squarebangdan_three_name.text = ""
+        tv_squarebangdan_three_sex.isSelected = TextUtils.equals("0","")
+        tv_squarebangdan_three_vip.backgroundDrawable = getLevelDrawable("26",context)
+
+
         tv_find_bangdan.setOnClickListener {
                mSendSquareBangDanClick?.let {
                    it.onSquareBangDanClick(mData)
