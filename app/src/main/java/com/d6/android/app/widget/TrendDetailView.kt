@@ -202,9 +202,14 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             img_auther.visibility= View.GONE
         }
 
-        if(true){
+        if(square.rankOrder==2){
             rl_squaredetails_bg_layout.visibility = View.VISIBLE
-            tv_squaredetails_bd_pisition.text = "魅力榜·排名第xx"
+            if(square.orderNum!=0){
+                tv_squaredetails_bd_pisition.text = "魅力榜·排名第${square.orderNum}"
+            }else{
+                tv_squaredetails_bd_pisition.text = "魅力榜"
+            }
+
             squaredetails_bd_headView.setImageURI(square.picUrl)
             tv_squaredetails_bd_username.text = "${square.name}"
             tv_squaredetails_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
@@ -217,8 +222,10 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             tv_squaredetails_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
-            tv_squaredetails_bd_show.text = "收到100颗[img src=redheart_small/]"
-            tv_squaredetails_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=heart_gray/]即可为我打榜哦"
+            if(square.lovePointNum!=0){
+                tv_squaredetails_bd_show.text = "收到${square.lovePointNum}[img src=redheart_small/]"
+            }
+            tv_squaredetails_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=small_gray_like/]即可为我打榜哦"
         }else{
             rl_squaredetails_bg_layout.visibility = View.GONE
         }

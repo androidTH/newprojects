@@ -35,7 +35,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         val mSquareBangdanListView= holder.bind<SquareBangdanListView>(R.id.msquare_bangdanview)
-        if(i==5){
+        if(data.dataType==2){
             mSquareBangdanListView.visibility = View.VISIBLE
             trendView.visibility = View.GONE
             mSquareBangdanListView.update(data)

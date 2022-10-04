@@ -302,23 +302,23 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.text = square.content
         }
 
-        if(true){
+        if(square.rankOrder==2&&TextUtils.equals("0",square.sex)){
             rl_square_bg_layout.visibility = View.VISIBLE
-            tv_square_bd_pisition.text ="魅力榜·排名第xxx"
+            if(square.orderNum!=0){
+                tv_square_bd_pisition.text ="魅力榜·排名第${square.orderNum}"
+            }else{
+                tv_square_bd_pisition.text ="魅力榜"
+            }
             square_bd_headView.setImageURI(square.picUrl)
             tv_square_bd_username.text = "${square.name}"
             tv_square_bd_usersex.isSelected = TextUtils.equals("0",square.sex)
 
-            if(square.age.isNullOrEmpty()){
-                tv_square_bd_userage.visibility = View.GONE
-            }else{
-                tv_square_bd_userage.visibility = View.VISIBLE
-                tv_square_bd_userage.text = "${square.age}岁"
+            tv_square_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+            if(square.lovePointNum!=0){
+                tv_square_bd_show.text = "收到${square.lovePointNum} [img src=redheart_small/]"
             }
 
-            tv_square_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
-            tv_square_bd_show.text = "收到100 [img src=redheart_small/]"
-            tv_square_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=heart_gray/]即可为我打榜哦"
+            tv_square_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=small_gray_like/]即可为我打榜哦"
         }else{
             rl_square_bg_layout.visibility = View.GONE
         }

@@ -99,10 +99,12 @@ class SquareFragment : RecyclerFragment() {
         squareAdapter.setHeaderView(headerView)
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
-            if(square.classesid!=66){
+            if(square.classesid!=66&&square.dataType!=2){
                 square.id?.let {
                     startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
                 }
+            }else if(square.dataType==2){
+                startActivity<D6LoveHeartListActivity>()
             }
         }
 

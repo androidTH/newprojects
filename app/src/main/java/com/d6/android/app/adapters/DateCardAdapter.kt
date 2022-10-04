@@ -679,7 +679,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_bangdantwo_nick.text = "匿名"
                 }else{
                     tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
-                    bangdan_two.setImageURI(mLoveHeartFans.sPicUrl)
+                    bangdan_two.setImageURI(mLoveHeartFansTwo.sPicUrl)
                 }
                 tv_bangdantwo_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansTwo.sSex)
                 if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男

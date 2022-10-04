@@ -67,6 +67,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private var iIsAnonymous:Int = 2
 
     private var mFrom:String="otherActivity"
+    private var mOrderNum:Int = -1
+    private var mLoveNumPoint:Int= 0
+    private var mHighChildType:Int = -1
 
     private val IsOpenUnKnow by lazy{
         SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
@@ -469,6 +472,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }else if(TextUtils.equals("bangdan",mFrom)){
              et_content.setHint("发布动态，邀请小哥哥为你打榜吧…")
+             mHighChildType = intent.getIntExtra("orderType",-1)
+             mOrderNum = intent.getIntExtra("orderNum",0)
+             mLoveNumPoint = intent.getIntExtra("loveNumPoint",0)
         }else{
             iIsAnonymous = 1
             tv_unknow_choose.text = resources.getString(R.string.string_unknow_unknow)
@@ -772,7 +778,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 }
                 Log.i("sbBlur","图片数量：${mImages.size}，图片下标：${sbBlur},阅读：${sbFirePics}")
 //                var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}","${sbFirePics}")
+                var rankOrder = 1
+                if(TextUtils.equals("bangdan",mFrom)){
+                    rankOrder = 2
+                }
+                Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}","${sbFirePics}",mHighChildType,rankOrder,mOrderNum,mLoveNumPoint)
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 try {
@@ -837,7 +847,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private fun ConvertSuccess(file:File,content:String){
         Request.uploadFile(file,1).flatMap {
             Log.i("releaseautio","${fileAudioPath}音频地址:"+it)
-            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"","")
+            var rankOrder = 1
+            if(TextUtils.equals("bangdan",mFrom)){
+                rankOrder = 2
+            }
+            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"","",mHighChildType,rankOrder,mOrderNum,mLoveNumPoint)
         }.request(this,false,success= { _, data ->
             showToast("发布成功")
             try {
@@ -892,7 +906,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Flowable.just(it)
             }.flatMap {
                 Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
-                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","","")
+                var rankOrder = 1
+                if(TextUtils.equals("bangdan",mFrom)){
+                    rankOrder = 2
+                }
+                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","","",mHighChildType,rankOrder,mOrderNum,mLoveNumPoint)
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 try {
@@ -958,7 +976,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             this.city
         }
 
-        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","","").request(this,false,success={
+        var rankOrder = 1
+        if(TextUtils.equals("bangdan",mFrom)){
+            rankOrder = 2
+        }
+        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","","",mHighChildType,rankOrder,mOrderNum,mLoveNumPoint).request(this,false,success={
             _, data ->
             showToast("发布成功")
 //            dismissDialog()

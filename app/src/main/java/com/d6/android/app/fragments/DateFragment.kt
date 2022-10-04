@@ -94,7 +94,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
             }
         }else if(view?.id==R.id.tv_date_find_bangdan||view?.id==R.id.rl_date_bangdan){
-            startActivity<D6LoveHeartListActivity>()
+            var mDate = mDates[position]
+            var mPageIndex = 0
+            if(mDate.orderType==2){
+                mPageIndex = 1
+            }else if(mDate.orderType==3){
+                mPageIndex = 2
+            }else{
+                mPageIndex = 0
+            }
+            startActivity<D6LoveHeartListActivity>("pageIndex" to mPageIndex)
         }else if(view?.id==R.id.ll_middle){
             if (TextUtils.equals(sex, "0")) {
                 var list = (mRecyclerView.adapter as DateCardAdapter).mBangDanHeartsListBeans
@@ -136,7 +145,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun startToActivity(userBean:LoveHeartFans){
-        startActivity<UserInfoActivity>("id" to "${userBean.iUserid}")
+        if(userBean.iListSetting!=2){
+            startActivity<UserInfoActivity>("id" to "${userBean.iUserid}")
+        }
     }
 
     private val userId by lazy {
@@ -225,7 +236,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                             if(isDanMu){//||!TextUtils.equals(findDate.accountId, getLocalUserId())
                                 getFindReceiveLoveHeart("${findDate.accountId}","2")
                             }
-                            toast("${isDanMu}=${scrollPosition}")
+//                            toast("${isDanMu}=${scrollPosition}")
                         }
                     }
                 }

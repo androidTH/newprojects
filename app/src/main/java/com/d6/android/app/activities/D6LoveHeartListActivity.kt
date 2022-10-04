@@ -41,38 +41,24 @@ class D6LoveHeartListActivity : BaseActivity() {
             onBackPressed()
         }
 
-        tv_click_bangdan.setOnClickListener {
-            startActivity<ReleaseNewTrendsActivity>("from" to "bangdan")
-        }
-
         mTitles.add("魅力榜")
         mTitles.add("土豪榜")
+        var mPageIndex = intent.getIntExtra("pageIndex",0)
 
-        mFragments.add(CharmBangdanFragment.newInstance("魅力榜",2))
-        mFragments.add(BangDanListQuickRichFragment.newInstance("土豪榜",1))
+        mFragments.add(CharmBangdanFragment.newInstance("魅力榜",mPageIndex))
+        mFragments.add(BangDanListQuickRichFragment.newInstance("土豪榜",2))
         viewpager_loveheart.adapter = LoveHeartPageAdapter(supportFragmentManager,mFragments,mTitles)
         viewpager_loveheart.offscreenPageLimit = mFragments.size
 
         tab_loveheartitle.setupWithViewPager(viewpager_loveheart)
         viewpager_loveheart.addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
             override fun onPageSelected(index: Int) {
-                if(index==0){
-                    if(TextUtils.equals("1", getUserSex())){
-                        ll_self_bangdan_order.visibility = View.GONE
-                        tv_click_bangdan.visibility = View.GONE
-                    }else{
-                        ll_self_bangdan_order.visibility = View.VISIBLE
-                        tv_click_bangdan.visibility = View.VISIBLE
-                    }
-                }else{
-                    if(TextUtils.equals("1", getUserSex())){
-                        ll_self_bangdan_order.visibility = View.VISIBLE
-                        tv_click_bangdan.visibility = View.GONE
-                    }else{
-                        ll_self_bangdan_order.visibility = View.GONE
-                    }
-                }
-
+//                    if(TextUtils.equals("1", getUserSex())){
+//                        ll_self_bangdan_order.visibility = View.VISIBLE
+//                        tv_click_bangdan.visibility = View.GONE
+//                    }else{
+//                        ll_self_bangdan_order.visibility = View.GONE
+//                    }
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -84,69 +70,12 @@ class D6LoveHeartListActivity : BaseActivity() {
             }
         })
 
-        if(TextUtils.equals("1", getUserSex())){
-            ll_self_bangdan_order.visibility = View.GONE
-            tv_click_bangdan.visibility = View.GONE
-        }
-        updateTopBangDan()
+//        if(TextUtils.equals("1", getUserSex())){
+//            ll_self_bangdan_order.visibility = View.GONE
+//            tv_click_bangdan.visibility = View.GONE
+//        }
     }
 
-    private fun updateTopBangDan(){
-        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
-            data?.let {
-                user_self_headView.setImageURI(it.picUrl)
-                tv_self_name.text = "${it.name}"
-                tv_self_sex.isSelected = TextUtils.equals("0",it.sex)
-                if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(it.sex, "0")) {//0 女 1 男
-                    tv_self_vip.visibility =View.GONE
-                } else {
-                    tv_self_vip.visibility = View.VISIBLE
-                    tv_self_vip.backgroundDrawable = getLevelDrawable("${it.userclassesid}",this)
-                }
-
-                if(TextUtils.equals("0",it.sex)){
-                    if(it.iReceiveLovePoint!=0){
-                        tv_self_receivedliked.text = "收到${it.iReceiveLovePoint}"
-                    }else{
-                        tv_self_receivedliked.visibility = View.GONE
-                    }
-                }else{
-                    if(it.iSendLovePoint!=0){
-                        tv_self_receivedliked.text = "送出${it.iSendLovePoint}"
-                    }else{
-                        tv_self_receivedliked.visibility = View.GONE
-                    }
-                }
-
-                if(it.orderNum==1){
-                    tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_FF4500)
-                }else if(it.orderNum==2){
-                    tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_BE34FF)
-                }else if(it.orderNum==3){
-                    tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_34B1FF)
-                }else{
-                    tv_self_order.textColor = ContextCompat.getColor(this,R.color.color_888888)
-                }
-
-                if(it.orderNum<9&&it.orderNum>0){
-                    tv_self_order.text = "0${it.orderNum}"
-                }else{
-                    if(it.orderNum>100||it.orderNum<=0){
-                        tv_self_order.text = "--"
-                    }else{
-                        tv_self_order.text = "${it.orderNum}"
-                    }
-                }
-                user_self_headView.setOnClickListener {
-                    startActivity<UserInfoActivity>("id" to "${data.accountId}")
-                }
-            }
-        }) { code, msg ->
-            if(code==2){
-                toast(msg)
-            }
-        }
-    }
 
     private fun setTabSelected(flag: Boolean, tab: com.d6.android.app.widget.tablayout.TabLayout.Tab) {
         var tv = tab.getCustomView()!!.findViewById<TextView>(R.id.tv_tab)

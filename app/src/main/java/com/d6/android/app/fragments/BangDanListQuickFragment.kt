@@ -1,11 +1,13 @@
 package com.d6.android.app.fragments
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
+import com.d6.android.app.activities.ReleaseNewTrendsActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.BangdanListQuickAdapter
 import com.d6.android.app.base.BaseFragment
@@ -14,12 +16,22 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLevelDrawable
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.utils.getUserSex
+import kotlinx.android.synthetic.main.activity_d6loveheartlist.*
 import kotlinx.android.synthetic.main.header_bangdan_order.view.*
 import kotlinx.android.synthetic.main.layout_bangdanlist.*
+import kotlinx.android.synthetic.main.layout_bangdanlist.tv_self_name
+import kotlinx.android.synthetic.main.layout_bangdanlist.tv_self_order
+import kotlinx.android.synthetic.main.layout_bangdanlist.tv_self_receivedliked
+import kotlinx.android.synthetic.main.layout_bangdanlist.tv_self_sex
+import kotlinx.android.synthetic.main.layout_bangdanlist.tv_self_vip
+import kotlinx.android.synthetic.main.layout_bangdanlist.user_self_headView
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.textColor
 
 /**
  * 榜单
@@ -30,6 +42,8 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
     private var mBangDanHeartsListBeans = ArrayList<LoveHeartFans>()
 
     private var pageNum = 1
+    private var mOrderNum:Int=0
+    private var mLoveNumPoint:Int=-1
 
     private val mBangdanListQuickAdapter by lazy {
         BangdanListQuickAdapter(mBangDanListBeans)
@@ -88,10 +102,20 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                  pullDownRefresh()
         })
 
+        tv_click_bangdan.setOnClickListener {
+            startActivity<ReleaseNewTrendsActivity>("from" to "bangdan","orderType" to mHighChildType,"orderNum" to mOrderNum,"loveNumPoint" to mLoveNumPoint)
+        }
 //        mBangdanListQuickAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
 //            loadMore()
 //        },rv_bangdanlist)
         getData()
+        if(TextUtils.equals("1", getUserSex())){
+            ll_self_bangdan_order.visibility = View.GONE
+            tv_click_bangdan.visibility = View.GONE
+        }else{
+            ll_self_bangdan_order.visibility = View.VISIBLE
+            tv_click_bangdan.visibility = View.VISIBLE
+        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -121,6 +145,9 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                 }
                 mBangdanListQuickAdapter.notifyDataSetChanged()
                 updateHeader()
+                if(TextUtils.equals("0", getUserSex())){
+                    updateTopBangDan(it.myOrder,it.lovePointNum)
+                }
             }
         }
     }
@@ -129,7 +156,9 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
        if (mBangDanHeartsListBeans.size<=3&&mBangDanHeartsListBeans.size>0){
            var mLoveHeartFans = mBangDanHeartsListBeans.get(0)
            mHeaderBangDanOrder.ll_middle.setOnClickListener {
-               startToActivity("${mLoveHeartFans.iUserid}")
+               if(mLoveHeartFans.iListSetting!=2){
+                   startToActivity("${mLoveHeartFans.iUserid}")
+               }
            }
            if(mLoveHeartFans.iListSetting==2){
 //            mHeaderBangDanOrder.bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
@@ -140,12 +169,13 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                mHeaderBangDanOrder.bangdan_one.setImageURI(mLoveHeartFans.sPicUrl)
            }
            mHeaderBangDanOrder.tv_bangdanone_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFans.sSex)
-           if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFans.sSex, "0")) {//0 女 1 男
-               mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.GONE
-           } else {
-               mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.VISIBLE
-               mHeaderBangDanOrder.tv_bangdanone_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFans.userclassesid}",context)
-           }
+//           if (TextUtils.equals("1", getUserSex())&&TextUtils.equals(mLoveHeartFans.sSex, "0")) {//0 女 1 男
+//               mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.GONE
+//           } else {
+//               mHeaderBangDanOrder.tv_bangdanone_vip.visibility = View.VISIBLE
+//               mHeaderBangDanOrder.tv_bangdanone_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFans.userclassesid}",context)
+//           }
+           mHeaderBangDanOrder.tv_bangdanone_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFans.userclassesid}",context)
            if(TextUtils.equals("0",mLoveHeartFans.sSex)){
                mHeaderBangDanOrder.tv_receivedliked_one.text = "收到${mLoveHeartFans.iAllLovePoint} [img src=redheart_small/]"
            }else{
@@ -155,7 +185,9 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
            if(mBangDanHeartsListBeans.size>=2){
                var mLoveHeartFansTwo = mBangDanHeartsListBeans.get(1)
                mHeaderBangDanOrder.ll_bangdan_two.setOnClickListener {
-                   startToActivity("${mLoveHeartFansTwo.iUserid}")
+                   if(mLoveHeartFansTwo.iListSetting!=2){
+                       startToActivity("${mLoveHeartFansTwo.iUserid}")
+                   }
                }
                if(mLoveHeartFansTwo.iListSetting==2){
 //            mHeaderBangDanOrder.bangdan_two.setImageURI("res:///"+R.mipmap.shenmiren_icon)
@@ -163,15 +195,17 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                    mHeaderBangDanOrder.tv_bangdantwo_nick.text = "匿名"
                }else{
                    mHeaderBangDanOrder.tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
-                   mHeaderBangDanOrder.bangdan_two.setImageURI(mLoveHeartFans.sPicUrl)
+                   mHeaderBangDanOrder.bangdan_two.setImageURI(mLoveHeartFansTwo.sPicUrl)
                }
                mHeaderBangDanOrder.tv_bangdantwo_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansTwo.sSex)
-               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男
-                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.GONE
-               } else {
-                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.VISIBLE
-                   mHeaderBangDanOrder.tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
-               }
+//               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男
+//                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.GONE
+//               } else {
+//                   mHeaderBangDanOrder.tv_bangdantwo_vip.visibility = View.VISIBLE
+//                   mHeaderBangDanOrder.tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
+//               }
+               mHeaderBangDanOrder.tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
+
                if(TextUtils.equals("0",mLoveHeartFans.sSex)){
                    mHeaderBangDanOrder.tv_receivedliked_two.text = "收到${mLoveHeartFansTwo.iAllLovePoint} [img src=redheart_small/]"
                }else{
@@ -183,7 +217,9 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
            if(mBangDanHeartsListBeans.size==3){
                var mLoveHeartFansThree = mBangDanHeartsListBeans.get(2)
                mHeaderBangDanOrder.ll_bangdan_three.setOnClickListener {
-                   startToActivity("${mLoveHeartFansThree.iUserid}")
+                   if(mLoveHeartFansThree.iListSetting!=2){
+                       startToActivity("${mLoveHeartFansThree.iUserid}")
+                   }
                }
                if(mLoveHeartFansThree.iListSetting==2){
 //            mHeaderBangDanOrder.bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
@@ -194,13 +230,13 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                    mHeaderBangDanOrder.bangdan_three.setImageURI(mLoveHeartFansThree.sPicUrl)
                }
                mHeaderBangDanOrder.tv_bangdanthree_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansThree.sSex)
-               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansThree.sSex, "0")) {//0 女 1 男
-                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.GONE
-               } else {
-                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.VISIBLE
-                   mHeaderBangDanOrder.tv_bangdanthree_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansThree.userclassesid}",context)
-               }
-
+//               if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansThree.sSex, "0")) {//0 女 1 男
+//                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.GONE
+//               } else {
+//                   mHeaderBangDanOrder.tv_bangdanthree_vip.visibility = View.VISIBLE
+//                   mHeaderBangDanOrder.tv_bangdanthree_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansThree.userclassesid}",context)
+//               }
+               mHeaderBangDanOrder.tv_bangdanthree_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansThree.userclassesid}",context)
                if(TextUtils.equals("0",mLoveHeartFansThree.sSex)){
                    mHeaderBangDanOrder.tv_receivedliked_three.text = "收到${mLoveHeartFansThree.iAllLovePoint} [img src=redheart_small/]"
                }else{
@@ -209,6 +245,52 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
            }
 
        }
+    }
+
+    private fun updateTopBangDan(orderNum:Int,lovepoint:Int){
+        this.mOrderNum = orderNum
+        this.mLoveNumPoint = lovepoint
+        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
+            data?.let {
+                user_self_headView.setImageURI(it.picUrl)
+                tv_self_name.text = "${it.name}"
+                tv_self_sex.isSelected = TextUtils.equals("0",it.sex)
+                if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(it.sex, "0")) {//0 女 1 男
+                    tv_self_vip.visibility =View.GONE
+                } else {
+                    tv_self_vip.visibility = View.VISIBLE
+                    tv_self_vip.backgroundDrawable = getLevelDrawable("${it.userclassesid}",activity)
+                }
+
+                if(TextUtils.equals("0",it.sex)){
+                    if(lovepoint>0){
+                        tv_self_receivedliked.text = "收到${lovepoint} [img src=redheart_small/]"
+                    }else{
+                        tv_self_receivedliked.visibility = View.GONE
+                    }
+                }else{
+                    if(lovepoint>0){
+                        tv_self_receivedliked.text = "送出${lovepoint} [img src=redheart_small/]"
+                    }else{
+                        tv_self_receivedliked.visibility = View.GONE
+                    }
+                }
+                if(orderNum<=9&&orderNum>0){
+                    tv_self_order.text = "0${orderNum}"
+                }else if(orderNum>=10){
+                    tv_self_order.text = "${orderNum}"
+                }else{
+                    tv_self_order.text = "--"
+                }
+                user_self_headView.setOnClickListener {
+                    startActivity<UserInfoActivity>("id" to "${data.accountId}")
+                }
+            }
+        }) { code, msg ->
+            if(code==2){
+                toast(msg)
+            }
+        }
     }
 
     private fun startToActivity(id:String){

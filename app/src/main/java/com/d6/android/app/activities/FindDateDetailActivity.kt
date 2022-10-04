@@ -84,7 +84,7 @@ class FindDateDetailActivity : TitleActivity() {
                     }
                 }else if(p==3){
                     mData?.let {
-                        ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
+                        ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/dateDetail/77247?ids="+it.id, shareListener)
                     }
                 }
             }

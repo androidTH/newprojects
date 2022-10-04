@@ -194,9 +194,9 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
     fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int
-                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String,sIfLovePics:String,sIfSeePics:String) =
+                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String,sIfLovePics:String,sIfSeePics:String,orderType:Int,rankOrder:Int,orderNum:Int,lovePointNum:Int) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous,
-                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength,sIfLovePics,sIfSeePics)
+                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength,sIfLovePics,sIfSeePics,orderType,rankOrder,orderNum,lovePointNum)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)

@@ -92,7 +92,7 @@ class SpeedDateDetailActivity : TitleActivity() {
                     if (p == 0) {
                         startActivity<ReportActivity>("id" to "${mSpeedDate.id}", "tiptype" to "5")
                     }else if(p==3){
-                        ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+                        ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/quickDateDetail/20839?ids="+mSpeedDate.id, shareListener)
                     }
                 }
             }

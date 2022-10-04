@@ -16,11 +16,17 @@ class CharmBangdanFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
     override fun contentViewId() = R.layout.fragment_charmbangdan
     private val mRecommentTypes = ArrayList<String>()
     private var mFragments = ArrayList<Fragment>()
+    private var mPageIndex = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            mPageIndex = it.getInt(ARG_PARAM2)
+        }
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
-
 
         mRecommentTypes.add("月榜")
         mRecommentTypes.add("年榜")
@@ -33,6 +39,7 @@ class CharmBangdanFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
         viewpager_recommenddate.adapter = CharmBangDanPageAdapter(childFragmentManager,mFragments,mRecommentTypes)
         viewpager_recommenddate.offscreenPageLimit = mFragments.size
         tab_recommentdate.setupWithViewPager(viewpager_recommenddate)
+        viewpager_recommenddate.setCurrentItem(mPageIndex)
         viewpager_recommenddate.addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
 

@@ -135,6 +135,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private var playIndex = -1
     private var playSquare:Square? = null
     private var mDesc = ""
+    private var mPageIndex = 0
 
     override fun update(o: Observable?, arg: Any?) {
         try{
@@ -312,7 +313,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         headerView.rl_month_bangdan.setOnClickListener {
-               startActivity<D6LoveHeartListActivity>()
+               startActivity<D6LoveHeartListActivity>("pageIndex" to mPageIndex)
         }
 
         tv_more.setOnClickListener {
@@ -683,10 +684,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         }
                         var mBangdanInfo = ""
                         if(it.orderType==2){
+                            mPageIndex = 1
                             mBangdanInfo = "魅力榜年榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
                         }else if(it.orderType==3){
+                            mPageIndex = 2
                             mBangdanInfo = "魅力榜总榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
                         }else{
+                            mPageIndex = 0
                             mBangdanInfo = "魅力榜月榜：第${it.orderNum}名·共收到${it.iAllLovePoint} [img src=redheart_small/]"
                         }
                         headerView.tv_month_bangdan_show.text = mBangdanInfo

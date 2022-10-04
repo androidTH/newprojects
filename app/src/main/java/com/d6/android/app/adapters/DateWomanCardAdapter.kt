@@ -399,7 +399,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     tv_bangdantwo_nick.text = "匿名"
                 }else{
                     tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
-                    bangdan_two.setImageURI(mLoveHeartFans.sPicUrl)
+                    bangdan_two.setImageURI(mLoveHeartFansTwo.sPicUrl)
                 }
                 tv_bangdantwo_nicksex.isSelected = TextUtils.equals("0", mLoveHeartFansTwo.sSex)
                 if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(mLoveHeartFansTwo.sSex, "0")) {//0 女 1 男
@@ -408,7 +408,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     tv_bangdantwo_vip.visibility = View.VISIBLE
                     tv_bangdantwo_vip.backgroundDrawable = getLevelDrawable("${mLoveHeartFansTwo.userclassesid}",context)
                 }
-                if(TextUtils.equals("0",mLoveHeartFans.sSex)){
+                if(TextUtils.equals("0",mLoveHeartFansTwo.sSex)){
                     tv_receivedliked_two.text = "收到${mLoveHeartFansTwo.iAllLovePoint} [img src=redheart_small/]"
                 }else{
                     tv_receivedliked_two.text = "送出${mLoveHeartFansTwo.iAllLovePoint} [img src=redheart_small/]"

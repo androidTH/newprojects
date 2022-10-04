@@ -58,6 +58,9 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var dEndtime:Long =0  //"dEndtime":1539855678000, 约会截至时间 连麦截止时间
     var dStarttime:Long = 0
     var iAppointmentSignupCount:Int?=-1
+    var rankOrder:Int?=-1
+    var orderNum:Int?=-1
+    var lovePointNum:Int?=-1
 
 
     //连麦
@@ -77,5 +80,6 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var giftName:String?=""
     var giftIcon:String?=""
     var hasGift:Boolean=false
-
+    var dataType:Int=0
+    var highList=ArrayList<LoveHeartFans>()
 }
