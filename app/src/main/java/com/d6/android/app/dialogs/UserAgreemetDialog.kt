@@ -88,7 +88,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
                 super.updateDrawState(ds)
                 ds.color = Color.RED
                 //超链接形式的下划线，false 表示不显示下划线，true表示显示下划线
-                ds.isUnderlineText = false
+                ds.isUnderlineText = true
             }
         }, start, start + userServiceTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         val end = content.indexOf(appServiceTitle)
@@ -102,7 +102,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
                 super.updateDrawState(ds)
                 ds.color = Color.RED
                 //超链接形式的下划线，false 表示不显示下划线，true表示显示下划线
-                ds.isUnderlineText = false
+                ds.isUnderlineText = true
             }
         }, end, end + appServiceTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 

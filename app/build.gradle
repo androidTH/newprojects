@@ -13,8 +13,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 102 //32 2.2.1
-        versionName "3.11.1"
+        versionCode 106 //104 3.11.3
+        versionName "3.12.0"
 
         ndk {
             abiFilters "armeabi","arm64-v8a"//"armeabi"//'arm64-v8a'//'x86', 'x86_64', 'mips', 'mips64'
@@ -84,6 +84,11 @@ android {
         vivo { dimension defaultConfig.applicationId }
         huawei { dimension defaultConfig.applicationId }
         oppo { dimension defaultConfig.applicationId }
+        u360 { dimension defaultConfig.applicationId }
+        baidu { dimension defaultConfig.applicationId }
+        xiaomi { dimension defaultConfig.applicationId }
+        yingyongbao { dimension defaultConfig.applicationId }
+        samg { dimension defaultConfig.applicationId }
     }
 
     productFlavors.all { flavor ->

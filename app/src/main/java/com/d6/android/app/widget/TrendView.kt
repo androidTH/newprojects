@@ -213,7 +213,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 rl_square_bg_layout.setOnClickListener {
                     square?.let {
-                        (context as BaseActivity).startActivity<D6LoveHeartListActivity>()
+                        var mPageIndex = it.orderType-1
+                        if(it.orderType<0){
+                            mPageIndex = 0
+                        }
+                        (context as BaseActivity).startActivity<D6LoveHeartListActivity>("pageIndex" to mPageIndex)
                     }
                 }
             }
@@ -316,11 +320,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_square_bd_uservip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
             if(square.lovePointNum!=0){
                 tv_square_bd_show.text = "收到${square.lovePointNum} [img src=redheart_small/]"
+            }else{
+                tv_square_bd_show.text = ""
             }
 
             tv_square_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=small_gray_like/]即可为我打榜哦"
         }else{
             rl_square_bg_layout.visibility = View.GONE
+            tv_square_click_bangdan.text = ""
         }
 
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0

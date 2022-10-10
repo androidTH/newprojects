@@ -163,7 +163,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         rl_squaredetails_bg_layout.setOnClickListener {
             square?.let {
-                (context as BaseActivity).startActivity<D6LoveHeartListActivity>()
+                var mPageIndex = it.orderType-1
+                if(it.orderType<0){
+                    mPageIndex = 0
+                }
+                (context as BaseActivity).startActivity<D6LoveHeartListActivity>("pageIndex" to mPageIndex)
             }
         }
     }

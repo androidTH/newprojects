@@ -161,8 +161,8 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                }
            }
            if(mLoveHeartFans.iListSetting==2){
-//            mHeaderBangDanOrder.bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-               mHeaderBangDanOrder.bangdan_one.showBlur(mLoveHeartFans.sPicUrl)
+               mHeaderBangDanOrder.bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+//               mHeaderBangDanOrder.bangdan_one.showBlur(mLoveHeartFans.sPicUrl)
                mHeaderBangDanOrder.tv_bangdanone_nick.text = "匿名"
            }else{
                mHeaderBangDanOrder.tv_bangdanone_nick.text = mLoveHeartFans.sSendUserName
@@ -190,8 +190,8 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                    }
                }
                if(mLoveHeartFansTwo.iListSetting==2){
-//            mHeaderBangDanOrder.bangdan_two.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-                   mHeaderBangDanOrder.bangdan_two.showBlur(mLoveHeartFansTwo.sPicUrl)
+                   mHeaderBangDanOrder.bangdan_two.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+//                   mHeaderBangDanOrder.bangdan_two.showBlur(mLoveHeartFansTwo.sPicUrl)
                    mHeaderBangDanOrder.tv_bangdantwo_nick.text = "匿名"
                }else{
                    mHeaderBangDanOrder.tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
@@ -222,8 +222,8 @@ class BangDanListQuickFragment : BaseFragment() ,View.OnClickListener{
                    }
                }
                if(mLoveHeartFansThree.iListSetting==2){
-//            mHeaderBangDanOrder.bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-                   mHeaderBangDanOrder.bangdan_three.showBlur(mLoveHeartFansThree.sPicUrl)
+                   mHeaderBangDanOrder.bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+//                   mHeaderBangDanOrder.bangdan_three.showBlur(mLoveHeartFansThree.sPicUrl)
                    mHeaderBangDanOrder.tv_bangdanthree_nick.text = "匿名"
                }else{
                    mHeaderBangDanOrder.tv_bangdanthree_nick.text = mLoveHeartFansThree.sSendUserName

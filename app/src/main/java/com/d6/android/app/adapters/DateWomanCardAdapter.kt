@@ -368,7 +368,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             var tv_bangdanone_vip = holder.bind<TextView>(R.id.tv_bangdanone_vip)
             var tv_receivedliked_one = holder.bind<TextView>(R.id.tv_receivedliked_one)
             if(mLoveHeartFans.iListSetting==2){
-                bangdan_one.showBlur(mLoveHeartFans.sPicUrl)
+                bangdan_one.setImageURI("res:///"+R.mipmap.shenmiren_icon)
                 tv_bangdanone_nick.text = "匿名"
             }else{
                 tv_bangdanone_nick.text = mLoveHeartFans.sSendUserName
@@ -395,7 +395,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 var tv_bangdantwo_vip = holder.bind<TextView>(R.id.tv_bangdantwo_vip)
                 var tv_receivedliked_two = holder.bind<TextView>(R.id.tv_receivedliked_two)
                 if(mLoveHeartFansTwo.iListSetting==2){
-                    bangdan_two.showBlur(mLoveHeartFansTwo.sPicUrl)
+                    bangdan_two.setImageURI("res:///"+R.mipmap.shenmiren_icon)
                     tv_bangdantwo_nick.text = "匿名"
                 }else{
                     tv_bangdantwo_nick.text = mLoveHeartFansTwo.sSendUserName
@@ -424,7 +424,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 var tv_bangdanthree_vip = holder.bind<TextView>(R.id.tv_bangdanthree_vip)
                 var tv_receivedliked_three = holder.bind<TextView>(R.id.tv_receivedliked_three)
                 if(mLoveHeartFansThree.iListSetting==2){
-                    bangdan_three.showBlur(mLoveHeartFansThree.sPicUrl)
+                    bangdan_three.setImageURI("res:///"+R.mipmap.shenmiren_icon)
                     tv_bangdanthree_nick.text = "匿名"
                 }else{
                     tv_bangdanthree_nick.text = mLoveHeartFansThree.sSendUserName
