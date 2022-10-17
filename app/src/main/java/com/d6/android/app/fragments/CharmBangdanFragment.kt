@@ -82,7 +82,6 @@ class CharmBangdanFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
         fun newInstance(param1: String, param2: Int) =
                 CharmBangdanFragment().apply {
                     arguments = Bundle().apply {
-//                        putParcelable(ARG_PARAM1,param1)
                         putString(ARG_PARAM1,param1)
                         putInt(ARG_PARAM2, param2)
                     }

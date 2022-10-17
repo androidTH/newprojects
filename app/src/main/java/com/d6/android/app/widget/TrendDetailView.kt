@@ -206,7 +206,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             img_auther.visibility= View.GONE
         }
 
-        if(square.rankOrder==2){
+        if(square.rankOrder==2&&TextUtils.equals("0",square.sex)){
             rl_squaredetails_bg_layout.visibility = View.VISIBLE
             if(square.orderNum!=0){
                 tv_squaredetails_bd_pisition.text = "魅力榜·排名第${square.orderNum}"
@@ -232,6 +232,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_squaredetails_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=small_gray_like/]即可为我打榜哦"
         }else{
             rl_squaredetails_bg_layout.visibility = View.GONE
+            tv_squaredetails_click_bangdan.text = ""
         }
 
         if (square.userclassesname.toString().startsWith("入门")) {

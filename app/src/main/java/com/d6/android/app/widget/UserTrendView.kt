@@ -213,7 +213,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }else{
             img_auther.visibility=View.GONE
         }
-        if(square.rankOrder==2){
+        if(square.rankOrder==2&&TextUtils.equals("0",square.sex)){
             rl_usersquare_bg_layout.visibility = View.VISIBLE
             if(square.orderNum!=0){
                 tv_usersquare_bd_pisition.text = "魅力榜·排名第${square.orderNum}"
@@ -238,6 +238,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             tv_usersquare_click_bangdan.text = "送[img src=liwu_list_g/]或[img src=small_gray_like/]即可为我打榜哦"
         }else{
             rl_usersquare_bg_layout.visibility = View.GONE
+            tv_usersquare_click_bangdan.text = ""
         }
 
 //        val sub = if (square.city.isNullOrEmpty()) {

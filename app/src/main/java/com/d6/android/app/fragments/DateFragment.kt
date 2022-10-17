@@ -84,9 +84,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     override fun onItemClick(view: View?, position: Int) {
         if (view?.id == R.id.cardView||view?.id==R.id.rl_small_mendate_layout||view?.id==R.id.imageViewbg||view?.id==R.id.rl_big_mendate_layout) {
             if(mDates!=null&&mDates.size>position){
+                val dateBean = mDates[position]
                 if(position!=2){
-                    val dateBean = mDates[position]
                     startActivity<UserInfoActivity>("id" to "${dateBean.accountId}")
+                }else if(position==2){
+                    var mPageIndex = 0
+                    if (dateBean.orderType == 2) {
+                        mPageIndex = 1
+                    } else if (dateBean.orderType == 3) {
+                        mPageIndex = 2
+                    } else {
+                        mPageIndex = 0
+                    }
+                    startActivity<D6LoveHeartListActivity>("pageIndex" to mPageIndex)
                 }
             }
         } else if (view?.id == R.id.tv_perfect_userinfo) {
