@@ -45,12 +45,15 @@ class SquareBangdanListView @JvmOverloads constructor(context: Context, attrs: A
             if(mLoveFansOne.iAllLovePoint!=0){
                 tv_squarebangdan_one_receivedliked.text = "收到${mLoveFansOne.iAllLovePoint}"
             }
-            rl_squarebangdan_one.setOnClickListener {
-                isBaseActivity {
-                    val id = mLoveFansOne.iUserid
-                    it.startActivity<UserInfoActivity>("id" to "${id}")
-                }
-            }
+//            rl_squarebangdan_one.setOnClickListener {
+//                isBaseActivity {
+//                    mSendSquareBangDanClick?.let {
+//                        it.onSquareBangDanClick(mData)
+//                    }
+////                    val id = mLoveFansOne.iUserid
+////                    it.startActivity<UserInfoActivity>("id" to "${id}")
+//                }
+//            }
         }
 
         if(mHightList.size>=2){
@@ -65,12 +68,15 @@ class SquareBangdanListView @JvmOverloads constructor(context: Context, attrs: A
             tv_squarebangdan_two_sex.isSelected = TextUtils.equals("0","${mLoveFansTwo.sSex}")
             tv_squarebangdan_two_vip.backgroundDrawable = getLevelDrawable("${mLoveFansTwo.userclassesid}",context)
 
-            rl_squarebangdan_two.setOnClickListener {
-                isBaseActivity {
-                    val id = mLoveFansTwo.iUserid?:""
-                    it.startActivity<UserInfoActivity>("id" to "${id}")
-                }
-            }
+//            rl_squarebangdan_two.setOnClickListener {
+//                isBaseActivity {
+//                    mSendSquareBangDanClick?.let {
+//                        it.onSquareBangDanClick(mData)
+//                    }
+////                    val id = mLoveFansTwo.iUserid?:""
+////                    it.startActivity<UserInfoActivity>("id" to "${id}")
+//                }
+//            }
         }
 
         if(mHightList.size==3){
@@ -85,18 +91,26 @@ class SquareBangdanListView @JvmOverloads constructor(context: Context, attrs: A
 
             tv_squarebangdan_three_sex.isSelected = TextUtils.equals("0","${mLoveFansThree.sSex}")
             tv_squarebangdan_three_vip.backgroundDrawable = getLevelDrawable("${mLoveFansThree.userclassesid}",context)
-            rl_squarebangdan_three.setOnClickListener {
-                isBaseActivity {
-                    val id = mLoveFansThree.iUserid
-                    it.startActivity<UserInfoActivity>("id" to "${id}")
-                }
-            }
+//            rl_squarebangdan_three.setOnClickListener {
+//                isBaseActivity {
+//                    mSendSquareBangDanClick?.let {
+//                        it.onSquareBangDanClick(mData)
+//                    }
+////                    val id = mLoveFansThree.iUserid
+////                    it.startActivity<UserInfoActivity>("id" to "${id}")
+//                }
+//            }
         }
 
         tv_find_bangdan.setOnClickListener {
                mSendSquareBangDanClick?.let {
                    it.onSquareBangDanClick(mData)
                }
+        }
+        rl_square_bangdan_list.setOnClickListener {
+            mSendSquareBangDanClick?.let {
+                it.onSquareBangDanClick(mData)
+            }
         }
     }
 

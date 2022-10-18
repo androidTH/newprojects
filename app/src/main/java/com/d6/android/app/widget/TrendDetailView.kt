@@ -90,8 +90,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tv_squaredetails_gift.setOnClickListener {
             (context as BaseActivity).isAuthUser(){
-                square?.let {
-                    showGiftDialog("${it.userid}","${it.id}","${it.name}")
+                if(!TextUtils.equals(getLocalUserId(),"${square?.userid}")){
+                    square?.let {
+                        showGiftDialog("${it.userid}","${it.id}","${it.name}")
+                    }
+                }else{
+                    (context as BaseActivity).toast(context.getString(R.string.string_send_gift))
                 }
             }
         }
