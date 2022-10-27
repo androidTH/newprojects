@@ -352,9 +352,9 @@ class SplashActivity : BaseActivity() {
     private class MClickSpan(val context: Context,var type:Int) : ClickableSpan() {
         override fun onClick(p0: View?) {
             if(type==1){
-                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
+                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to Const.USER_AGREEMENT_URL)
             }else if(type==2){
-                val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+                val url = Const.PRIVATE_URL
                 context.startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
             }
         }

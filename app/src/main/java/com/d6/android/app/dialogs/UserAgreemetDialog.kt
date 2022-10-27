@@ -17,6 +17,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.WebViewActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.screenWidth
 import io.reactivex.disposables.CompositeDisposable
@@ -81,7 +82,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
 
         str.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "https://d6-zone.com/JyPhone/static/privacy/user_agreement.html")
+                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to Const.USER_AGREEMENT_URL)
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -94,7 +95,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
         val end = content.indexOf(appServiceTitle)
         str.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                val url = "https://d6-zone.com/JyPhone/static/privacy/privacy_policy.html"
+                val url = Const.PRIVATE_URL
                 context.startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
             }
 

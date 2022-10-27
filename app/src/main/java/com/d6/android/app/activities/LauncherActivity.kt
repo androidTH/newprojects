@@ -97,11 +97,11 @@ class LauncherActivity : BaseActivity() {
             XInstall.getInstallParam(mXInstallAdapter)
             XInstall.getWakeUpParam(this, getIntent(), mWakeUpAdapter);
             Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+            getFreeChatTag()
         }else{
             showUserAgreementDialog()
         }
 
-        getFreeChatTag()
     }
 
     override fun onResume() {

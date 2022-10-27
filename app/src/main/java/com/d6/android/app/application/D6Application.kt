@@ -88,8 +88,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
         PushHelper.preInit(this)
 
-        var agreed = SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT)
+        var agreed = SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT,false)
         if(agreed&&PushHelper.isMainProcess(this)){
+            AppUtils.init(this)
             PushHelper.init(this)
 
             if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
@@ -106,26 +107,10 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             }
             RongIM.getInstance().setMessageAttachedUserInfo(true)
             initCacheLib()
+            setInputProvider()
 
         }
         ActivitiesManager.getInstance().init(this)
-        setInputProvider()
-
-
-        //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
-
-//        BigImageViewer.initialize(FrescoImageLoader.with(this))
-
-//        DoraemonKit.install(this)
-//
-//        // H5任意门功能需要，非必须
-//        DoraemonKit.setWebDoorCallback { context, url ->
-//            context?.let {
-//                startActivity<WebViewActivity>("title" to "DoraemonKit", "url" to url)
-//            }
-//        }
-
 //        AppUtils.setHWRatio(this)
 
     }

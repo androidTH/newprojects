@@ -292,6 +292,6 @@ object Const {
 
     val MD5_ENCRYPT_KEY = "wang!@#$%"
 
-//    var PRIVATE_URL = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
-//    var USER_AGREEMENT_URL = "file:///android_asset/yonghuxieyi.html"
+    var PRIVATE_URL = "https://d6-zone.com/JyPhone/static/privacy/privacy_policy.html"
+    var USER_AGREEMENT_URL = "https://d6-zone.com/JyPhone/static/privacy/user_agreement.html"
 }

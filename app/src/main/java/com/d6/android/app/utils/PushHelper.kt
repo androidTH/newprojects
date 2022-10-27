@@ -40,9 +40,9 @@ object PushHelper {
             e.printStackTrace()
         }
         UMConfigure.preInit(context, UMENG_APPKEY, getAppMetaData(context, "UMENG_CHANNEL"))
-        if (!isMainProcess(context)) {
-            init(context)
-        }
+//        if (!isMainProcess(context)) {
+//            init(context)
+//        }
     }
 
     /**

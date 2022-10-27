@@ -112,8 +112,11 @@ class AppUtils {
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 
-        fun init(context: Context) {
+        fun initContent(context: Context) {
             this.context = context.applicationContext
+        }
+
+        fun init(context: Context) {
             initFilePath()
 
             var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(context))

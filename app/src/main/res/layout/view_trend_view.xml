@@ -179,6 +179,7 @@
                 android:layout_height="@dimen/height_75"
                 android:paddingTop="@dimen/margin_12"
                 android:paddingLeft="@dimen/margin_15"
+                android:visibility="gone"
                 android:background="@mipmap/rankinglist_bg_small">
             <TextView
                 android:id="@+id/tv_square_bd_pisition"
