@@ -22,4 +22,5 @@ data class SquareMessage(@SerializedName("ids")val id:String?="") {
     var url:String=""
     var urltype:String=""
     var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
+    var status:Int?=1  //1正常 2删除 3过期
 }

@@ -109,7 +109,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
 
         tv_bindwx.setOnClickListener {
-            if (mUserInfo.wxname.isNullOrEmpty()) {
+            if (mUserInfo.wxname.isNullOrEmpty()||mUserInfo.wxid.isNullOrEmpty()||mUserInfo.wxpic.isNullOrEmpty()) {
                 weChatLogin()
             } else {
                 weChatLogin()

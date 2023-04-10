@@ -334,7 +334,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 }
             }, error = { code, msg ->
                 if(code == 2){
-                   toast("动态不存在。")
                    finish()
                 }else{
                     mSwipeRefreshLayout.isRefreshing = false

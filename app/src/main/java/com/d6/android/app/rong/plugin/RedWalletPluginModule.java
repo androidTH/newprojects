@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.d6.android.app.R;
 import com.d6.android.app.activities.RedMoneyActivity;
@@ -39,7 +40,19 @@ public class RedWalletPluginModule implements IPluginModule {
         this.conversationType = rongExtension.getConversationType();
         this.targetId = rongExtension.getTargetId();
         Intent intent = new Intent(fragment.getContext(), RedMoneyActivity.class);
-        intent.putExtra("sResourceId",targetId);
+        Log.i("redwalletPlugin","targetId:"+targetId);
+        String[] mStrs = targetId.split("_");
+        if(mStrs!=null&&mStrs.length>1){
+            intent.putExtra("sResourceId",targetId);
+            intent.putExtra("redwallettype","noprivate");
+        }else{
+            intent.putExtra("sResourceId",targetId);
+            if(conversationType.equals(Conversation.ConversationType.GROUP)){
+                intent.putExtra("redwallettype","group");
+            }else{
+                intent.putExtra("redwallettype","private");
+            }
+        }
 //        Intent intent = new Intent(fragment.getContext(), RedMoneyDesActivity.class);
         fragment.getActivity().startActivity(intent);
 //        SendRedFlowerDialog dialogSendRedFlowerDialog =new  SendRedFlowerDialog();

@@ -81,6 +81,7 @@
             android:layout_marginRight="@dimen/margin_15"
             android:gravity="center_vertical"/>
         <RelativeLayout
+            android:id="@+id/rl_redwallet_nums"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="@dimen/margin_10"

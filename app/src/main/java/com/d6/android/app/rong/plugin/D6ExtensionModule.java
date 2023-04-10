@@ -9,6 +9,7 @@ import io.rong.imkit.plugin.CombineLocationPlugin;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imkit.plugin.ImagePlugin;
 import io.rong.imkit.widget.provider.FilePlugin;
+import io.rong.imkit.widget.provider.LocationPlugin;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
@@ -89,9 +90,10 @@ public class D6ExtensionModule extends DefaultExtensionModule {
         List<IPluginModule> pluginModuleList = new ArrayList<>();
         pluginModuleList.add(new ImagePlugin());
         pluginModuleList.add(new FilePlugin());
-        if(conversationType.equals(Conversation.ConversationType.GROUP)){
+//        pluginModuleList.add(new CombineLocationPlugin());
+//        if(conversationType.equals(Conversation.ConversationType.GROUP)){
             pluginModuleList.add(new RedWalletPluginModule());
-        }
+//        }
 //        pluginModuleList.add(new DestructPlugin());
 //        pluginModuleList.add(new FlowerPluginModule());
         return pluginModuleList;

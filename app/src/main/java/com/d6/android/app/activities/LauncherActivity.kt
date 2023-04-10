@@ -145,6 +145,8 @@ class LauncherActivity : BaseActivity() {
         val mUserAgreemetDialog = UserAgreemetDialog()
         mUserAgreemetDialog.setDialogListener { p, s ->
             if (p == 1) {
+                getFreeChatTag()
+                AppUtils.init(this)
                 SPUtils.instance().put(Const.User.ISNOTUESERAGREEMENT, true).apply()
                 initApp()
 //                OpenInstall.getInstall(mAppInstallAdapter)

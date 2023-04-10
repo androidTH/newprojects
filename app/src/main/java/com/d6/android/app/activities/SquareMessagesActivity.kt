@@ -9,6 +9,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class SquareMessagesActivity : RecyclerActivity() {
     private val userId by lazy {
@@ -30,7 +31,11 @@ class SquareMessagesActivity : RecyclerActivity() {
         title = "动态消息"
         adapter.setOnItemClickListener { view, position ->
             val squareMessage = mMessages[position]
-            startActivity<SquareTrendDetailActivity>("id" to "${squareMessage.url}","position" to position)
+            if(squareMessage.status==1){
+                startActivity<SquareTrendDetailActivity>("id" to "${squareMessage.url}","position" to position)
+            }else{
+                toast("动态已删除")
+            }
         }
         addItemDecoration()
         getData()

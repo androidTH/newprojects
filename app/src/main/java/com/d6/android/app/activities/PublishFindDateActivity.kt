@@ -438,8 +438,8 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             tv_endtime_name.visibility = View.GONE
             tv_endTime.visibility = View.GONE
             line_datemoney.visibility=View.GONE
-            tv_unknow.visibility = View.GONE
-            tv_unknow_sf.visibility = View.GONE
+            tv_unknow.visibility = View.VISIBLE
+            tv_unknow_sf.visibility = View.VISIBLE
             line_unknow.visibility = View.GONE
 
             line_dategift.visibility = View.GONE

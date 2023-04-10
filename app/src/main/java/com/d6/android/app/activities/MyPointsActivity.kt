@@ -32,10 +32,7 @@ import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.vector.update_app.utils.AppUpdateUtils
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
-import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 
 
 /**
@@ -91,16 +88,16 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mypoints_refreshrecycler.setOnRefreshListener(this)
 
         mPointsAdapter.setOnItemClickListener { view, position ->
-            var mUserPoints = mUserPoints.get(position)
-            if(mUserPoints.iType!=16&&mUserPoints.iType!=17&&mUserPoints.iType!=18){
-                mUserPoints.sResourceId.let {
+            var mUserPoint = mUserPoints.get(position)
+            if(mUserPoint.iType!=16&&mUserPoint.iType!=17&&mUserPoint.iType!=18&&mUserPoint.iType!=33){
+                mUserPoint.sResourceId.let {
                     if(!it.isNullOrEmpty()){
                         startActivity<SquareTrendDetailActivity>("id" to "${it}")
                     }
                 }
-            }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){
-                if(mUserPoints.iSenduserid!=0){
-                    startActivity<UserInfoActivity>("id" to "${mUserPoints.iSenduserid}")
+            }else if(mUserPoint.iType==16||mUserPoint.iType==17||mUserPoint.iType==18){
+                if(mUserPoint.iSenduserid!=0){
+                    startActivity<UserInfoActivity>("id" to "${mUserPoint.iSenduserid}")
                 }
             }
         }

@@ -544,14 +544,16 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
     }
 }
 
-inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square)->Unit){
+inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(a:Int)->Unit){
     val userId = SPUtils.instance().getString(Const.User.USER_ID)
     dialog()
-    Request.getSquareDetail(userId,id).request(this){_,data->
+    Request.getSquareDetail(userId,id).request(this,success={_,data->
         data?.let {
-            next(it)
+            next(1)
         }
-    }
+    },error={code, msg ->
+        next(0)
+    })
 }
 
 //fun converTime(timestamp: Double): String {

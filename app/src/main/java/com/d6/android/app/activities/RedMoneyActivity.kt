@@ -24,6 +24,7 @@ class RedMoneyActivity : BaseActivity() {
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
     private var sResourceId:String=""
+    private var mRedWalletType:String = "group"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,14 @@ class RedMoneyActivity : BaseActivity() {
         if(intent.hasExtra("sResourceId")){
             sResourceId = intent.getStringExtra("sResourceId")//cf0549c2-a702-4992-ae69-623662dda9f3
             Log.i("RedMoneyActivity","sResourceId=${sResourceId}")
+        }
+
+        mRedWalletType = intent.getStringExtra("redwallettype")
+
+        if(TextUtils.equals(mRedWalletType,"group")){
+            rl_redwallet_nums.visibility = View.VISIBLE
+        }else{
+            rl_redwallet_nums.visibility = View.GONE
         }
 
         iv_back_close.setOnClickListener {
@@ -52,18 +61,30 @@ class RedMoneyActivity : BaseActivity() {
             if(!TextUtils.isEmpty(redHeart)){
                 var redHeartNums = redHeart.toInt()
 //                if(redHeartNums<=localLoveHeartNums){
-                   var nums =  et_redmoney_nums.text.toString().trim()
-                    if(!TextUtils.isEmpty(nums)){
-                        if(redHeartNums>=nums.toInt()){
-                            if(!isFastClick()){
-                                sendEnvelop(redHeartNums,nums.toInt(),2,sResourceId,tv_redmoney_desc.text.toString().trim())
+                    if(TextUtils.equals("group",mRedWalletType)){
+                        var nums =  et_redmoney_nums.text.toString().trim()
+
+                        if(!TextUtils.isEmpty(nums)){
+                            if(redHeartNums>=nums.toInt()){
+                                if(!isFastClick()){
+                                    sendEnvelop(redHeartNums,nums.toInt(),2,sResourceId,tv_redmoney_desc.text.toString().trim())
+                                }
+                            }else{
+                                toast("红包总额不能小于红包个数量")
                             }
                         }else{
-                            toast("红包总额不能小于红包个数量")
+                            toast("红包个数不能为空")
                         }
                     }else{
-                        toast("红包个数不能为空")
+                        if(!isFastClick()){
+                            if(TextUtils.equals("noprivate",mRedWalletType)){
+                                sendEnvelop(redHeartNums,1,2,sResourceId,tv_redmoney_desc.text.toString().trim())
+                            }else{
+                                sendEnvelop(redHeartNums,1,1,sResourceId,tv_redmoney_desc.text.toString().trim())
+                            }
+                        }
                     }
+
 //                }else{
 //
 ////                    toast("红包数量不能低于现有红星数量")

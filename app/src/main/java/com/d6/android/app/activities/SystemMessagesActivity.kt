@@ -11,6 +11,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getTrendDetail
 import com.d6.android.app.widget.SwipeItemLayout
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 /**
@@ -40,11 +41,20 @@ class SystemMessagesActivity : RecyclerActivity() {
             when {
                 msg.urltype == "0" -> //链接
                     startActivity<WebViewActivity>("url" to (msg.url?:""),"title" to "")
-                msg.urltype == "1" -> //广场
+                msg.urltype == "1" -> {
+                    //广场
 //                    getTrendDetail((msg.url?:"")){
-//                        startActivity<TrendDetailActivity>("data" to it)
+//                        if(it==1){
+//                            startActivity<SquareTrendDetailActivity>("id" to (msg.url
+//                                    ?: ""), "position" to position)
+//                        }else{
+//                            toast("动态已删除")
+//                        }
 //                    }
-                    startActivity<SquareTrendDetailActivity>("id" to (msg.url?:""),"position" to position)
+
+                    startActivity<SquareTrendDetailActivity>("id" to (msg.url
+                            ?: ""), "position" to position)
+                }
                 msg.urltype == "2" -> //会员
                     startActivity<UserInfoActivity>("id" to (msg.url?:""))
                 msg.urltype == "4" -> {//速约

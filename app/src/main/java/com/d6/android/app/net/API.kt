@@ -12,7 +12,7 @@ object API {
 //    val LIYU_URL ="JyPhone/"
 //
 //    @JvmField
-//    var URL = "http://test76.d6-zone.com/"  //http://192.168.2.115:8081/
+//    var URL = "http://test76.d6-zone.com/"  //http://192.168.2.115:8081/  http://127.0.0.1:8081/
 //
 //    @JvmField
 //    val BASE_URL = URL + LIYU_URL    //JyPhone/
@@ -20,9 +20,9 @@ object API {
 //
 //    const val GETDOMAIN = "http://domain_test.d6-zone.com/getDomain"
 
-//    /**
-//     * 正式环境
-//     */
+    /**
+     * 正式环境
+     */
     @JvmField
     val LIYU_URL ="JyPhone/"
 

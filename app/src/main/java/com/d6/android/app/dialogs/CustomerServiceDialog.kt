@@ -71,12 +71,12 @@ class CustomerServiceDialog : DialogFragment(),RequestManager {
 //                startActivity(intent)
                 if(TextUtils.equals("1",service_type)){
                     try {
-//                        val intent = Intent(Intent.ACTION_MAIN)
-//                        val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
-//                        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        intent.component = cmp
-//                        startActivity(intent)
+                        val intent = Intent(Intent.ACTION_MAIN)
+                        val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+                        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.component = cmp
+                        startActivity(intent)
 
                         val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         // 将文本内容放到系统剪贴板里。
@@ -100,6 +100,7 @@ class CustomerServiceDialog : DialogFragment(),RequestManager {
         tv_customerservice_tips.text = resMsg
         tv_customerservice_title.text = title
 
+        getData()
     }
 
     private var weChat=""

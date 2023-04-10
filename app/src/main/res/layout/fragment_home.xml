@@ -36,7 +36,7 @@
                     android:drawablePadding="@dimen/margin_5"
                     android:paddingTop="@dimen/padding_12"
                     android:paddingBottom="@dimen/margin_8"
-                    android:text="推荐"
+                    android:text="人工牵线"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -50,7 +50,7 @@
                     android:layout_toRightOf="@+id/tv_speed_date"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="微信客服推荐专区"
+                    android:text="微信客服1对1牵线"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp"
                     android:visibility="visible" />
@@ -67,7 +67,7 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textStyle="bold"
-                    android:text="查看人工牵线"
+                    android:text="查看全部"
                     android:textColor="@color/orange_f6a"
                     android:textSize="15sp" />
 

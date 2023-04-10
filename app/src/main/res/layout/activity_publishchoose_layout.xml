@@ -140,7 +140,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@mipmap/more_defaul_120"
                 android:gravity="center_horizontal"
-                android:text="其他"
+                android:text="邀约"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp"
                 android:textStyle="bold" />
