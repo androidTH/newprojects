@@ -138,6 +138,7 @@
 
         <activity
             android:name=".activities.LauncherActivity"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -182,6 +183,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SpeedDateDetailActivity"
+            android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.SpeedDateDetailActivity"/>
@@ -244,6 +246,7 @@
         <activity
             android:name=".activities.RedMoneyDesActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.RedMoneyDesActivity"/>
@@ -256,6 +259,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SquareTrendDetailActivity"
+            android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.SquareTrendDetailActivity"/>
@@ -273,6 +277,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FindDateDetailActivity"
+            android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.FindDateDetailActivity"/>
@@ -291,6 +296,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.UserInfoActivity"
+            android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.UserInfoActivity"/>
@@ -337,6 +343,7 @@
             android:name=".activities.ChatActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -369,6 +376,7 @@
         <activity
             android:name=".activities.ImageLocalPagerActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/imageactivity">
             <intent-filter>
                 <action android:name="android.intent.action.ImageLocalPagerActivity" />
@@ -383,8 +391,8 @@
         <activity android:name=".activities.QRNewActivity" />
         <activity android:name=".activities.SplashActivity" />
         <activity android:name=".activities.SetUserInfoActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name=".activities.ChooseCountryActivity" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activities.ChooseCountryActivity"/>
         <activity android:name=".activities.TrendDetailActivity"
             android:theme="@style/imageactivity"/>
         <activity android:name=".activities.SettingActivity" />
@@ -394,12 +402,12 @@
             android:name=".activities.SpeedDateActivity"
             android:label="@string/title_activity_speed_date"
             android:theme="@style/AppTheme" />
-        <activity android:name=".activities.DateAuthStateActivity" />
-        <activity android:name=".activities.AuthMenStateActivity" />
-        <activity android:name=".activities.OpenMemberShipActivity" />
-        <activity android:name=".activities.D6LoveHeartListActivity" />
-        <activity android:name=".activities.AuthWomenStateActivity" />
-        <activity android:name=".activities.MemberActivity" />
+        <activity android:name=".activities.DateAuthStateActivity"/>
+        <activity android:name=".activities.AuthMenStateActivity"/>
+        <activity android:name=".activities.OpenMemberShipActivity"/>
+        <activity android:name=".activities.D6LoveHeartListActivity"/>
+        <activity android:name=".activities.AuthWomenStateActivity"/>
+        <activity android:name=".activities.MemberActivity"/>
         <activity android:name=".activities.JoinGroupActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShareGroupActivity"
@@ -408,13 +416,15 @@
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.FansActivity">
+        <activity android:name=".activities.FansActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.FansActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MenFansActivity">
+        <activity android:name=".activities.MenFansActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.MenFansActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -422,7 +432,8 @@
         </activity>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.OldFansActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.OldFansActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -462,6 +473,7 @@
             android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".activities.MyPointsActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.MyPointsActivity"/>
@@ -471,13 +483,15 @@
         <activity android:name=".activities.MyDateListActivity"/>
         <activity android:name=".activities.MyDateDetailActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.MyDateDetailActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RecommendDateActivity">
+        <activity android:name=".activities.RecommendDateActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.RecommendDateActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -496,7 +510,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activities.RGServiceInfoActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.InviteGoodFriendsActivity">
+        <activity android:name=".activities.InviteGoodFriendsActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.InviteGoodFriendsActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -504,9 +519,9 @@
         </activity>
         <activity android:name=".activities.UnKnownActivity"/>
         <activity android:name=".activities.SexChooseActivity"
-            android:theme="@style/chooseAnim"/>
+            android:theme="@style/chooseAnim" />
         <activity android:name=".activities.ConstellationChooseActivity"
-            android:theme="@style/chooseAnim"/>
+            android:theme="@style/chooseAnim" />
         <activity android:name=".activities.AreaChooseActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.PublishChooseActivity"
@@ -650,6 +665,7 @@
 
         <receiver
             android:name="com.taobao.accs.EventReceiver"
+            android:exported="true"
             android:process=":channel">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -668,6 +684,7 @@
 
         <receiver
             android:name="com.taobao.accs.ServiceReceiver"
+            android:exported="true"
             android:process=":channel">
             <intent-filter>
                 <action android:name="com.taobao.accs.intent.action.COMMAND" />
@@ -807,6 +824,32 @@
             android:exported="false" />
 
 
+        <receiver
+            android:name="com.huawei.hms.support.api.push.PushMsgReceiver"
+            android:directBootAware="true"
+            android:exported="true"
+            android:permission="com.d6.android.app.permission.PROCESS_PUSH_MSG" >
+            <intent-filter>
+
+                <!-- Mandatory, be used to receive notification bar message click event. -->
+                <action android:name="com.huawei.intent.action.PUSH_DELAY_NOTIFY" />
+                <!-- Optional, compatible with old huawei phones. -->
+                <action android:name="com.huawei.intent.action.PUSH" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.huawei.hms.support.api.push.PushReceiver"
+            android:directBootAware="true"
+            android:exported="true"
+            android:permission="com.d6.android.app.permission.PROCESS_PUSH_MSG" >
+            <intent-filter>
+
+                <!-- Mandatory, be used to receive tokens. -->
+                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <!-- Mandatory, be used to receive messages. -->
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

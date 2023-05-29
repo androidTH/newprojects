@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.util.List;
 import com.d6.android.app.fragments.BLBeautifyFragment;
 
-import bolts.ExecutorException;
 import www.morefuntrip.cn.sticker.BLBitmapUtils;
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam;
 import www.morefuntrip.cn.sticker.Bean.BLStickerInfo;

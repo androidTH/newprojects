@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.d6.android.app"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode 108 //104 3.11.3
         versionName "3.13.0"
 
@@ -26,6 +26,11 @@ android {
 
     dexOptions {
         javaMaxHeapSize "4g"
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 
     signingConfigs {
@@ -43,7 +48,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+//            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             zipAlignEnabled true
@@ -100,7 +105,6 @@ android {
             outputFileName = "d6_${variant.versionName}_${variant.productFlavors[0].name}(${variant.versionCode}).apk".toLowerCase()
         }
     }
-
 }
 
 //bugtags {
@@ -261,6 +265,7 @@ dependencies {
 
     implementation (name: 'msa_mdid_1.0.13', ext: 'aar')
     implementation (name: 'XInstall_V1.5.3.1', ext: 'aar')
+    implementation 'com.alibaba:fastjson:1.1.71.android'
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.11'
 //    implementation 'id.zelory:compressor:3.0.1'
 
@@ -275,5 +280,4 @@ dependencies {
 //
 //  support thumbnail, gif and webp with Fresco
 //    implementation 'com.github.piasy:FrescoImageViewFactory:1.5.7'
-
 }

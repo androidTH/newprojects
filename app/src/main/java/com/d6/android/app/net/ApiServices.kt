@@ -1,6 +1,5 @@
 package com.d6.android.app.net
 
-import bolts.Task
 import com.d6.android.app.models.*
 import com.d6.android.app.utils.getAppVersion
 import com.d6.android.app.utils.getLoginToken

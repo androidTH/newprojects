@@ -56,7 +56,7 @@ class BindPhoneActivity : TitleActivity() {
     }
 
     private val openId by lazy {
-        intent.getStringExtra("openId")
+        intent.getStringExtra("openId")!!
     }
 
     private val unionId by lazy {
