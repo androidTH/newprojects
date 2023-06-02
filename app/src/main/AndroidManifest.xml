@@ -91,7 +91,7 @@
 
 
     <application
-        android:name="com.d6zone.android.app.application.D6Application"
+        android:name=".application.D6Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -137,7 +137,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name="com.d6zone.android.app.activities.LauncherActivity"
+            android:name=".activities.LauncherActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -158,7 +158,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.SignChooseActivity"
+            android:name=".activities.SignChooseActivity"
             android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
@@ -169,20 +169,20 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.SignInActivity"
+            android:name=".activities.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.FilterActivity"
+            android:name=".activities.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.SpeedDateDetailActivity"
+            android:name=".activities.SpeedDateDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -191,60 +191,60 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.ReleaseNewTrendsActivity"
+            android:name=".activities.ReleaseNewTrendsActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.VoiceChatCreateActivity"
+            android:name=".activities.VoiceChatCreateActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.FeedBackActivity"
+            android:name=".activities.FeedBackActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.AboutUsMainActivity"
+            android:name=".activities.AboutUsMainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.WeChatSearchActivity"
+            android:name=".activities.WeChatSearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.MySquareActivity"
+            android:name=".activities.MySquareActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ForgetPasswordActivity"
+            android:name=".activities.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ModifyPasswordActivity"
+            android:name=".activities.ModifyPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ContactUsActivity"
+            android:name=".activities.ContactUsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.MyInfoActivity"
+            android:name=".activities.MyInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
-            android:name="com.d6zone.android.app.activities.FilterVipLevelActivity"
+            android:name=".activities.FilterVipLevelActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.FilterCityActivity"
+            android:name=".activities.FilterCityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.AboutUsActivity"
+            android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.RedMoneyActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.d6zone.android.app.activities.InviteDateActivity"
+            android:name=".activities.RedMoneyActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.d6zone.android.app.activities.FindDateActivity"
+            android:name=".activities.InviteDateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.FindDateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.RedMoneyDesActivity"
+            android:name=".activities.RedMoneyDesActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -254,11 +254,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.PublishFindDateActivity"
+            android:name=".activities.PublishFindDateActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.SquareTrendDetailActivity"
+            android:name=".activities.SquareTrendDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -267,16 +267,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.BusinessCooperationActivity"
+            android:name=".activities.BusinessCooperationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.PlatformServiceActivity"
+            android:name=".activities.PlatformServiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.NewestFindDateActivity"
+            android:name=".activities.NewestFindDateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.FindDateDetailActivity"
+            android:name=".activities.FindDateDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -285,17 +285,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.UnKnowChatActivity"
+            android:name=".activities.UnKnowChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.SelectPhotoDialog"
+            android:name=".activities.SelectPhotoDialog"
             android:screenOrientation="portrait"
             android:theme="@style/selectedDialog" />
         <activity
-            android:name="com.d6zone.android.app.activities.CropImageActivity"
+            android:name=".activities.CropImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.UserInfoActivity"
+            android:name=".activities.UserInfoActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -304,43 +304,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.SelfReleaseDetailActivity"
+            android:name=".activities.SelfReleaseDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.CommentActivity"
+            android:name=".activities.CommentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.FilterTypeActivity"
+            android:name=".activities.FilterTypeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ResetPasswordActivity"
+            android:name=".activities.ResetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.SystemMessagesActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.d6zone.android.app.activities.SystemMessagesNewActivity"
+            android:name=".activities.SystemMessagesActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.d6zone.android.app.activities.SquareMessagesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.d6zone.android.app.activities.MessageSettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.d6zone.android.app.activities.GroupSettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.d6zone.android.app.activities.GroupJoinActivity"
+            android:name=".activities.SystemMessagesNewActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.d6zone.android.app.activities.CreateGroupActivity"
+            android:name=".activities.SquareMessagesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ChatActivity"
+            android:name=".activities.MessageSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.GroupSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.GroupJoinActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.CreateGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ChatActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:exported="true"
@@ -361,20 +361,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.activities.UnAuthUserActivity"
+            android:name=".activities.UnAuthUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.QRActivity"
+            android:name=".activities.QRActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.WebViewActivity"
+            android:name=".activities.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6zone.android.app.activities.ImagePagerActivity"
+            android:name=".activities.ImagePagerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/imageactivity"/>
         <activity
-            android:name="com.d6zone.android.app.activities.ImageLocalPagerActivity"
+            android:name=".activities.ImageLocalPagerActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/imageactivity">
@@ -384,54 +384,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.d6zone.android.app.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
-        <activity android:name="com.d6zone.android.app.activities.MessageDetailActivity" />
-        <activity android:name="com.d6zone.android.app.activities.ChooseSexActivity" />
-        <activity android:name="com.d6zone.android.app.activities.QRNewActivity" />
-        <activity android:name="com.d6zone.android.app.activities.SplashActivity" />
-        <activity android:name="com.d6zone.android.app.activities.SetUserInfoActivity"
+        <activity android:name=".activities.MessageDetailActivity" />
+        <activity android:name=".activities.ChooseSexActivity" />
+        <activity android:name=".activities.QRNewActivity" />
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.SetUserInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name="com.d6zone.android.app.activities.ChooseCountryActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.TrendDetailActivity"
+        <activity android:name=".activities.ChooseCountryActivity"/>
+        <activity android:name=".activities.TrendDetailActivity"
             android:theme="@style/imageactivity"/>
-        <activity android:name="com.d6zone.android.app.activities.SettingActivity" />
-        <activity android:name="com.d6zone.android.app.activities.ReportActivity"
+        <activity android:name=".activities.SettingActivity" />
+        <activity android:name=".activities.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
-            android:name="com.d6zone.android.app.activities.SpeedDateActivity"
+            android:name=".activities.SpeedDateActivity"
             android:label="@string/title_activity_speed_date"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.d6zone.android.app.activities.DateAuthStateActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.AuthMenStateActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.OpenMemberShipActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.D6LoveHeartListActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.AuthWomenStateActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.MemberActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.JoinGroupActivity"
+        <activity android:name=".activities.DateAuthStateActivity"/>
+        <activity android:name=".activities.AuthMenStateActivity"/>
+        <activity android:name=".activities.OpenMemberShipActivity"/>
+        <activity android:name=".activities.D6LoveHeartListActivity"/>
+        <activity android:name=".activities.AuthWomenStateActivity"/>
+        <activity android:name=".activities.MemberActivity"/>
+        <activity android:name=".activities.JoinGroupActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.ShareGroupActivity"
+        <activity android:name=".activities.ShareGroupActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.MyDateActivity" />
-        <activity android:name="com.d6zone.android.app.activities.EditImageActivity"></activity>
-        <activity android:name="com.d6zone.android.app.activities.BLBeautifyImageActivity"
+        <activity android:name=".activities.MyDateActivity" />
+        <activity android:name=".activities.EditImageActivity"></activity>
+        <activity android:name=".activities.BLBeautifyImageActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.FansActivity"
+        <activity android:name=".activities.FansActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.FansActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.MenFansActivity"
+        <activity android:name=".activities.MenFansActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.MenFansActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.FollowActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.OldFansActivity"
+        <activity android:name=".activities.FollowActivity"/>
+        <activity android:name=".activities.OldFansActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
@@ -439,39 +439,39 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.OldFollowActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.VistorsActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.FilterSquaresActivity"
+        <activity android:name=".activities.OldFollowActivity"/>
+        <activity android:name=".activities.VistorsActivity"/>
+        <activity android:name=".activities.FilterSquaresActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.ChooseFriendsActivity"
+        <activity android:name=".activities.ChooseFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.SearchFriendsActivity"
+        <activity android:name=".activities.SearchFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.GroupUsersActivity"
+        <activity android:name=".activities.GroupUsersActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.MyCardActivity"
+        <activity android:name=".activities.MyCardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.PrivacySettingActivity"
+        <activity android:name=".activities.PrivacySettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.TopicSelectionActivity"
+        <activity android:name=".activities.TopicSelectionActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.d6zone.android.app.activities.ShareFriendsActivity"
+        <activity android:name=".activities.ShareFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name="com.d6zone.android.app.activities.MyPointsActivity"
+        <activity android:name=".activities.MyPointsActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -480,8 +480,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.MyDateListActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.MyDateDetailActivity"
+        <activity android:name=".activities.MyDateListActivity"/>
+        <activity android:name=".activities.MyDateDetailActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -490,53 +490,53 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.RecommendDateActivity"
+        <activity android:name=".activities.RecommendDateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.RecommendDateActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.AppointmentActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.AudioChatActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.PointExplainActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.MenMemberActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.PrivilegeDescActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.BindPhoneActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.BlackListActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.GoodFriendsListActivity"
+        <activity android:name=".activities.AppointmentActivity"/>
+        <activity android:name=".activities.AudioChatActivity"/>
+        <activity android:name=".activities.PointExplainActivity"/>
+        <activity android:name=".activities.MenMemberActivity"/>
+        <activity android:name=".activities.PrivilegeDescActivity"/>
+        <activity android:name=".activities.BindPhoneActivity"/>
+        <activity android:name=".activities.BlackListActivity"/>
+        <activity android:name=".activities.GoodFriendsListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.FindGroupListActivity"
+        <activity android:name=".activities.FindGroupListActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.RGServiceInfoActivity"
+        <activity android:name=".activities.RGServiceInfoActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.d6zone.android.app.activities.InviteGoodFriendsActivity"
+        <activity android:name=".activities.InviteGoodFriendsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.InviteGoodFriendsActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.d6zone.android.app.activities.UnKnownActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.SexChooseActivity"
+        <activity android:name=".activities.UnKnownActivity"/>
+        <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim" />
-        <activity android:name="com.d6zone.android.app.activities.ConstellationChooseActivity"
+        <activity android:name=".activities.ConstellationChooseActivity"
             android:theme="@style/chooseAnim" />
-        <activity android:name="com.d6zone.android.app.activities.AreaChooseActivity"
+        <activity android:name=".activities.AreaChooseActivity"
             android:theme="@style/chooseAnim"/>
-        <activity android:name="com.d6zone.android.app.activities.PublishChooseActivity"
+        <activity android:name=".activities.PublishChooseActivity"
             android:theme="@style/publishchooseAnim"/>
 
-        <activity android:name="com.d6zone.android.app.activities.ScreeningAreaActivity"
+        <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>
-        <activity android:name="com.d6zone.android.app.activities.DateAuthSucessActivity"/>
-        <activity android:name="com.d6zone.android.app.activities.SimplePlayer"
+        <activity android:name=".activities.DateAuthSucessActivity"/>
+        <activity android:name=".activities.SimplePlayer"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/imageactivity"/>
          <!--容云语音通话-->
         <activity
-            android:name="com.d6zone.android.app.rong.voicechat.SingleCallActivity"
+            android:name=".rong.voicechat.SingleCallActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -554,13 +554,13 @@
         </activity>
 
         <activity
-            android:name="com.d6zone.android.app.wxapi.WXPayEntryActivity"
+            android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true"
             android:launchMode="singleTop"/>
         <receiver
-            android:name="com.d6zone.android.app.rong.D6NotificationReceiver"
+            android:name=".rong.D6NotificationReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
@@ -828,7 +828,7 @@
             android:name="com.huawei.hms.support.api.push.PushMsgReceiver"
             android:directBootAware="true"
             android:exported="true"
-            android:permission="com.d6.android.app.permission.PROCESS_PUSH_MSG" >
+            android:permission="com.d6zone.android.app.permission.PROCESS_PUSH_MSG" >
             <intent-filter>
 
                 <!-- Mandatory, be used to receive notification bar message click event. -->
@@ -841,7 +841,7 @@
             android:name="com.huawei.hms.support.api.push.PushReceiver"
             android:directBootAware="true"
             android:exported="true"
-            android:permission="com.d6.android.app.permission.PROCESS_PUSH_MSG" >
+            android:permission="com.d6zone.android.app.permission.PROCESS_PUSH_MSG" >
             <intent-filter>
 
                 <!-- Mandatory, be used to receive tokens. -->
