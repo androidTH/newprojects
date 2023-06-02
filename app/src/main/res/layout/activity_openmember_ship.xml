@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:background="@color/white">
-        <com.d6.android.app.widget.tablayout.TabLayout
+        <com.d6zone.android.app.widget.tablayout.TabLayout
             android:id="@+id/tab_membership"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -58,7 +58,7 @@
             app:tabTextColor="@color/color_666666" />
     </RelativeLayout>
 
-    <com.d6.android.app.widget.gallery.DiscreteScrollView
+    <com.d6zone.android.app.widget.gallery.DiscreteScrollView
         android:id="@+id/rv_viptypes"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_below="@+id/rl_openmember_title"

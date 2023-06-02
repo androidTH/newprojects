@@ -24,7 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/height_75" />
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

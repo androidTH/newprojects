@@ -68,7 +68,7 @@
         android:layout_marginLeft="120dp"
         android:visibility="gone"/>
 
-    <com.d6.android.app.widget.gift.StrokeTextView
+    <com.d6zone.android.app.widget.gift.StrokeTextView
         android:id="@+id/animation_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

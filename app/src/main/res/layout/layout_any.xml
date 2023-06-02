@@ -11,7 +11,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"/>
-    <com.d6.android.app.widget.LoveHeart
+    <com.d6zone.android.app.widget.LoveHeart
         android:id="@+id/square_loveheart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -51,7 +51,7 @@
                 android:layout_height="75dp"
                 android:layout_gravity="center"
                 app:actualImageScaleType="fitXY" />
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_gift_heartnums"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:textColor="@color/color_666666"
                 android:textSize="14sp"
                 android:text="剩余"/>
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_redheart_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

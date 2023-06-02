@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout
+<com.d6zone.android.app.widget.photodrag.PhotoDragRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_videodrag"
     android:layout_width="match_parent"
@@ -9,10 +9,10 @@
         android:id="@+id/activity_play"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.d6.android.app.widget.CustomJzvd.MyJzvdStd
+        <com.d6zone.android.app.widget.CustomJzvd.MyJzvdStd
             android:id="@+id/jz_videostd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
     </RelativeLayout>
-</com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>
+</com.d6zone.android.app.widget.photodrag.PhotoDragRelativeLayout>

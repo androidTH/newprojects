@@ -150,7 +150,7 @@
                         android:layout_marginRight="@dimen/margin_10"
                         android:textSize="12sp" />
 
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_like_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -285,7 +285,7 @@
                         android:layout_marginRight="@dimen/height_40"
                         android:layout_height="0.5dp"
                         android:background="@color/color_26FFFFFF"/>
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_date_menbangdan_smallshow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

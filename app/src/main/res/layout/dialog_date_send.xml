@@ -88,7 +88,7 @@
             android:gravity="center"
             android:text="见面后确认“赴约”你将会收到对方赠送的虚拟礼物"/>
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_self_gift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

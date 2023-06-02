@@ -17,7 +17,7 @@
         android:paddingRight="6dp"
         android:orientation="horizontal">
 
-        <com.d6.android.app.widget.CircleImageView
+        <com.d6zone.android.app.widget.CircleImageView
             android:id="@+id/icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -32,7 +32,7 @@
             <!--android:layout_marginLeft="@dimen/margin_1"-->
             <!--android:layout_marginRight="@dimen/margin_3"/>-->
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/text"
             android:layout_toRightOf="@+id/icon"
             android:layout_width="wrap_content"

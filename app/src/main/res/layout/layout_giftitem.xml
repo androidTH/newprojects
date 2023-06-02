@@ -17,7 +17,7 @@
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:textSize="12sp"/>
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_giftnums"
         android:textSize="12sp"
         android:textStyle="bold"

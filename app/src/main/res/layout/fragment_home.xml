@@ -1,4 +1,4 @@
-<com.d6.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
+<com.d6zone.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mSwipeRefreshLayout"
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_F5F5F5"
-            app:layout_behavior="com.d6.android.app.utils.MyBehavior">
+            app:layout_behavior="com.d6zone.android.app.utils.MyBehavior">
 
             <RelativeLayout
                 android:id="@+id/rl_rgservice"
@@ -145,7 +145,7 @@
                         android:layout_marginRight="@dimen/margin_5"
                         android:layout_toLeftOf="@+id/tv_date_city">
 
-                        <com.d6.android.app.widget.tablayout.TabLayout
+                        <com.d6zone.android.app.widget.tablayout.TabLayout
                             android:id="@+id/tab_home_date"
                             android:layout_width="match_parent"
                             android:layout_height="27dp"
@@ -217,4 +217,4 @@
             android:src="@mipmap/publish_button" />
     </android.support.design.widget.CoordinatorLayout>
 
-</com.d6.android.app.widget.CustomSwipeToRefresh>
+</com.d6zone.android.app.widget.CustomSwipeToRefresh>

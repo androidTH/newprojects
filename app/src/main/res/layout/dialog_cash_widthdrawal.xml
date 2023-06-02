@@ -98,7 +98,7 @@
            android:layout_height="wrap_content"
            android:layout_marginLeft="@dimen/margin_10"
            android:orientation="horizontal">
-           <com.d6.android.app.widget.textinlineimage.TextInlineImage
+           <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                android:id="@+id/tv_redheart_nums"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"

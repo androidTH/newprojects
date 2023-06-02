@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+    <com.d6zone.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/mSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -114,7 +114,7 @@
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_sendredheart"
             android:layout_toRightOf="@+id/ll_bottom_tool"
             android:background="@drawable/taren_redbutton_bg"
@@ -128,7 +128,7 @@
             app:imageSize="0dp" />
     </RelativeLayout>
 
-    <com.d6.android.app.widget.LoveHeart
+    <com.d6zone.android.app.widget.LoveHeart
         android:id="@+id/userinfo_loveheart"
         android:layout_width="180dp"
         android:layout_height="match_parent"

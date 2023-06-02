@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/color_EAEAEA" />
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+    <com.d6zone.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swiprefreshRecyclerlayout_msg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

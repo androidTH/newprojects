@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="wrap_content">
-    <com.d6.android.app.widget.TrendDetailView
+    <com.d6zone.android.app.widget.TrendDetailView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mTrendDetailView"/>

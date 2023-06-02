@@ -112,7 +112,7 @@
             android:layout_height="60dp"
             android:src="@mipmap/my_contactus_float"/>
 
-        <com.d6.android.app.widget.DragStrokeView
+        <com.d6zone.android.app.widget.DragStrokeView
             android:id="@+id/tv_service_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
         android:layout_above="@android:id/tabhost"
         style="@style/view_line_h" />
 
-    <com.d6.android.app.widget.FragmentTabHost
+    <com.d6zone.android.app.widget.FragmentTabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
         android:layout_alignParentBottom="true"
@@ -147,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0"/>
-    </com.d6.android.app.widget.FragmentTabHost>
+    </com.d6zone.android.app.widget.FragmentTabHost>
 
     <TextView
         android:id="@+id/tv_find_tab"

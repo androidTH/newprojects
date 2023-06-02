@@ -73,7 +73,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/height_65">
 
-            <com.d6.android.app.widget.tablayout.TabLayout
+            <com.d6zone.android.app.widget.tablayout.TabLayout
                 android:id="@+id/tab_recommentdate"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"

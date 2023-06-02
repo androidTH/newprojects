@@ -91,7 +91,7 @@
                 android:visibility="visible" />
         </LinearLayout>
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_userinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

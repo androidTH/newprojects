@@ -18,7 +18,7 @@
         android:layout_marginRight="@dimen/margin_10"
         android:src="@mipmap/share_d6logo_pic" />
 
-    <com.d6.android.app.widget.CircleImageView
+    <com.d6zone.android.app.widget.CircleImageView
         android:id="@+id/groupheaderview_share"
         android:layout_below="@+id/iv_logo_pic"
         android:layout_width="45dp"

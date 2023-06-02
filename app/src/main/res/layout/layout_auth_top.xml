@@ -153,7 +153,7 @@
         android:layout_marginRight="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_10">
 
-        <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+        <com.d6zone.android.app.widget.convenientbanner.ConvenientBanner
             android:id="@+id/member_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

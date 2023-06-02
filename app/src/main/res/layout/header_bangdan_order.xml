@@ -78,7 +78,7 @@
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </LinearLayout>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </LinearLayout>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -246,7 +246,7 @@
                 android:textColor="@color/white"
                 android:textSize="10sp" />
         </LinearLayout>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

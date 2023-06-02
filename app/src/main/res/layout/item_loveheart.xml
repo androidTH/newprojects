@@ -8,7 +8,7 @@
     android:background="@color/trans_parent"
     android:orientation="vertical">
 
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_loveheart_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_25"
@@ -94,7 +94,7 @@
                     android:textSize="10sp"
                     android:visibility="visible" />
             </LinearLayout>
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_userinfo"

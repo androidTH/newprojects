@@ -10,7 +10,7 @@ android {
     aaptOptions.useNewCruncher = false
 
     defaultConfig {
-        applicationId "com.d6.android.app"
+        applicationId "com.d6zone.android.app"
         minSdkVersion 19
         targetSdkVersion 31
         versionCode 108 //104 3.11.3

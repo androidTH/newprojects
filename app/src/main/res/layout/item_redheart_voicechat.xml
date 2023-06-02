@@ -7,7 +7,7 @@
     android:background="@drawable/shape_4r_ef"
     android:gravity="center">
 
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_redheartnums"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

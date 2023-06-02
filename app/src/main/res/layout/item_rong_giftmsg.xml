@@ -30,7 +30,7 @@
             android:textColor="@color/color_black"
             android:textStyle="bold"
             android:text=""/>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedloveheart_nums"
             android:layout_below="@+id/tv_ronggiftname"
             android:layout_marginTop="@dimen/margin_5"

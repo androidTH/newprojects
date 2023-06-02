@@ -19,7 +19,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:text="累计收到"/>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_nums"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_F5F5F5">
-    <com.d6.android.app.widget.SelfPullDateView
+    <com.d6zone.android.app.widget.SelfPullDateView
         android:layout_width="match_parent"
         android:id="@+id/srv_view"
         android:layout_height="wrap_content">
-    </com.d6.android.app.widget.SelfPullDateView>
-    <com.d6.android.app.widget.VoiceChatView
+    </com.d6zone.android.app.widget.SelfPullDateView>
+    <com.d6zone.android.app.widget.VoiceChatView
         android:id="@+id/voicechat_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

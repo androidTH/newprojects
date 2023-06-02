@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+    <com.d6zone.android.app.widget.convenientbanner.ConvenientBanner
         android:id="@+id/splasy_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

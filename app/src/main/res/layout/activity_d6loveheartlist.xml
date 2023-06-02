@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:drawableLeft="@mipmap/back"
             android:paddingLeft="@dimen/padding_16"/>
-        <com.d6.android.app.widget.tablayout.TabLayout
+        <com.d6zone.android.app.widget.tablayout.TabLayout
             android:id="@+id/tab_loveheartitle"
             android:layout_width="180dp"
             android:layout_height="50dp"

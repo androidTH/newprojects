@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+    <com.d6zone.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -27,7 +27,7 @@
             android:layout_height="45dp"
             android:elevation="@dimen/margin_2"
             android:layout_alignParentBottom="true">
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_bottom_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

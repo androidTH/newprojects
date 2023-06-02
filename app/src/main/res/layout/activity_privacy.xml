@@ -82,7 +82,7 @@
                     android:textSize="15sp"
                     android:visibility="visible" />
 
-                <com.d6.android.app.widget.switchbutton.SwitchButton
+                <com.d6zone.android.app.widget.switchbutton.SwitchButton
                     android:id="@+id/sw_gifthistory_off"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                     android:textSize="15sp"
                     android:visibility="visible" />
 
-                <com.d6.android.app.widget.switchbutton.SwitchButton
+                <com.d6zone.android.app.widget.switchbutton.SwitchButton
                     android:id="@+id/sw_card_off"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                     android:textSize="15sp"
                     android:visibility="visible" />
 
-                <com.d6.android.app.widget.switchbutton.SwitchButton
+                <com.d6zone.android.app.widget.switchbutton.SwitchButton
                     android:id="@+id/sw_list_off"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical">
 
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_loveisvisible"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
                     android:textSize="15sp"
                     android:visibility="visible" />
 
-                <com.d6.android.app.widget.switchbutton.SwitchButton
+                <com.d6zone.android.app.widget.switchbutton.SwitchButton
                     android:id="@+id/sw_loveisvisible"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"
@@ -263,7 +263,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical">
 
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_lianxi"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -274,7 +274,7 @@
                     android:textSize="15sp"
                     android:visibility="visible" />
 
-                <com.d6.android.app.widget.switchbutton.SwitchButton
+                <com.d6zone.android.app.widget.switchbutton.SwitchButton
                     android:id="@+id/sw_lianxi"
                     style="@style/SwitchButtonStyle"
                     android:layout_width="wrap_content"

@@ -23,7 +23,7 @@
             android:text="请输入群号"
             android:textSize="16sp"
             android:textStyle="bold" />
-        <com.d6.android.app.widget.verifyedittext.VerifyEditText
+        <com.d6zone.android.app.widget.verifyedittext.VerifyEditText
             android:id="@+id/verifyedittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

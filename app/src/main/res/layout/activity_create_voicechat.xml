@@ -220,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_voicechat_line">
 
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_nmtype"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
@@ -231,7 +231,7 @@
                         android:textColor="@color/color_333333"
                         android:textSize="14sp" />
 
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_voicechat_choose"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"

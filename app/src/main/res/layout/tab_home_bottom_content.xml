@@ -30,7 +30,7 @@
         android:textSize="12sp"
         android:visibility="invisible" />
 
-    <com.d6.android.app.widget.DragPointView
+    <com.d6zone.android.app.widget.DragPointView
         android:id="@+id/tv_msg_count"
         android:layout_width="19dp"
         android:layout_height="19dp"

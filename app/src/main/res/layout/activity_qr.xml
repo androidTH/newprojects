@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.d6.android.app.activities.QRActivity">
+    tools:context="com.d6zone.android.app.activities.QRActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"

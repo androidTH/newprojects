@@ -53,7 +53,7 @@
                     fresco:roundingBorderColor="@color/color_D8D8D8"
                     fresco:roundingBorderWidth="0.5dp"
                     fresco:roundAsCircle="true" />
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -200,7 +200,7 @@
         android:layout_marginBottom="@dimen/margin_12"
         android:layout_below="@+id/mTitleBar">
 
-        <com.d6.android.app.widget.gallery.DiscreteScrollView
+        <com.d6zone.android.app.widget.gallery.DiscreteScrollView
             android:id="@+id/mRecyclerView"
             android:layout_marginTop="@dimen/margin_2"
             android:layout_marginLeft="@dimen/margin_3"
@@ -243,7 +243,7 @@
             android:layout_height="match_parent"
             android:visibility="visible"
             android:background="@mipmap/find_loading_bg">
-            <com.d6.android.app.widget.WaveView
+            <com.d6zone.android.app.widget.WaveView
                 android:id="@+id/find_waveview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -295,7 +295,7 @@
 
         </LinearLayout>
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_redheart_guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -312,7 +312,7 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <com.d6.android.app.widget.LoveHeart
+    <com.d6zone.android.app.widget.LoveHeart
         android:id="@+id/loveheart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

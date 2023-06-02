@@ -72,7 +72,7 @@
                 android:layout_marginRight="@dimen/margin_5"
                 android:src="@mipmap/redheart_small"/>
         </RelativeLayout>
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_redmoney_tips"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -179,7 +179,7 @@
         android:gravity="center_horizontal"
         android:visibility="gone"
         android:layout_alignParentBottom="true">
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_surplusnums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

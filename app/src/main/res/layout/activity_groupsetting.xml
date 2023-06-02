@@ -96,7 +96,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <com.d6.android.app.widget.switchbutton.SwitchButton
+        <com.d6zone.android.app.widget.switchbutton.SwitchButton
             android:id="@+id/sw_groupmessage_notfaction"
             style="@style/SwitchButtonStyle"
             android:layout_width="wrap_content"

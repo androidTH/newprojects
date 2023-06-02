@@ -78,7 +78,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"  />
             <!--android:drawableLeft="@mipmap/liwu_feed"-->
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_voicechat_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

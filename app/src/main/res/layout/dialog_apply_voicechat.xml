@@ -25,7 +25,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_voicechat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_action"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_redheart_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

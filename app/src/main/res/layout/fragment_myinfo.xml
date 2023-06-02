@@ -226,7 +226,7 @@
                     android:textSize="10sp"
                     android:visibility="gone" />
 
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -272,7 +272,7 @@
                     android:textSize="10sp"
                     android:visibility="gone" />
 
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -675,7 +675,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_30" />
-            <com.d6.android.app.widget.switchbutton.SwitchButton
+            <com.d6zone.android.app.widget.switchbutton.SwitchButton
                 android:id="@+id/sw_mine_off"
                 style="@style/SwitchButtonStyle"
                 android:layout_width="wrap_content"

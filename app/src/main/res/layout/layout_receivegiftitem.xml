@@ -12,7 +12,7 @@
        android:layout_height="70dp"
        android:layout_gravity="center_horizontal"
        android:id="@+id/sampimgview_gift"/>
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/gift_name"
         android:text="900"
         android:textSize="12sp"

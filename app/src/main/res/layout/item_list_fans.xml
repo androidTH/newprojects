@@ -41,7 +41,7 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

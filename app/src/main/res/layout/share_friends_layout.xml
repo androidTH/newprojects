@@ -38,7 +38,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/margin_3" />
 
-                <com.d6.android.app.widget.CircleImageView
+                <com.d6zone.android.app.widget.CircleImageView
                     android:id="@+id/iv_invitationfriends_circleheadView"
                     android:layout_width="32dp"
                     android:layout_height="32dp"

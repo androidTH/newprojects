@@ -89,7 +89,7 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.d6.android.app.widget.CircleProgressView
+        <com.d6zone.android.app.widget.CircleProgressView
             android:id="@+id/circlebarview"
             android:layout_width="32dp"
             android:layout_height="32dp"

@@ -1,0 +1,51 @@
+package com.d6zone.android.app.adapters
+
+import android.support.v4.content.ContextCompat
+import android.widget.TextView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
+import com.d6zone.android.app.R
+import com.d6zone.android.app.models.InviteUserBean
+import com.d6zone.android.app.utils.setLeftDrawable
+import com.d6zone.android.app.utils.toTime
+
+/**
+ * jinjiarui
+ */
+class RegisterUserInfoQuickAdapter(data: List<InviteUserBean>) : BaseQuickAdapter<InviteUserBean, BaseViewHolder>(R.layout.item_registerinfo, data) {
+
+    override fun convert(helper: BaseViewHolder, data: InviteUserBean) {
+        var tv_content = helper.getView<TextView>(R.id.tv_content)
+//        var tv_content1 = helper.getView<TextView>(R.id.tv_content1)
+//        var tv_arrow = helper.getView<TextView>(R.id.tv_arrow)
+        var tv_time = helper.getView<TextView>(R.id.tv_time)
+        var tv_dot = helper.getView<TextView>(R.id.tv_dot)
+        tv_time.text = data.dCreatetime.toTime("yyyy.MM.dd HH:mm")
+//        tv_content1.visibility = View.GONE
+//        tv_arrow.visibility = View.GONE
+        if(helper.layoutPosition==0){
+            setLeftDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_dot_selected_10r),tv_dot)
+        }else{
+            setLeftDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_dot_noselected_10r),tv_dot)
+        }
+
+        tv_content.text = "${data.sMsgContent}"
+
+//        if(data.iEventType==1){
+//            tv_content.text = "注册D6"
+//        }else if(data.iEventType==2){
+//            if(data.iEnableMonth!! >0){
+//                tv_content.text = "成为会员：${data.userclassesname}(1个月)"
+//            }else{
+//                tv_content.text = "成为会员：${data.userclassesname}"
+//            }
+//        }else if(data.iEventType==3){
+//            tv_content1.visibility = View.VISIBLE
+//            tv_arrow.visibility = View.VISIBLE
+//            tv_content.text = "升级会员：${getLevelName("${data.sEventBefor}",mContext)}"
+//            tv_content1.text = "${getLevelName("${data.sEventAfter}",mContext)}"
+//        }else if(data.iEventType==4){
+//            tv_content.text = "续费会员：${data.userclassesname}"
+//        }
+    }
+}

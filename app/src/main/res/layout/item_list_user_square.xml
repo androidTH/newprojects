@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_F5F5F5">
-    <com.d6.android.app.widget.UserTrendView
+    <com.d6zone.android.app.widget.UserTrendView
         android:layout_width="match_parent"
         android:id="@+id/mTrendView"
         android:layout_height="wrap_content"
         android:background="@color/white">
-    </com.d6.android.app.widget.UserTrendView>
-    <com.d6.android.app.widget.DateOfSquareView
+    </com.d6zone.android.app.widget.UserTrendView>
+    <com.d6zone.android.app.widget.DateOfSquareView
         android:layout_width="match_parent"
         android:id="@+id/dateofsquare_view"
         android:layout_height="wrap_content">
-    </com.d6.android.app.widget.DateOfSquareView>
-    <com.d6.android.app.widget.VoiceChatListView
+    </com.d6zone.android.app.widget.DateOfSquareView>
+    <com.d6zone.android.app.widget.VoiceChatListView
         android:id="@+id/voicechat_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

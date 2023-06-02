@@ -351,7 +351,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="45dp">
 
-                <com.d6.android.app.recoder.model.CircleBarView
+                <com.d6zone.android.app.recoder.model.CircleBarView
                     android:id="@+id/circlebarview"
                     android:layout_width="110dp"
                     android:layout_height="110dp"

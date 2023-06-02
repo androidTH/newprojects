@@ -27,7 +27,7 @@
                     android:layout_marginRight="@dimen/margin_10"
                     android:layout_toLeftOf="@+id/tv_leibie">
 
-                    <com.d6.android.app.widget.tablayout.TabLayout
+                    <com.d6zone.android.app.widget.tablayout.TabLayout
                         android:id="@+id/tab_home_date"
                         android:layout_width="match_parent"
                         android:layout_height="27dp"

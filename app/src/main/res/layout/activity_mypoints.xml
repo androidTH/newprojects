@@ -42,7 +42,7 @@
             android:text="@string/string_points_desc" />
     </RelativeLayout>
 
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+    <com.d6zone.android.app.widget.SwipeRefreshRecyclerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mypoints_refreshrecycler"/>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.d6.android.app.widget.gallery.DiscreteScrollView
+        <com.d6zone.android.app.widget.gallery.DiscreteScrollView
             android:id="@+id/mRecyclerView"
             android:layout_marginTop="@dimen/margin_2"
             android:layout_marginLeft="@dimen/margin_5"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/find_loading_bg">
-            <com.d6.android.app.widget.WaveView
+            <com.d6zone.android.app.widget.WaveView
                 android:id="@+id/find_waveview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

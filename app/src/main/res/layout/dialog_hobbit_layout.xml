@@ -61,7 +61,7 @@
                 android:textSize="11sp"
                 android:text="添加"/>
         </RelativeLayout>
-        <com.d6.android.app.widget.LabelsView
+        <com.d6zone.android.app.widget.LabelsView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/labelsView"
             android:layout_width="match_parent"

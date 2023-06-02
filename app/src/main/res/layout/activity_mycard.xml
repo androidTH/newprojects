@@ -89,7 +89,7 @@
             android:gravity="center_vertical"
             android:visibility="visible">
 
-            <com.d6.android.app.widget.switchbutton.SwitchButton
+            <com.d6zone.android.app.widget.switchbutton.SwitchButton
                 android:id="@+id/sw_card_off"
                 style="@style/SwitchButtonStyle"
                 android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_allexposure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
         android:textColor="@color/color_666666"
         android:textSize="12sp" />
 
-    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_lastdayexposure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -267,7 +267,7 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_likehe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -408,7 +408,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+            <com.d6zone.android.app.widget.convenientbanner.ConvenientBanner
                 android:id="@+id/banner_grils"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -516,7 +516,7 @@
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_vistorfollownums"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

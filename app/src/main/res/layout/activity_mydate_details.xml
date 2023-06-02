@@ -5,7 +5,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/color_F5F5F5">
 
-    <com.d6.android.app.widget.TitleBar
+    <com.d6zone.android.app.widget.TitleBar
         android:id="@+id/titlebar_datedetails"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"

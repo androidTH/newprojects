@@ -18,7 +18,7 @@
         android:visibility="gone"
         android:background="@color/color_F5F5F5" />
 
-    <com.d6.android.app.widget.layoutbanner.BannerLayout
+    <com.d6zone.android.app.widget.layoutbanner.BannerLayout
         android:id="@+id/mBanner"
         android:layout_width="match_parent"
         android:layout_height="160dp"

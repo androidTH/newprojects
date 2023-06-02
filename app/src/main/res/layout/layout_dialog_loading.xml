@@ -12,7 +12,7 @@
         android:background="@drawable/rc_bg_toast"
         android:orientation="horizontal">
 
-        <com.d6.android.app.widget.ProgressWheel
+        <com.d6zone.android.app.widget.ProgressWheel
             android:id="@+id/progress_wheel"
             android:layout_width="110dp"
             android:layout_height="110dp"

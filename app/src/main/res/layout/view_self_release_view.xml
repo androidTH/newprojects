@@ -99,7 +99,7 @@
                 android:layout_marginBottom="@dimen/margin_8"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_self_gift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

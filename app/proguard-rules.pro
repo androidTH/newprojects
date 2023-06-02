@@ -168,9 +168,9 @@
  -dontwarn  com.google.android.gms.**
 
  # Application classes that will be serialized/deserialized over Gson
--keep class com.d6.android.app.models.** {*;}
--keep class com.d6.android.app.easypay.pay.BaseModel {*;}
--keep class com.d6.android.app.easypay.pay.PrePayInfo {*;}
+-keep class com.d6zone.android.app.models.** {*;}
+-keep class com.d6zone.android.app.easypay.pay.BaseModel {*;}
+-keep class com.d6zone.android.app.easypay.pay.PrePayInfo {*;}
 -keep class cn.liaox.cachelib.bean.** { *; }
 
 -keepattributes Exceptions,InnerClasses
@@ -208,7 +208,7 @@
 -keep class com.jrmf360.rylib.** {*;}
 -keep class com.melink.bqmmplugin.** {*;}
 
--keep class com.d6.android.app.models.** {*;}
+-keep class com.d6zone.android.app.models.** {*;}
 
 #green dao
 -keep class org.greenrobot.greendao.**{*;}
@@ -235,7 +235,7 @@ public static java.lang.String TABLENAME;
    public <init> (org.json.JSONObject);
 }
 
--keep public class com.d6.android.app.R$*{
+-keep public class com.d6zone.android.app.R$*{
 public static final int *;
 }
 
@@ -248,7 +248,7 @@ public static final int *;
     public static ** valueOf(java.lang.String);
 }
 
--keep public class com.d6.android.app.R$*{
+-keep public class com.d6zone.android.app.R$*{
 public static final int *;
 }
 

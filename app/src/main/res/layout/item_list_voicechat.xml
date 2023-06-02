@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.d6.android.app.widget.VoiceChatListView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.d6zone.android.app.widget.VoiceChatListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/srv_view"
     android:layout_height="wrap_content">
 
-</com.d6.android.app.widget.VoiceChatListView>
+</com.d6zone.android.app.widget.VoiceChatListView>

@@ -273,7 +273,7 @@
            android:layout_toRightOf="@+id/tv_month_bangdan_show"
            android:src="@mipmap/listbutton_icon" />
 
-       <com.d6.android.app.widget.textinlineimage.TextInlineImage
+       <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
            android:id="@+id/tv_month_bangdan_show"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"

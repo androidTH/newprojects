@@ -233,7 +233,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:src="@mipmap/taren_redbutton" />
 
-        <com.d6.android.app.widget.LoveHeart
+        <com.d6zone.android.app.widget.LoveHeart
             android:id="@+id/loveheart_privatechat"
             android:layout_width="180dp"
             android:layout_height="match_parent"

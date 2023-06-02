@@ -1,4 +1,4 @@
-<com.d6.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
+<com.d6zone.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:banner="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mSwipeRefreshLayout"
@@ -161,7 +161,7 @@
                         fresco:roundingBorderColor="@color/color_D8D8D8"
                         fresco:roundingBorderWidth="0.5dp"
                         fresco:roundAsCircle="true" />
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -237,7 +237,7 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="match_parent"/>-->
 
-            <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+            <com.d6zone.android.app.widget.convenientbanner.ConvenientBanner
                 android:id="@+id/viewpagerbanner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -252,5 +252,5 @@
 
     </RelativeLayout>
 
-</com.d6.android.app.widget.CustomSwipeToRefresh>
+</com.d6zone.android.app.widget.CustomSwipeToRefresh>
 

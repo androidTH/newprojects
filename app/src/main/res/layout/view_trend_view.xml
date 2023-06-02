@@ -261,7 +261,7 @@
                         android:textSize="10sp"
                         android:visibility="visible" />
                 </LinearLayout>
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_square_bd_show"
                     android:textColor="@color/color_666666"
                     android:textSize="12sp"
@@ -311,7 +311,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/color_333333"
                     android:textSize="12sp" />
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                <com.d6zone.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_square_click_bangdan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -448,7 +448,7 @@
             android:paddingBottom="65dp"
             android:layout_above="@+id/tv_comment"
             android:orientation="vertical"/>
-        <com.d6.android.app.widget.LoveHeart
+        <com.d6zone.android.app.widget.LoveHeart
             android:id="@+id/square_loveheart"
             android:layout_width="match_parent"
             android:layout_height="250dp"
