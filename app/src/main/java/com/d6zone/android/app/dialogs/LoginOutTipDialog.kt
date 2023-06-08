@@ -29,7 +29,7 @@ import org.jetbrains.anko.wrapContent
 class LoginOutTipDialog : DialogFragment(),RequestManager {
 
     private val wxApi by lazy {
-        WXAPIFactory.createWXAPI(context, "wx43d13a711f68131c")
+        WXAPIFactory.createWXAPI(context, "wxad05b5c01231c9ba")
     }
 
     private val shareApi by lazy {

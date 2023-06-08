@@ -41,7 +41,7 @@ class ShareFriendsDialog : DialogFragment() {
     }
 
     private val wxApi by lazy {
-        WXAPIFactory.createWXAPI(context, "wx43d13a711f68131c")
+        WXAPIFactory.createWXAPI(context, "wxad05b5c01231c9ba")
     }
 
     private var iType = 0 //1、约会 2、动态 3、速约 4、觅约 5、个人主页

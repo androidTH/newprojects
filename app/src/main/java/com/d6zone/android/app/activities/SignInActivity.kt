@@ -57,7 +57,7 @@ class SignInActivity : TitleActivity() {
     }
 
     private val wxApi by lazy {
-        WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
+        WXAPIFactory.createWXAPI(this, "wxad05b5c01231c9ba")
     }
 
     private val channel by lazy{

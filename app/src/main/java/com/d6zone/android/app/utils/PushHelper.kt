@@ -53,7 +53,7 @@ object PushHelper {
         //日志开关 设置友盟调试模式
         UMConfigure.init(context,UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
         PlatformConfig.setWeixin(Const.WEIXINID, Const.WEIXINSECERT)
-        PlatformConfig.setWXFileProvider("com.d6.android.app.FileProvider");
+        PlatformConfig.setWXFileProvider("com.d6zone.android.app.FileProvider");
         val mPushAgent = PushAgent.getInstance(context)
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
         mPushAgent.setMessageHandler(CustomNotification())

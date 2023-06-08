@@ -71,7 +71,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
     }
 
-    override fun getSPName() = "com.d6.android.data"
+    override fun getSPName() = "com.d6zone.android.data"
 
     override fun onCreate() {
         super.onCreate()

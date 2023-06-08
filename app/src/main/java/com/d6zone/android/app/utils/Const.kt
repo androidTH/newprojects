@@ -56,8 +56,9 @@ object Const {
         var OAID_ANDROID = "Oaid_android"
 }
 
-    var WEIXINID = "wx43d13a711f68131c"
-    var WEIXINSECERT= "00537b54033cd022ceda1894bae5ebf5"
+//    var WEIXINID = "wx43d13a711f68131c"
+    var WEIXINID = "wxad05b5c01231c9ba"
+    var WEIXINSECERT= "3d09e407b3769e4659f73bd4fdf9df0d"
     val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间
     val SYSMSG_LAST_TIME = "SysMsylastTime"//系统消息时间
     val NEW_MESSAGE = "com.d6.app.new_msg"
@@ -86,7 +87,7 @@ object Const {
 
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
-    var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
+    var WXPAY_APP_ID:String?= "wxad05b5c01231c9ba"
 
     @JvmField
     var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","邀约","聊天","游戏","健身","连麦") // 游戏

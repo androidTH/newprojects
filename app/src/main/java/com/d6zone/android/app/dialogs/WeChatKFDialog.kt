@@ -58,7 +58,7 @@ class WeChatKFDialog : DialogFragment(),RequestManager {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // 将文本内容放到系统剪贴板里。
             cm.text = weChat
-            WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
+            WXAPIFactory.createWXAPI(context,"wxad05b5c01231c9ba").openWXApp()
             toast("微信号已复制到剪切板")
         }
         tv_action.setOnClickListener {

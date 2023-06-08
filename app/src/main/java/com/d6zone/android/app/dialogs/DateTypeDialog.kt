@@ -62,7 +62,7 @@ class DateTypeDialog : DialogFragment() {
             if(tv_wxhintnum!=null){
                 cm.text = tv_wxhintnum.text.trim()
             }
-            WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
+            WXAPIFactory.createWXAPI(context,"wxad05b5c01231c9ba").openWXApp()
             toast("微信号已复制到剪切板")
             dialogListener?.onClick(2,"wxcopy")
             dismissAllowingStateLoss()
