@@ -76,7 +76,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun onCreate() {
         super.onCreate()
         disableAPIDialog()
+
         PushHelper.preInit(this)
+
         var agreed = SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT,false)
         if(agreed&&PushHelper.isMainProcess(this)){
             AppUtils.init(this)
