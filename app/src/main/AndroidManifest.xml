@@ -230,7 +230,7 @@
             android:name=".activities.FilterCityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.d6.android.app.activities.AboutUsActivity"
+            android:name=".activities.AboutUsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.RedMoneyActivity"
